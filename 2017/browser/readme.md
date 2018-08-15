@@ -1,1 +1,1 @@
-[3d browser written in go using pure opengl]()
+[screenshot](./screenshot.png)
