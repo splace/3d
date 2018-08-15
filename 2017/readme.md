@@ -1,1 +1,1 @@
-[3d browser written in go](./3dbrowser/)
+[3d browser written in go](./browser/)
