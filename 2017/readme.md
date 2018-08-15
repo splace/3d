@@ -1,3 +1,3 @@
-[3d browser written in go](./browser/)
+[3d browser written in golang](./browser/)
 
-[plane slicing geometry in go](./slicing/)
+[geometry manipulation in golang](./slicing/)
