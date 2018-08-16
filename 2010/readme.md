@@ -1,2 +1,2 @@
 
-[3d browser in web browser using svg](./3d-svg)
+[basic 3d in a web browser using svg](./3d-svg)
