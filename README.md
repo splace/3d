@@ -1,4 +1,4 @@
-selection of media from some old 3d models 
+some historical models/games/browsers/code
 
 |year|
 |-|
