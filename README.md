@@ -1,5 +1,3 @@
-some historical models/games/browsers/code
-
 |year|
 |-|
 |[2004](./2004/)|
