@@ -1,4 +1,4 @@
 
-[Short Video of flyby](flyby25%20with%20sound.mpg)
+[startrek inspired extrusion test](../../viewer.html?model=./2009/spaceCraft/enterprise ncc-1701d.x3d)
 
-[startrek inspired extrusion test](st.html)
+[another startrek inspired test](../../viewer.html?model=./2009/spaceCraft/DefiantByExtrusion.x3d)
