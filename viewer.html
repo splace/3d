@@ -1,7 +1,7 @@
 <html>
 <head>
 <meta http-equiv="content-type" content="text/html; charset=windows-1252">
-    <title>X3DOM page</title>
+    <title>Model</title>
     <script type="text/javascript" src="https://www.x3dom.org/release/x3dom-full.js"> </script>
     <script type="text/javascript">
 		function GetURLParameter(sParam){
@@ -15,14 +15,19 @@
 			}
 		}
 		function loadContent(){
-           document.getElementById("content").setAttribute('url', GetURLParameter('model'));
+			model=GetURLParameter('model');
+           document.getElementById("content").setAttribute('url', model);
+           document.getElementById("title").innerText= model.substring(model.lastIndexOf('/')+1);
      }
 	</script>
     <link rel="stylesheet" type="text/css" href="https://www.x3dom.org/release/x3dom.css">
 </head>
 <body onload="loadContent()">
+<h1 id="title">Model</h1>
 <x3d>
     <scene>
+    	<navigationInfo headlight="FALSE" type="EXAMINE"/> 
+    	<directionalLight ambientIntensity="0.1"/>
         <inline id="content" />
     </scene>
 </x3d>
