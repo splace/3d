@@ -5771,7 +5771,7 @@
 '/>
 </PointSet>
 <Appearance>
-<Material/>
+<Material emissiveColor='1 1 1'/>
 </Appearance>
 </Shape>
 
