@@ -5,9 +5,10 @@ Videos
 
 * [scrren capture earlier version](screen%20video-SVG%203D%20Test%20-%20Chromium-1.ogg)
 
+
 svg 3d 
 
-* [Molecule](https://github.com/splace/JS3D/blob/master/alanine_molecule.xml)
+* [Alanine molecule](alanine.xml)
 
 
 images
