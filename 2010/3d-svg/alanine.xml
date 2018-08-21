@@ -2,22 +2,17 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en">
 <head>
     <title>SVG 3D Test</title>
-    <style>
-	#content{border:thick inset yellow;outline:yellow outset thick;}
-   </style>
     <script src="VRMLObjects.js" type="text/javascript"/>
-
 </head>
-<body style="background-color:#E8E8FF">
-<h1 id="hi" style="display:inline;margin-left:1cm" >JS3D V0.2   </h1>
-	<dd:svg id="content" focusable = "true" viewBox="-1000 -1000 2000 2000" autowidth="2000" xpos="0" ypos="0" viewAngle=".7" style="display:block;background-color:skyBlue" fill="skyBlue" xmlns:dd="http://www.w3.org/2000/svg" width="95%" height="50%" xmlns:xlink="http://www.w3.org/1999/xlink" stroke="black">
-  <dd:defs>
-<dd:marker refY="50" refX="50" markerHeight="15" markerWidth="15" viewBox="0 0 100 100" orient="auto" markerUnits="strokeWidth" id="marker">
-   <dd:circle stroke-width="10"  cy="50" cx="50" r="30"/>
-  </dd:marker>
-  </dd:defs>
-	<!-- fix for chrome's inability to get mouse events from initially unfilled svg -->
-	<dd:path d="M-10000,-1000v20000h20000v-20000" stroke="none"/>
+<body style="background-color:skyBlue;">
+<div style="color:white;position:absolute;z-index:1;"> 
+<h1 id="hi" style="text-shadow: 2px 2px 2px black;padding-left:1em;display:inline" >JS3D V0.2</h1>
+<h2 style="text-decoration:underline;padding-left:1em;color:blue;display:inline;" onclick='
+  			responseToMovement.mode=(responseToMovement.mode+1) % responseToMovement.modes.length;
+			this.textContent=responseToMovement.modes[responseToMovement.mode].name;'>walk</h2> mode
+<h3 style="display:inline;color:red">0</h3><h3 style="display:inline">fps</h3>
+</div>
+	<dd:svg id="content" focusable = "true" viewBox="-1000 -1000 2000 2000" xpos="0" ypos="0" viewAngle=".7" xmlns:dd="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" stroke="black" height="100%">
 	<dd:g id="shapes" stroke-width="1" >
   	<dd:path d="M0,0"/>
   	<dd:path d="M0,0"/>
@@ -52,11 +47,6 @@
 
 	</dd:svg>
 
-<h2 style="text-decoration:underline;margin-left:1cm;display:inline;color:blue" onclick='
-  			responseToMouse.mode=(responseToMouse.mode+1) % responseToMouse.modes.length;
-			this.textContent=responseToMouse.modes[responseToMouse.mode].name;
-			'>walk</h2> mode
-<h3 style="display:inline;color:red">0</h3><h3 style="display:inline">fps</h3>
 	<ddd:X3D xmlns:ddd="http://www.web3d.org/specifications/x3d-3.0">
 	<ddd:Scene colour="grey">
 
