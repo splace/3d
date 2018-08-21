@@ -4686,7 +4686,8 @@
 '/>
 </IndexedLineSet>
 <Appearance>
-<Material/>
+<Material emissiveColor="1 1 1">
+</Material>
 </Appearance>
 </Shape>
 
