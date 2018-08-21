@@ -21,3 +21,8 @@ images
 
 * [Molecule](alanine_molecule%20screenshot.png)
 
+
+source
+
+* [repo](https://github.com/splace/JS3D/)
+
