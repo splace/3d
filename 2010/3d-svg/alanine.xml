@@ -5,7 +5,7 @@
     <style>
 	#content{border:thick inset yellow;outline:yellow outset thick;}
    </style>
-    <script src="VRMLObjects.js" type="text/javascript"/>
+    <script src="VRMLObjects.js" type="text/javascript"></script>
 
 </head>
 <body style="background-color:#E8E8FF">
@@ -124,7 +124,7 @@
 	]]>
         </script>
 	
-	<script src="vrml2svg.js" type="text/javascript"/>
+	<script src="vrml2svg.js" type="text/javascript"></script>
 	
 	<script>
 		<![CDATA[
@@ -134,7 +134,7 @@
 	]]>
 
         </script>
-    <script src="VRMLBrowser.js" type="text/javascript"/>
+    <script src="VRMLBrowser.js" type="text/javascript"></script>
 
 <!--<p onclick="write('test',objects[0].indexes.length)">Click</p>-->
 <!--<input type="text" name="firstname" />-->
