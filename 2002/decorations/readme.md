@@ -6,6 +6,6 @@ some shiny
 
 * [![bubbles](bubbles.png)](../../advancedViewer.html?model=./2002/decorations/bubbles.wrl)
 
-* [rendered bubbles video](https://youtu.be/vNZiSixqZMo)
+* [rendered bubbles video](https://youtu.be/wgNiOMX7mJg)
 
 using [X_ITE](http://create3000.de/x_ite).
