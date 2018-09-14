@@ -1,4 +1,4 @@
-some shiny
+ (click images to launch online viewer)
 
 * [![globe](art.jpg)](../../advancedViewer.html?model=./2002/decorations/art.x3d)
 
