@@ -1,4 +1,4 @@
-[![globe](art.jpg)](../../viewer.html?model=./2002/decorations/art.x3d)
+[![globe](art.jpg)](../../advancedViewer.html?model=./2002/decorations/art.x3d)
 
 [![bubbles](bubbles.png)](../../advancedViewer.html?model=./2002/decorations/bubbles.wrl)
 
