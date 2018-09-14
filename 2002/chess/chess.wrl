@@ -1,0 +1,188 @@
+#VRML V2.0 utf8
+
+Viewpoint	{description "Side of Board" position 3.4 6 11 orientation 1 0 0 -.7}
+Viewpoint	{description "Near Board" position 3.4 .5 9 }
+Viewpoint	{description "Above" position 3.4 10 3.4 orientation 1 0 0 -1.57}
+Viewpoint	{description "Far Above" position 3.4 1000 3.4 orientation 1 1 0 -1.57}
+
+NavigationInfo { type "EXAMINE" }
+
+  PROTO piece [ field SFNode pieceShape NULL
+				field SFVec2f maxPosition 7 0
+				field SFVec2f minPosition 0 -7
+				field SFVec3f startLocation 0 0 0 
+			    field MFString name ""
+				field SFBool startingSide TRUE
+				field SFNode moveTester NULL
+			]
+				{ 
+                Transform {rotation 1 0 0 -1.57 
+				 children [ 
+				   DEF psensor  PlaneSensor {offset IS startLocation autoOffset TRUE maxPosition IS maxPosition minPosition IS minPosition} 
+				DEF placePiece Transform {translation IS startLocation rotation 1 0 0 1.57  
+				  children [ 
+				   Shape {  appearance Appearance {  
+					material DEF pieceMaterial Material { }  }  
+					geometry IS pieceShape }
+					DEF bbon Switch	 { choice  [
+					Transform{ translation 0 1 0 children[
+					 Billboard {axisOfRotation 0 1 0 children [
+					 Billboard {axisOfRotation 1 0 0 children [Shape {appearance Appearance {material Material {transparency 0 diffuseColor .2 1 .2 }	} geometry	Text { fontStyle FontStyle {size .25 justify "MIDDLE" } string IS name }  }]}]}
+				 ]}
+				   ]}
+
+				   ]}]}
+				   
+	DEF	integerPosition Script {
+    eventIn	SFVec3f	realPosition
+	field SFVec3f startLocation IS startLocation
+	field SFNode moveTester IS moveTester
+	field SFVec3f currentPosition 0 0 0
+	field MFInt32 deltaPosition [0 0 0]
+	eventOut SFVec3f validIntPosition
+    url	"javascript: 
+	function initialize() { 
+	    currentPosition=startLocation; 
+	}
+	
+	function realPosition(value) { 
+		if (value[0]!=currentPosition[0] || value[1]!=currentPosition[1] || value[2]!=currentPosition[2]){
+			value[0]-=currentPosition[0]
+			value[1]-=currentPosition[1]
+			value[2]-=currentPosition[2]
+			deltaPosition[0]=Math.round(value[0])
+			deltaPosition[1]=Math.round(value[1])
+			deltaPosition[2]=Math.round(value[2])
+			if (deltaPosition[0]!=0 || deltaPosition[1]!=0){
+				moveTester.locationDelta=deltaPosition 
+				print(deltaPosition,moveTester.pass)
+				if (moveTester.pass==true )
+					{
+					currentPosition.add(new SFVec3f(deltaPosition[0],deltaPosition[1],0));
+				} 
+			}
+			validIntPosition=currentPosition;
+		}
+	}
+	
+	"}
+
+	DEF select Script {
+    eventIn  SFBool	on
+    eventOut SFInt32 choice
+	url "javascript: function on(value) {  if (value) {choice=0; } else {choice =-1; }; }"
+	}
+	 
+	DEF movementTransparency Script {
+    eventIn  SFBool	moving
+    eventOut SFFloat transparency
+	url "javascript: function moving(value) {  if (value) {transparency=.4; } else {transparency =0; }; }"
+	}
+
+ 	DEF sidesColour Script {
+    field  SFBool	startingSide IS	startingSide
+    eventOut SFColor colour
+	url "javascript: 
+	function initialize() { 
+	    if (startingSide==true) {colour=new SFColor(.9,.9,.9); } else {colour =new SFColor(.3,.3,.3); }; }"
+	}
+
+	 ROUTE sidesColour.colour TO	pieceMaterial.diffuseColor
+
+	 ROUTE psensor.translation_changed TO placePiece.translation
+	 
+	 ROUTE psensor.offset_changed TO integerPosition.realPosition
+	 ROUTE integerPosition.validIntPosition TO psensor.offset
+	 ROUTE integerPosition.validIntPosition TO placePiece.translation
+
+	 ROUTE psensor.isActive TO movementTransparency.moving
+	 ROUTE movementTransparency.transparency TO pieceMaterial.transparency
+
+	 ROUTE psensor.isActive TO select.on
+	 ROUTE select.choice TO	bbon.whichChoice
+	}
+
+PROTO boardPiece [field SFNode pieceShape NULL
+				field SFVec3f startLocation 0 0 0 
+			    field MFString name ""
+				field SFBool startingSide TRUE
+				field SFNode moveValidator Script{	
+					eventIn	MFInt32	locationDelta
+					eventOut SFBool pass
+				    url	"javascript: 
+					function locationDelta(value) { 
+						print(value)
+						pass = true
+						};
+					"
+				}
+				
+	]{
+		piece{
+			pieceShape IS pieceShape
+			maxPosition 7 0 
+			minPosition 0 -7
+			startLocation IS startLocation 
+		    name IS name
+			startingSide IS startingSide
+			moveTester IS moveValidator
+		}
+	}
+
+Group { children [ 
+ Transform { translation 3.5 0 3.5 children [ Shape { appearance Appearance {texture PixelTexture  {image 8 8 3 
+ 0xFF0000 0x0000FF 0xFF0000 0x0000FF 0xFF0000 0x0000FF 0xFF0000 0x0000FF
+ 0x0000FF 0xFF0000 0x0000FF 0xFF0000 0x0000FF 0xFF0000 0x0000FF 0xFF0000
+ 0xFF0000 0x0000FF 0xFF0000 0x0000FF 0xFF0000 0x0000FF 0xFF0000 0x0000FF
+ 0x0000FF 0xFF0000 0x0000FF 0xFF0000 0x0000FF 0xFF0000 0x0000FF 0xFF0000
+ 0xFF0000 0x0000FF 0xFF0000 0x0000FF 0xFF0000 0x0000FF 0xFF0000 0x0000FF
+ 0x0000FF 0xFF0000 0x0000FF 0xFF0000 0x0000FF 0xFF0000 0x0000FF 0xFF0000
+ 0xFF0000 0x0000FF 0xFF0000 0x0000FF 0xFF0000 0x0000FF 0xFF0000 0x0000FF
+ 0x0000FF 0xFF0000 0x0000FF 0xFF0000 0x0000FF 0xFF0000 0x0000FF 0xFF0000
+  }
+ material Material {shininess 1 }  } geometry Box { size 8 .1 8 }}]
+ }
+boardPiece{ startLocation 1 0 0.1  pieceShape DEF Pawn Cylinder { height .2 bottom FALSE radius .3} name ["White","Pawn"]}  
+boardPiece{ startLocation 1 -1 0.1 pieceShape USE Pawn name ["White","Pawn"]}
+boardPiece{ startLocation 1 -2 0.1 pieceShape USE Pawn name ["White","Pawn"]}
+boardPiece{ startLocation 1 -3 0.1 pieceShape USE Pawn name ["White","Pawn"]}
+boardPiece{ startLocation 1 -4 0.1 pieceShape USE Pawn name ["White","Pawn"]}
+boardPiece{ startLocation 1 -5 0.1 pieceShape USE Pawn name ["White","Pawn"]}
+boardPiece{ startLocation 1 -6 0.1 pieceShape USE Pawn name ["White","Pawn"]}
+boardPiece{ startLocation 1 -7 0.1 pieceShape USE Pawn name ["White","Pawn"]}
+
+boardPiece{ startLocation 6 0 0.1 pieceShape USE Pawn startingSide FALSE name ["Black","Pawn"]}
+boardPiece{ startLocation 6 -1 0.1 pieceShape USE Pawn startingSide FALSE name ["Black","Pawn"]}
+boardPiece{ startLocation 6 -2 0.1 pieceShape USE Pawn startingSide FALSE name ["Black","Pawn"]}
+boardPiece{ startLocation 6 -3 0.1 pieceShape USE Pawn startingSide FALSE name ["Black","Pawn"]}
+boardPiece{ startLocation 6 -4 0.1 pieceShape USE Pawn startingSide FALSE name ["Black","Pawn"]}
+boardPiece{ startLocation 6 -5 0.1 pieceShape USE Pawn startingSide FALSE name ["Black","Pawn"]}
+boardPiece{ startLocation 6 -6 0.1 pieceShape USE Pawn startingSide FALSE name ["Black","Pawn"]}
+boardPiece{ startLocation 6 -7 0.1 pieceShape USE Pawn startingSide FALSE name ["Black","Pawn"]}
+
+
+boardPiece{ startLocation 0 0 0.6 pieceShape DEF castle Cylinder {height 1.2 bottom FALSE radius .2 } name ["White","Castle"]}
+boardPiece{ startLocation 0 -7 0.6 pieceShape USE castle name ["White","Castle"]}
+boardPiece{ startLocation 7 -0 0.6 pieceShape USE castle startingSide FALSE name ["Black","Castle"]}
+boardPiece{ startLocation 7 -7 0.6 pieceShape USE castle startingSide FALSE name ["Black","Castle"]}
+
+
+boardPiece{ startLocation 0 -4 0.5 pieceShape DEF Queen Sphere { radius .5}  name ["White","Queen"]}
+boardPiece{ startLocation 7 -4 0.5 pieceShape USE Queen startingSide FALSE name ["Black","Queen"]}  
+
+boardPiece{ startLocation 0 -3 0.5 pieceShape DEF King Box { size .8 1 .8} name ["White","King"]}  
+boardPiece{ startLocation 7 -3 0.5 pieceShape USE King startingSide FALSE name ["Black","King"]}
+
+boardPiece{ startLocation 0 -1 0.45 pieceShape DEF knight Box{ size .6 .9 .25} name ["White","Knight"]}
+boardPiece{ startLocation 0 -6 0.45 pieceShape USE knight name ["White","Knight"]}
+boardPiece{ startLocation 7 -1 0.45 pieceShape USE knight startingSide FALSE name ["Black","Knight"]}
+boardPiece{ startLocation 7 -6 0.45 pieceShape USE knight startingSide FALSE name ["Black","Knight"]}
+
+boardPiece{ startLocation 0 -2 0.75  pieceShape DEF Bishop Cone { height 1.5 bottom FALSE bottomRadius .35} name ["White","Bishop"]} 
+boardPiece{ startLocation 0 -5 0.75  pieceShape USE Bishop  name ["White","Bishop"]} 
+boardPiece{ startLocation 7 -2 0.75 pieceShape USE Bishop startingSide FALSE  name ["Black","Bishop"]}  
+boardPiece{ startLocation 7 -5 0.75  pieceShape USE Bishop startingSide FALSE  name ["Black","Bishop"]} 
+
+]}
+
+ 

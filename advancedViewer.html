@@ -1,0 +1,42 @@
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252">
+    <title>Model</title>
+	<script type="text/javascript" src="https://cdn.rawgit.com/create3000/x_ite/4.2.4/dist/x_ite.min.js"></script>
+    <script type="text/javascript">
+		function GetURLParameter(sParam){
+			var sPageURL = window.location.search.substring(1);
+			var sURLVariables = sPageURL.split('&');
+			for (var i = 0; i < sURLVariables.length; i++) {
+				var sParameterName = sURLVariables[i].split('=');
+				if (sParameterName[0] == sParam){
+				    return sParameterName[1];
+				}
+			}
+		}
+		function loadContent(){
+			model=GetURLParameter('model');
+           document.getElementById("title").innerText= model.substring(model.lastIndexOf('/')+1);
+//           document.getElementById("content").setAttribute('src', model);
+
+			var x3d = document.createElement("X3DCanvas")
+			var att = document.createAttribute("src")
+			att.value = model
+			x3d.setAttributeNode(att);  
+	        document.getElementById("title").parentNode.insertBefore(x3d,null)
+ 		return model
+     }
+	</script>
+	<link rel="stylesheet" type="text/css" href="https://cdn.rawgit.com/create3000/x_ite/4.2.4/dist/x_ite.css"/>
+    <style>
+    X3DCanvas {
+      width: 100%;
+      height: 100%;
+    }
+    </style>
+</head>
+<body onLoad="loadContent()">
+<h1 style="color:white;position:absolute;z-index:1;text-shadow: 2px 2px 2px black;padding-left:1em" id="title">Model</h1>
+</body>
+</html>
+

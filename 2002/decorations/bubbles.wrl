@@ -1,0 +1,122 @@
+#VRML V2.0 utf8
+
+NavigationInfo{headlight FALSE }
+DirectionalLight {direction 0 -1 0 intensity .5}
+
+DEF	viewer Transform {translation 0 0 5 children [Transform {translation 0 5 0 children [
+	DEF flyView Viewpoint {description "Fly Round"  fieldOfView 1.1 position	0 -8 25 }
+	DEF viewtimer TimeSensor {cycleInterval	20 enabled FALSE loop TRUE}
+	DEF	viewrotation OrientationInterpolator {key [0, .3,.7,1] keyValue [0 1 0 0,-0.2 1 0 1.9,0 1 0 4.4,-.4 1 0 6.28]}
+]
+	ROUTE viewtimer.fraction_changed TO viewrotation.set_fraction
+	ROUTE viewrotation.value_changed TO	viewer.rotation
+	ROUTE flyView.bindTime TO viewtimer.startTime
+	ROUTE flyView.isBound TO viewtimer.enabled
+}]}
+
+DEF homeViewpoint Viewpoint {description "Home" position 0 2.5 20 fieldOfView 1}
+
+Transform { 
+	translation 0 -10 0
+	children [
+		Shape {
+			appearance Appearance {
+				texture PixelTexture  {
+					image 8 8 3 
+					0xFFFFFF 0x000000 0xFFFFFF 0x000000 0xFFFFFF 0x000000 0xFFFFFF 0x000000
+					0x000000 0xFFFFFF 0x000000 0xFFFFFF 0x000000 0xFFFFFF 0x000000 0xFFFFFF
+					0xFFFFFF 0x000000 0xFFFFFF 0x000000 0xFFFFFF 0x000000 0xFFFFFF 0x000000
+					0x000000 0xFFFFFF 0x000000 0xFFFFFF 0x000000 0xFFFFFF 0x000000 0xFFFFFF
+					0xFFFFFF 0x000000 0xFFFFFF 0x000000 0xFFFFFF 0x000000 0xFFFFFF 0x000000
+					0x000000 0xFFFFFF 0x000000 0xFFFFFF 0x000000 0xFFFFFF 0x000000 0xFFFFFF
+					0xFFFFFF 0x000000 0xFFFFFF 0x000000 0xFFFFFF 0x000000 0xFFFFFF 0x000000
+					0x000000 0xFFFFFF 0x000000 0xFFFFFF 0x000000 0xFFFFFF 0x000000 0xFFFFFF
+					}
+				material Material {shininess 1 }
+				} 
+			geometry Box { size 125 .1 125 }
+			}
+		]
+	}
+	
+PROTO Bubble [
+	field SFVec3f scale 1 1 1
+	field SFTime cycleInterval 1
+	field SFColor diffuseColor .7 .7 .7
+	field SFColor specularColor 1 1 1
+	field SFColor emissiveColor 0 0 0
+]
+{
+Transform { 
+	scale IS scale
+	children [
+		DEF expander Transform {
+			children Shape{
+				geometry Sphere {}
+				appearance Appearance  {
+					material Material {
+						diffuseColor IS diffuseColor
+						specularColor IS specularColor
+						emissiveColor IS emissiveColor
+						ambientIntensity 1
+						shininess 1
+						transparency .2
+						}
+					}
+				}
+			}
+		DEF timer TimeSensor {cycleInterval	IS cycleInterval loop TRUE enabled TRUE}
+		DEF	scaler PositionInterpolator {key [0,0.25,0.7,.95,1] keyValue [.1 .1 .1,.15 .15 .15,.7 .7 .7,1 1 1,1.2 1.2 1.2]
+			ROUTE timer.fraction_changed TO scaler.set_fraction
+			ROUTE scaler.value_changed TO expander.scale
+			}
+		]
+	}
+}
+
+Transform { 
+	translation -5 -5 5
+	children Bubble{scale 4 4 4 cycleInterval 4 diffuseColor .3 .3 .2 specularColor 1 .9 .1 emissiveColor .8 .6 .01}
+	}
+	
+
+Transform { 
+	translation -5 -5 -5
+	children Bubble{scale 5 5 5 cycleInterval 9 diffuseColor .4 .7 .03 specularColor .9 0 0}
+	}
+
+Transform { 
+	translation -5 5 -5
+	children Bubble{scale 4 4 4 cycleInterval 6.5 diffuseColor .6 .05 .1 specularColor 1 1 .17 emissiveColor .8 .06 .7}
+	}
+	
+
+Transform { 
+	translation 5 -5 -5
+	children Bubble{scale 6 6 6 cycleInterval 3 diffuseColor .3 0 .7 specularColor .91 .91 .91}
+	}
+
+Transform { 
+	translation -5 5 5
+	children Bubble{scale 5 5 5 cycleInterval 6	diffuseColor .5 .2 0 specularColor .9 .9 .1 emissiveColor .9 0 0}
+	}
+
+Transform { 
+	translation 5 5 -5  
+	children Bubble{scale 3 3 3 cycleInterval 5	diffuseColor 1 0 .8 emissiveColor .8 0 .2}
+	}
+
+Transform { 
+	translation 5 -5 5
+	children Bubble{scale 5 5 5 cycleInterval 4 diffuseColor .29 .29 .29 specularColor 1 .94 .54 emissiveColor .7 .7 .7}
+	}
+
+Transform { 
+	translation 5 5 5
+	children Bubble{scale 7 7 7 cycleInterval 5.5 diffuseColor .06 .75 .51 specularColor 1 1 1 emissiveColor 0 .8 .4}
+	}
+
+
+
+
+	

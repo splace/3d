@@ -6,7 +6,7 @@
 </head>
 <body style="background-color:skyBlue;">
 <div style="color:white;position:absolute;z-index:1;"> 
-<h1 id="hi" style="text-shadow: 2px 2px 2px black;padding-left:1em;display:inline" >JS3D V0.2</h1>
+<h1 id="hi" style="text-shadow: 2px 2px 2px black;padding-left:1em;display:inline" >JS3D V0.3</h1>
 <h2 style="text-decoration:underline;padding-left:1em;color:blue;display:inline;" onclick='
   			responseToMovement.mode=(responseToMovement.mode+1) % responseToMovement.modes.length;
 			this.textContent=responseToMovement.modes[responseToMovement.mode].name;'>walk</h2> mode
