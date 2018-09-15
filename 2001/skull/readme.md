@@ -1,7 +1,7 @@
 *click images to launch online viewer*
 
-* [![skull](skull.png)](../../viewer.html?model=./2001/skull/skull.wrl)
+* [![skull](skull.png)](../../viewer.html?model=./2001/skull/skull.x3d)
 
 * [rendered skull video (side-by-side 3d for AR viewer.)](https://youtu.be/UJLqsYnEVcw)
 
-using [X_ITE](http://create3000.de/x_ite).
+using [X3DOM](https://www.x3dom.org).
