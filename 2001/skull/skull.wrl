@@ -1,20 +1,67 @@
 #VRML V2.0 utf8 Titania V4.3.1
 
-Viewpoint{}
-Viewpoint{}
-Viewpoint{}
+DEF viewer Transform {
+  translation 0 0.1 0
+  rotation -0.000619709321183818 0.99999980798016 0 5.25681118221216
+  children Transform {
+    children [
+      DEF flyView Viewpoint {
+        description "Fly Round"
+        position 0 0 1
+        fieldOfView 1.1
+      }
+      DEF flyViewRight Viewpoint {
+        description "Fly Round Right Eye"
+        position 0.1 0 1
+        fieldOfView 1.1
+      }
+      DEF flyViewLeft Viewpoint {
+        description "Fly Round Left Eye"
+        position -0.1 0 1
+        fieldOfView 1.1
+      }
+      DEF viewtimer TimeSensor {
+        cycleInterval 20
+        loop TRUE
+      }
+      DEF viewrotation OrientationInterpolator {
+        key [
+          0,
+          0.45,
+          0.55,
+          1
+        ]
+        keyValue [
+          0 0 1 0,
+          -0.196116135138184 0.98058067569092 0 1.9,
+          0 1 0 4.4,
+          -0.371390676354104 0.928476690885259 0 6.27999999999995
+        ]
+      }
+    ]
+  }
+}
+
+DEF one Viewpoint {
+  description "headon"
+  position 0 0.2 1.2
+}
 
 Transform {
   children [
     Shape {
       appearance DEF boneApp Appearance {
-        material USE _1
+        material Material {
+          diffuseColor 1 0.8 0.7
+          specularColor 1 0.5 0.5
+          shininess 0.5
+        }
       }
     }
     Shape {
       appearance DEF teethApp Appearance {
         material Material {
-          diffuseColor 1 0.918 0.62
+          diffuseColor 1 0.8 0.5
           specularColor 0.173 0.18 0.192
           shininess 0.133
         }
@@ -30,12 +77,12 @@ Transform {
     }
     Shape {
       appearance DEF eyeApp Appearance {
-        material DEF _2 Material {
+        material DEF _13 Material {
           ambientIntensity 0.0533
           diffuseColor 1 0.8 0.6
-          specularColor 0.6 0.33 0.23
-          emissiveColor 0.3 0 0.19
-          shininess 0.24
+          specularColor 1 1 1
+          emissiveColor 0.4 0 0.2
+          shininess 1
         }
         texture ImageTexture {
           url "eyetexture.gif"
@@ -6804,7 +6851,7 @@ Transform {
       }
     }
     DEF eyes Transform {
-      translation 0 0 0.0117442
+      translation 0 0 0.0121512
       children [
         #Transform {translation .12 .27 .09 rotation 1 0 0 1.57 
         #	children [Shape {
@@ -6813,7 +6860,7 @@ Transform {
         #		]}
         DEF leftEye Transform {
           translation 0.12 0.27 0.37
-          rotation -0.219740925639086 0.975558263559526 0 0.560628265739863
+          rotation 0.994690258881936 0.102913987802373 0 0.743287463690232
           children Shape {
             appearance USE eyeApp
             geometry Sphere {
@@ -6828,7 +6875,7 @@ Transform {
         #	]}
         DEF rightEye Transform {
           translation -0.125 0.27 0.37
-          rotation -0.219740925639086 0.975558263559526 0 0.560628265739863
+          rotation 0.994690258881936 0.102913987802373 0 0.743287463690232
           children Shape {
             appearance USE eyeApp
             geometry Sphere {
@@ -6839,7 +6886,7 @@ Transform {
       ]
     }
     DEF jaw Transform {
-      rotation 1 0 0 0.0112068653106696
+      rotation 1 0 0 0.697480586171151
       center 0 0.15 0.2
       children [
         DEF jawBone Shape {
@@ -10849,19 +10896,34 @@ Transform {
 }
 
 DEF t1 TimeSensor {
-  cycleInterval 0.2
   loop TRUE
 }
 
 DEF r1 OrientationInterpolator {
   key [
     0,
+    0.1,
+    0.2,
+    0.3,
+    0.4,
     0.5,
+    0.6,
+    0.7,
+    0.8,
+    0.9,
     1
   ]
   keyValue [
     0 0 1 0,
+    1 0 0 0.7,
     1 0 0 0.5,
+    1 0 0 0.7,
+    1 0 0 0.5,
+    1 0 0 0.7,
+    1 0 0 0.5,
+    1 0 0 0.7,
+    1 0 0 0.300000000000001,
+    0 0 1 0,
     0 0 1 0
   ]
 }
@@ -10889,7 +10951,7 @@ DEF r2 OrientationInterpolator {
 }
 
 DEF t3 TimeSensor {
-  cycleInterval 0.2
+  cycleInterval 0.5
   loop TRUE
 }
 
@@ -10913,4 +10975,6 @@ ROUTE r2.value_changed TO leftEye.set_rotation
 ROUTE r2.value_changed TO rightEye.set_rotation
 ROUTE t3.fraction_changed TO p3.set_fraction
 ROUTE p3.value_changed TO eyes.set_translation
-ROUTE _2.specularColor_changed TO _2.set_specularColor
+ROUTE _13.specularColor_changed TO _13.set_specularColor
+ROUTE viewrotation.value_changed TO viewer.set_rotation
+ROUTE viewtimer.fraction_changed TO viewrotation.set_fraction
