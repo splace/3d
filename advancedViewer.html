@@ -16,7 +16,7 @@
 		}
 		function loadContent(){
 			model=GetURLParameter('model');
-           document.getElementById("title").innerText= model.substring(model.lastIndexOf('/')+1);
+           document.getElementById("title").innerText= decodeURI(model.substring(model.lastIndexOf('/')+1));
 //           document.getElementById("content").setAttribute('src', model);
 
 			var x3d = document.createElement("X3DCanvas")

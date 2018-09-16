@@ -17,7 +17,7 @@
 		function loadContent(){
 			model=GetURLParameter('model');
            document.getElementById("content").setAttribute('url', model);
-           document.getElementById("title").innerText= model.substring(model.lastIndexOf('/')+1);
+           document.getElementById("title").innerText=decodeURI(model.substring(model.lastIndexOf('/')+1));
      }
 	</script>
     <link rel="stylesheet" type="text/css" href="https://www.x3dom.org/release/x3dom.css">
