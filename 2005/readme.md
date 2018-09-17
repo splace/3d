@@ -1,1 +1,1 @@
-[mountain scene (sound and lighting experiment)](mountain/)
+[mountain during storm scene](mountain/)
