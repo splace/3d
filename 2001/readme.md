@@ -1,1 +1,1 @@
-[scary animated skull](skull/)
+[scary skull](skull/)

@@ -6,6 +6,7 @@
 |[2008](./2008/)|design aid
 |[2005](./2005/)|complex environments/lighting/sound|
 |[2004](./2004/)|physics
-|[2002](./2002/)|visual stim
+|[2002](./2002/)|visuals
+|[2001](./2001/)|animation
 
 ### work in progress[.](./2001/)
