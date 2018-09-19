@@ -5,16 +5,15 @@
 	<script type="text/javascript" src="https://cdn.rawgit.com/create3000/x_ite/4.2.4/dist/x_ite.min.js"></script>
     <script type="text/javascript">
 		function GetURLParameter(param){
-			var pageURL = window.location.search.substring(1);
-			var s = pageURL.split('&');
-			for (var i = 0; i < s.length; i++) {
-				var f = s[i].split('=',2);
+			var fs = window.location.search.substring(1).split('&');
+			for (var i = 0; i < fs.length; i++) {
+				var f = fs[i].split('=',2);
 				if (f[0] == param){
 				    return f[1];
 				}
 			}
 		}
-		function loadModel(){
+		function insertModel(){
 			var x3d = document.createElement("X3DCanvas")
 			var att = document.createAttribute("src")
 			att.value =GetURLParameter('model');
@@ -31,7 +30,7 @@
     }
     </style>
 </head>
-<body onLoad="document.getElementById('title').innerText=decodeURI(loadModel().split('/').pop())">
+<body onLoad="document.getElementById('title').innerText=decodeURI(insertModel().split('/').pop())">
 <h1 style="color:white;position:absolute;z-index:1;text-shadow: 2px 2px 2px black;padding-left:1em" id="title">Model</h1>
 </body>
 </html>
