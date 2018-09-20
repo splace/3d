@@ -1,2 +1,3 @@
 [furniture](furniture/)
-[vehicles](vehicles/)
+
+[vehicles from components](vehicles/)
