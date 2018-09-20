@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE X3D PUBLIC "ISO//Web3D//DTD X3D 3.0//EN"   "http://www.web3d.org/specifications/x3d-3.0.dtd">
+<X3D profile="Full">
+  <head>
+    <meta name="filename" content="D:\INTERE~1\INTERNET\HOMEPAGE\VRMLOB~1\BEACHB~1\BEACHB~1.WRL.x3d"/>
+    <meta name="description" content="*enter description here, short-sentence summaries preferred*"/>
+    <meta name="author" content="*enter name of original author here*"/>
+    <meta name="translator" content="*if manually translating VRML-to-X3D, enter name of person translating here*"/>
+    <meta name="created" content="*enter date of initial version here*"/>
+    <meta name="translated" content="13 September 2004"/>
+    <meta name="revised"    content="13 September 2004"/>
+    <meta name="version" content="*enter version here*"/>
+    <meta name="reference" content="*enter reference citation or relative/online url here*"/>
+    <meta name="reference" content="*enter additional url/bibliographic reference information here*"/>
+    <meta name="copyright" content="*enter copyright information here* Example:  Copyright (c) Web3D Consortium Inc. 2002"/>
+    <meta name="drawing" content="*enter drawing filename/url here*"/>
+    <meta name="image" content="*enter image filename/url here*"/>
+    <meta name="movie" content="*enter movie filename/url here*"/>
+    <meta name="photo" content="*enter photo filename/url here*"/>
+    <meta name="keywords" content="*enter keywords here*"/>
+    <meta name="url" content="*enter online url address for this file here*"/>
+    <meta name="generator" content="Vrml97ToX3dNist, http://ovrt.nist.gov/v2_x3d.html"/>
+  </head>
+  <Scene>
+  <ExternProtoDeclare name="mudguard"  url='"mudguard.x3d#mudguard"'>
+  </ExternProtoDeclare>
+  <ExternProtoDeclare name="wheel"  url='"wheel.x3d#wheel"'>
+  </ExternProtoDeclare>
+  <ExternProtoDeclare name="suspension"  url='"suspension.x3d#suspension"'>
+  </ExternProtoDeclare>
+  <ExternProtoDeclare name="chassis"  url='"chassis.x3d#chassis"'>
+  </ExternProtoDeclare>
+  <ExternProtoDeclare name="frame"  url='"frame.x3d#frame"'>
+  </ExternProtoDeclare>
+  <ExternProtoDeclare name="seat"  url='"seat.x3d#seat"'>
+  </ExternProtoDeclare>
+  <ProtoDeclare name="buggy">
+    <ProtoBody>
+          <Transform  scale="0.6 0.6 0.6">
+              <TimeSensor  DEF="wrt"  loop="true" enabled="true" cycleInterval="1"/>
+              <OrientationInterpolator  DEF="wri"  key=" 0.0 0.3 0.7 1.0" keyValue="1.0 0.0 0.0  0.0, 1.0 0.0 0.0  4.4, 1.0 0.0 0.0  1.9, 1.0 0.0 0.0  0.0, "/>
+		  <ROUTE fromNode="wrt" fromField="fraction_changed" toNode="wri" toField="set_fraction"/>
+              <Transform  DEF="axel"  translation="0.0 1.2 0.0">
+                  <Transform  translation="3.0 0.0 0.0">
+                      <Transform  DEF="rwheel" >
+                          <ROUTE fromNode="wri" fromField="value_changed" toNode="rwheel" toField="rotation"/>
+                          <ProtoInstance name="wheel">
+                          </ProtoInstance>
+                      </Transform>
+                      <Transform  DEF="Hub"  translation="0.0 0.2 0.0" scale="1.2 1.2 1.2">
+                          <ProtoInstance name="mudguard">
+                          </ProtoInstance>
+                      </Transform>
+                      <Transform  translation="-1.4 0.3 0.0" rotation="0.0 1.0 0.0  -1.5708">
+                          <ProtoInstance name="suspension">
+                          </ProtoInstance>
+                      </Transform>
+                  </Transform>
+                  <Transform  translation="-2.9 0.0 0.0">
+                      <Transform  DEF="lwheel" >
+                          <ROUTE fromNode="wri" fromField="value_changed" toNode="lwheel" toField="rotation"/>
+                          <Transform  rotation="0.0 0.0 1.0  3.14">
+                              <ProtoInstance name="wheel">
+                              </ProtoInstance>
+                          </Transform>
+                      </Transform>
+                      <Transform  USE="Hub"/>
+                      <Transform  translation="1.3 0.3 0.0" rotation="0.0 1.0 0.0  1.5708">
+                          <ProtoInstance name="suspension">
+                          </ProtoInstance>
+                      </Transform>
+                  </Transform>
+              </Transform>
+              <Transform  translation="0.0 0.0 4.0">
+                  <Transform  USE="axel"/>
+              </Transform>
+              <Transform  translation="0.0 0.7 1.4" scale="1.2 1.0 0.54" rotation="0.0 1.0 0.0  -1.5708">
+                  <ProtoInstance name="chassis">
+                  </ProtoInstance>
+              </Transform>
+              <Transform  translation="-1.4 1.6 -2.3" scale="0.13 0.13 0.1" rotation="0.0 1.0 0.0  -1.57">
+                  <ProtoInstance name="frame">
+                  </ProtoInstance>
+              </Transform>
+              <Transform  translation="0.7 2.0 3.0" scale="0.8 0.8 0.8" rotation="0.0 1.0 0.0  3.14">
+                  <ProtoInstance name="seat">
+                  </ProtoInstance>
+                  <Transform  translation="2.0 0.0 0.0">
+                      <ProtoInstance name="seat">
+                      </ProtoInstance>
+                  </Transform>
+              </Transform>
+          </Transform>
+    </ProtoBody>
+  </ProtoDeclare>
+  <NavigationInfo  headlight="true"/>
+  <Viewpoint  position="-6.0 4.0 -6.0" orientation="0.0 -1.0 -0.1  2.38" description=""/>
+  <ProtoInstance name="buggy">
+  </ProtoInstance>
+  </Scene>
+
+</X3D>

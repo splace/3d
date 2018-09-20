@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE X3D PUBLIC "ISO//Web3D//DTD X3D 3.0//EN"   "http://www.web3d.org/specifications/x3d-3.0.dtd">
+<X3D profile="Full">
+  <head>
+    <meta name="filename" content="D:\INTERE~1\INTERNET\HOMEPAGE\VRMLOB~1\BEACHB~1\FRAME.WRL.x3d"/>
+    <meta name="description" content="*enter description here, short-sentence summaries preferred*"/>
+    <meta name="author" content="*enter name of original author here*"/>
+    <meta name="translator" content="*if manually translating VRML-to-X3D, enter name of person translating here*"/>
+    <meta name="created" content="*enter date of initial version here*"/>
+    <meta name="translated" content="11 September 2004"/>
+    <meta name="revised"    content="11 September 2004"/>
+    <meta name="version" content="*enter version here*"/>
+    <meta name="reference" content="*enter reference citation or relative/online url here*"/>
+    <meta name="reference" content="*enter additional url/bibliographic reference information here*"/>
+    <meta name="copyright" content="*enter copyright information here* Example:  Copyright (c) Web3D Consortium Inc. 2002"/>
+    <meta name="drawing" content="*enter drawing filename/url here*"/>
+    <meta name="image" content="*enter image filename/url here*"/>
+    <meta name="movie" content="*enter movie filename/url here*"/>
+    <meta name="photo" content="*enter photo filename/url here*"/>
+    <meta name="keywords" content="*enter keywords here*"/>
+    <meta name="url" content="*enter online url address for this file here*"/>
+    <meta name="generator" content="Vrml97ToX3dNist, http://ovrt.nist.gov/v2_x3d.html"/>
+  </head>
+  <Scene>
+  <ProtoDeclare name="frame">
+    <ProtoBody>
+          <Group >
+              <Shape  DEF="$1" >
+                  <Appearance  DEF="tube" >
+                      <Material  ambientIntensity="0.678" shininess="0.11" diffuseColor="0.61 0.61 0.61" specularColor="0.388 0.388 0.388"/>
+                  </Appearance>
+                  <Extrusion  crossSection="0.7 -0.29, 0.29 -0.7, -0.29 -0.7, -0.7 -0.29, -0.7 0.29, -0.29 0.7, 0.29 0.7, 0.7 0.29, 0.7 -0.29, " endCap="false" creaseAngle="0.87" beginCap="false" spine="0.0 0.0 0.0, 35.0 20.0 -10.0, 49.0 20.0 -10.0, 51.0 19.0 -9.5, 62.0 0.0 0.0, "/>
+              </Shape>
+              <Transform  translation="0.0 0.0 -28.0" rotation="1.0 0.0 0.0  0.927">
+                  <Shape  USE="$1"/>
+              </Transform>
+              <Shape  DEF="$2" >
+                  <Appearance  USE="tube"/>
+                  <Extrusion  crossSection="0.7 -0.29, 0.29 -0.7, -0.29 -0.7, -0.7 -0.29, -0.7 0.29, -0.29 0.7, 0.29 0.7, 0.7 0.29, 0.7 -0.29, " endCap="false" creaseAngle="0.87" beginCap="false" spine="38.0 20.0 -10.0, 38.0 20.0 -18.0, "/>
+              </Shape>
+              <Transform  translation="7.0 0.0 0.0">
+                  <Shape  USE="$2"/>
+              </Transform>
+          </Group>
+    </ProtoBody>
+  </ProtoDeclare>
+  </Scene>
+
+</X3D>
