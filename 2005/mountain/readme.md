@@ -1,4 +1,4 @@
-*click images to launch online viewer*
+*click images to browse in 3d*
 
 * [![scene](mountain world.jpg)](../../advancedViewer.html?model=./2005/mountain/world/mountain world.wrl)
 
