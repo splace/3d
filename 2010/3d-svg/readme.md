@@ -1,14 +1,13 @@
+svg 3d browser example
+
+* [Alanine molecule](alanine.xml)
+
 
 Videos
 
 * [screen capture](v0.2%20screen%20video-SVG%203D%20Test%20-%20Chromium-1.ogg)
 
 * [screen capture earlier version](screen%20video-SVG%203D%20Test%20-%20Chromium-1.ogg)
-
-
-svg 3d 
-
-* [Alanine molecule](alanine.xml)
 
 
 images
