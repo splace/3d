@@ -8,4 +8,8 @@
 
 * [rendered bubbles video (side-by-side 3d for AR viewer.)](https://youtu.be/wgNiOMX7mJg)
 
+* [![pebbles](pebbles.jpg)](../../advancedViewer.html?model=./2002/decorations/pebbles.wrl)
+
+* [rendered pebbles video.](https://youtu.be/xIlN747S_KQ)
+
 using [X_ITE](http://create3000.de/x_ite).
