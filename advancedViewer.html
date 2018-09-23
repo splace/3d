@@ -13,12 +13,12 @@
 				}
 			}
 		}
-		function insertModel(){
+		function insertModel(id){
 			var x3d = document.createElement("X3DCanvas")
 			var att = document.createAttribute("src")
 			att.value =GetURLParameter('model');
 			x3d.setAttributeNode(att);  
-	        document.getElementById("title").parentNode.insertBefore(x3d,null)
+	        document.getElementById(id).parentNode.insertBefore(x3d,null)
  		return att.value
      }
 	</script>
@@ -30,7 +30,7 @@
     }
     </style>
 </head>
-<body onLoad="document.getElementById('title').innerText=decodeURI(insertModel().split('/').pop())">
+<body onLoad="document.getElementById('title').innerText=decodeURI(insertModel('title').split('/').pop())">
 <h1 style="color:white;position:absolute;z-index:1;text-shadow: 2px 2px 2px black;padding-left:1em" id="title">Model</h1>
 </body>
 </html>
