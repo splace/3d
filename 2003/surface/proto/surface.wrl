@@ -1,0 +1,228 @@
+#VRML V2.0 utf8
+PROTO surface [field SFInt32	xDimension 1
+	field	SFInt32 zDimension 1
+	field SFFloat xSpacing 1
+	field SFFloat zSpacing 1
+	field SFFloat creaseAngle 1
+	exposedField	SFBool dynamic FALSE
+	exposedField	SFFloat	noiseAmount 0
+	exposedField	SFFloat	amplitude 0
+	exposedField MFColor heightColors [1 1 1]
+	exposedField MFFloat colorHeights [1]
+	exposedField SFFloat noiseSize 0
+	exposedField SFFloat radiansPerSecond 1
+	exposedField SFFloat pitch 6.283
+	exposedField SFVec3f location 0 0 0
+#	exposedField SFNode surfaceAppearance Appearance {material Material {diffuseColor 1 1 1 specularColor .3 .3 .3 shininess 0}}
+	exposedField SFNode surfaceAppearance Appearance {material Material {diffuseColor .098 .22 .2 shininess .7 specularColor .502 .502 .702  ambientIntensity .278  }}
+	eventOut SFVec3f locationOnSurface
+	eventOut SFRotation rotationOnSurface
+	exposedField SFVec3f locationOnSurfaceOffset 0 0 0
+	exposedField SFRotation rotationOnSurfaceOffset 0 0 1 0
+	exposedField SFVec2f waveCentre 0 0
+	exposedField MFVec3f circleData []
+	exposedField MFInt32 circleShiftIndex []
+	exposedField MFFloat circleHeightShift []
+	exposedField MFInt32 circleIndex []
+	exposedField MFFloat circleHeight []
+	field SFBool solid TRUE
+	exposedField SFVec2f footPrint 2 2
+	field SFInt32 border 0
+]
+{
+	Group {children	[
+			Shape {
+				geometry DEF grid ElevationGrid {
+					solid IS solid
+				    creaseAngle IS creaseAngle
+				    xDimension IS xDimension
+				    zDimension IS zDimension
+				    xSpacing IS xSpacing
+				    zSpacing IS zSpacing 
+					color DEF  gridColor Color { color [] }}
+				appearance IS surfaceAppearance
+			}]}
+
+	PROTO dummywaternode [ exposedField MFVec3f circleData [] exposedField MFInt32 circleIndex [] exposedField MFFloat circleHeight [] exposedField MFInt32 circleShiftIndex [] exposedField MFFloat circleHeightShift [] exposedField SFVec2f waveCentre 0 0  exposedField SFFloat pitch 6.283 exposedField  SFFloat radiansPerSecond 1 exposedField SFFloat noiseAmount 1 exposedField SFFloat amplitude .1 exposedField SFFloat noiseSize 0 exposedField MFFloat colorHeights [] exposedField MFColor heightColors []]{WorldInfo {}}
+	DEF	waternode dummywaternode	{ circleData IS circleData circleIndex IS circleIndex circleHeight IS circleHeight circleShiftIndex IS circleShiftIndex circleHeightShift IS circleHeightShift  amplitude	IS amplitude noiseAmount IS noiseAmount	noiseSize IS noiseSize radiansPerSecond IS radiansPerSecond pitch IS pitch waveCentre IS waveCentre colorHeights IS colorHeights heightColors IS heightColors }
+	PROTO dummyobjectnode [  exposedField SFVec2f footPrint 2 2 exposedField	SFVec3f	location 0 0 0 exposedField SFVec3f locationOffset 0 0 0 ] {WorldInfo	{}}
+	DEF	objectnode dummyobjectnode { location IS location footPrint IS footPrint locationOffset IS locationOnSurfaceOffset }
+
+	DEF	gridScript Script {
+		eventIn SFTime calculateHeights
+    	eventIn SFVec3f	objectLocation
+		eventOut MFFloat elevations
+		eventOut MFColor colors
+		field SFInt32 xd IS xDimension
+		field SFInt32 zd IS	zDimension
+		field SFFloat xs IS	xSpacing
+		field SFFloat zs IS	zSpacing
+		field SFInt32 bd IS	border
+		field SFTime lastTime 0
+		field SFNode type USE waternode
+		field SFNode object USE	objectnode
+		eventOut SFVec3f locationOnSurface IS locationOnSurface
+		eventOut SFRotation rotationOnSurface IS rotationOnSurface
+
+		url	["javascript:
+			function initialize (){
+				elevations.length=xd*zd;
+				resetSurface();
+				if (type.circleHeightShift.length==1) {
+					for (a=0;a<type.circleShiftIndex.length;a++ )
+					{
+						addCircle(type.circleData[type.circleShiftIndex[a]].x ,type.circleData[type.circleShiftIndex[a]].y ,type.circleData[type.circleShiftIndex[a]].z ,type.circleHeightShift[0]);};
+				} else {
+					for (a=0;a<type.circleShiftIndex.length;a++ )
+					{
+						addCircle(type.circleData[type.circleShiftIndex[a]].x ,type.circleData[type.circleShiftIndex[a]].y ,type.circleData[type.circleShiftIndex[a]].z ,type.circleHeightShift[a]);};
+				};
+
+				if (type.circleHeight.length==1) {
+					for (a=0;a<type.circleIndex.length;a++ )
+					{
+						setCircle(type.circleData[type.circleIndex[a]].x ,type.circleData[type.circleIndex[a]].y ,type.circleData[type.circleIndex[a]].z ,type.circleHeight[0]);};
+				} else {
+					for (a=0;a<type.circleIndex.length;a++ )
+					{
+						setCircle(type.circleData[type.circleIndex[a]].x ,type.circleData[type.circleIndex[a]].y ,type.circleData[type.circleIndex[a]].z ,type.circleHeight[a]);};
+				};
+				addNoise(lastTime+1);
+				calculateColors();
+				if (object.location.x!=0) {objectLocation(object.location );};
+
+			}
+			function resetSurface (){
+				for (z=0;z<zd;z++){
+ 					for (x=0;x<xd;x++){
+						elevations[z*xd+x]=0;
+			    	};
+				};}
+			function objectLocation(value){
+				locationOnSurface[0]=value[0]+object.locationOffset[0];
+				locationOnSurface[1]=heightAt(value[0],0,value[2])+object.locationOffset[1];
+				locationOnSurface[2]=value[2]+object.locationOffset[2];
+				rotationOnSurface[0]=(heightAt(value[0],value[1],value[2]+object.footPrint[1]/2,elevations)-heightAt(value[0],value[1],value[2]-object.footPrint[1]/2,elevations))/object.footPrint[1];
+				rotationOnSurface[1]=0;
+				rotationOnSurface[2]=(heightAt(value[0]-object.footPrint[0]/2,value[1],value[2],elevations)-heightAt(value[0]+object.footPrint[0]/2,value[1],value[2],elevations))/object.footPrint[0];
+				rotationOnSurface[3]=-Math.sqrt(rotationOnSurface[0]*rotationOnSurface[0]+rotationOnSurface[1]*rotationOnSurface[1]+rotationOnSurface[2]*rotationOnSurface[2]);
+			}
+			function heightAt(x,y,z){
+				x/=xs;
+		    	z/=zs;
+				if (x<xd-1 && x>0 && z<zd-1 && z>0 ){
+					if (Math.floor(x)+Math.floor(z)<Math.floor(x+z))
+					{
+						y+=
+						((1+Math.floor(x)-x)*(z-Math.floor(z))+(1+Math.floor(x)-x)*(1+Math.floor(z)-z))*elevations[Math.floor(z+1)*xd+Math.floor(x)]+
+						((x-Math.floor(x))*(z-Math.floor(z))-(1+Math.floor(x)-x)*(1+Math.floor(z)-z))*elevations[Math.floor(z+1)*xd+Math.floor(x+1)]+
+						((x-Math.floor(x))*(1+Math.floor(z)-z)+(1+Math.floor(x)-x)*(1+Math.floor(z)-z))*elevations[Math.floor(z)*xd+Math.floor(x+1)]
+						;}
+					else
+					{
+						y+=
+						((1+Math.floor(x)-x)*(1+Math.floor(z)-z)-(x-Math.floor(x))*(z-Math.floor(z)))*elevations[Math.floor(z)*xd+Math.floor(x)]+
+						((1+Math.floor(x)-x)*(z-Math.floor(z))+(x-Math.floor(x))*(z-Math.floor(z)))*elevations[Math.floor(z+1)*xd+Math.floor(x)]+
+						((x-Math.floor(x))*(1+Math.floor(z)-z)+(x-Math.floor(x))*(z-Math.floor(z)))*elevations[Math.floor(z)*xd+Math.floor(x+1)]
+						;}
+					;}
+				return(y);}
+			function calculateColors(){
+				colors.length=xd*zd;
+					for (z=0;z<zd;z++){
+ 						for (x=0;x<xd;x++){
+							for (ci=0;ci<type.colorHeights.length;ci++){
+								if (type.heightColors.length>ci ) {
+								if (ci>0){ 
+									if (type.colorHeights[ci-1]<elevations[z*xd+x] && type.colorHeights[ci]>=elevations[z*xd+x] ){
+										frac= (elevations[z*xd+x]-type.colorHeights[ci-1])/(type.colorHeights[ci]-type.colorHeights[ci-1]);
+										colors[z*xd+x]=new SFColor(	type.heightColors[ci].r*frac+type.heightColors[ci-1].r*(1-frac),type.heightColors[ci].g*frac+type.heightColors[ci-1].g*(1-frac),type.heightColors[ci].b*frac+type.heightColors[ci-1].b*(1-frac));
+										//print (x+','+z+','+colors[z*xd+x].r+','+colors[z*xd+x].g+','+colors[z*xd+x].b);
+								     };
+								    } else {
+									if (elevations[z*xd+x]<type.colorHeights[ci]){ colors[z*xd+x]=type.heightColors[ci];}; 
+										//print (x+','+z+','+colors[z*xd+x].r+','+colors[z*xd+x].g+','+colors[z*xd+x].b);
+									};
+								};
+						};
+					}; 
+				};
+			}
+
+
+			function calculateHeights(value){
+		    	if (lastTime==0) {lastTime=value; };
+				if (type.amplitude==0) { 
+					resetSurface();
+				} else {
+ 					for (z=0;z<zd;z++){
+ 						for (x=0;x<xd;x++){
+							r=Math.sqrt(2*Math.pow(x-xd*type.waveCentre[0],2)+2*Math.pow(z-zd*type.waveCentre[1],2));
+							//elevations[z*xd+x]+=type.amplitude*Math.sin(r/type.pitch-value*type.radiansPerSecond)*(value-lastTime);
+							elevations[z*xd+x]=type.amplitude*Math.cos(r/type.pitch-value*type.radiansPerSecond);
+						};
+					}; 
+				};
+				if (type.noiseAmount>0 ) {addNoise(value);} ; 
+				objectLocation(object.location);
+		    	lastTime=value;
+			}
+			function addCircle(xc,zc,r,s){
+				for (z=bd;z<zd-bd;z++){
+ 					for (x=bd;x<xd-bd;x++){
+						if (Math.pow(r,2)>=Math.pow(x*xs-xc,2)+Math.pow(z*zs-zc,2)) {elevations[z*xd+x]+=s;};
+			    	};
+				};
+			}
+			function setCircle(xc,zc,r,s){
+				for (z=bd;z<zd-bd;z++){
+ 					for (x=bd;x<xd-bd;x++){
+						if (Math.pow(r,2)>=Math.pow(x*xs-xc,2)+Math.pow(z*zs-zc,2)) {elevations[z*xd+x]=s;};
+			    	};
+				};
+			}
+
+			function addNoise(value){
+				points=type.noiseAmount*xd*zd*Math.min(1,value-lastTime);
+				for (n=0;n<points;n++){
+					x=Math.floor(Math.random()*(xd-2*(bd)))+bd; 
+					z=Math.floor(Math.random()*(zd-2*(bd)))+bd; 
+					elevations[z*xd+x]+=type.noiseSize; 
+				};
+			}
+			"]
+
+	}
+	ROUTE gridScript.elevations	TO grid.set_height
+	ROUTE gridScript.colors	TO gridColor.color
+	DEF	ticker TimeSensor { loop IS dynamic cycleInterval 1}
+	ROUTE ticker.time TO gridScript.calculateHeights
+	ROUTE objectnode.location TO gridScript.objectLocation
+}
+
+NavigationInfo{headlight FALSE type "PAN"}
+Viewpoint{description "overview" position 0 157 159 orientation -.95 .25 .15 .5}
+
+DirectionalLight { direction -.5 -1 -.5 ambientIntensity .5 }
+Transform{
+	translation -300 0 -300
+	children[
+surface  {
+	xSpacing 5
+	zSpacing 5
+	xDimension 129
+	zDimension 129
+	creaseAngle	.1
+	noiseAmount	.1
+	noiseSize 1
+	circleData [80 180 282,120 120 42, 90 100 62,240 110 57,110 90 32, 110 250 37,160 160 22,250 240 32,400 120 32,400 130 17, 800 300 252]
+	circleShiftIndex	[0,1,2,3,4,5,7,8,9,10]
+	circleHeightShift [3,10,5,15,55,15,22,30,35,-3]
+	circleHeight [0]
+	circleIndex	[6]
+	border 2
+	colorHeights [-8,0,10,20,50,55,100]
+	heightColors [0 0 .1,0 0 1,0 .3 0,0 .2 0,.1 .2 .1,1 1 1,1 1 1]
+	surfaceAppearance Appearance {material Material {diffuseColor .1 .1 .1 specularColor .3 .3 .3 shininess 0.2 ambientIntensity .5 }}
+}
+]}
