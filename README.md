@@ -4,9 +4,10 @@
 |[2010](./2010/)|3d engine in JS using SVG
 |[2009](./2009/)|movie creation
 |[2008](./2008/)|design aid
-|[2005](./2005/)|complex environments/lighting/sound|
+|[2005](./2005/)|complex environments/lighting/sound
 |[2004](./2004/)|physics
+|[2003](./2003/)|Prototypes (used in later projects)
 |[2002](./2002/)|pretty
 |[2001](./2001/)|animation
 
-### work in progress[.](./2003/)
+### work in progress[.](./test/)
