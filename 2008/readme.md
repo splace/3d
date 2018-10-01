@@ -1,4 +1,4 @@
-[machines](plumbing/)
+[machines](machines/)
 
 [furniture](furniture/)
 
