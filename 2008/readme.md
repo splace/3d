@@ -1,5 +1,5 @@
-[robot](robot/)
+[machines](plumbing/)
 
 [furniture](furniture/)
 
-[vehicles from components](vehicles/)
+[vehicles](vehicles/)
