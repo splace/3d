@@ -10,42 +10,42 @@
 <Scene>
 	<NavigationInfo
 		avatarSize="0.25 1.6000000238418579 0.75 0 0 0"
-		type='"EXAMINE" "ANY"' />
+		type='"EXAMINE"' />
 	<Viewpoint
 		description="home"
 		position="0 5 30"
 		fieldOfView="1.2000000476837158"
-		jump="false" />
+		/>
 	<Viewpoint
 		description="follow"
 		position="30 12 -1"
 		fieldOfView="1.2000000476837158"
 		orientation="0 1 0 1.5700000524520874"
-		jump="false" />
+		/>
 	<Viewpoint
 		description="bridge"
 		position="-8 3 0"
 		fieldOfView="1.2000000476837158"
 		orientation="0 1 0 1.5700000524520874"
-		jump="false" />
+		/>
 	<Viewpoint
 		description="right side"
 		position="0 3 -10"
 		fieldOfView="1.2000000476837158"
 		orientation="0 1 0 1.5700000524520874"
-		jump="false" />
+		 />
 	<Viewpoint
 		description="left side"
 		position="0 3 10"
 		fieldOfView="1.2000000476837158"
 		orientation="0 1 0 1.5700000524520874"
-		jump="false" />
+		 />
 	<Viewpoint
 		description="backward"
 		position="0 6 0"
 		fieldOfView="1.2000000476837158"
 		orientation="0 -1 0 1.5700000524520874"
-		jump="false" />
+		 />
 	<Sound
 		minBack="0"
 		minFront="100"
