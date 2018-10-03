@@ -1,0 +1,226 @@
+#VRML V2.0 utf8 Titania V4.3.2
+
+EXTERNPROTO surface [
+  field          SFInt32    xDimension
+  field          SFInt32    zDimension
+  field          SFFloat    xSpacing
+  field          SFFloat    zSpacing
+  exposedField   SFBool     dynamic
+  exposedField   SFFloat    noiseAmount
+  exposedField   SFFloat    amplitude
+  exposedField   SFFloat    noiseSize
+  exposedField   SFFloat    radiansPerSecond
+  exposedField   SFFloat    pitch
+  exposedField   SFVec3f    location
+  exposedField   SFNode     surfaceAppearance
+  eventOut       SFVec3f    locationOnSurface
+  eventOut       SFRotation rotationOnSurface
+  exposedField   SFVec2f    waveCentre
+  exposedField   SFFloat    shiftSize
+  exposedField   MFVec3f    shiftData
+  field          SFBool     solid
+  exposedField   SFVec2f    footPrint
+]
+"../../../../../../../../../../../../home/simon/Downloads/x_ite/x_ite-4.2.4/content/pirate/surface.wrl#surface"
+
+PROTO boat [ ]
+{
+  Transform {
+    scale 0.05 0.05 0.05
+    children Inline {
+      url "../../../../../../../../../../../../home/simon/Downloads/x_ite/x_ite-4.2.4/content/pirate/galleon.wrl"
+    }
+  }
+}
+
+NavigationInfo {
+  type "FLY"
+  avatarSize [
+    0.05,
+    0.2,
+    0.05
+  ]
+  speed 10
+  headlight FALSE
+}
+
+Background {
+  frontUrl "../../../../../../../../../../../../home/simon/Downloads/x_ite/x_ite-4.2.4/content/pirate/sky scape bent frount.jpg"
+  backUrl "../../../../../../../../../../../../home/simon/Downloads/x_ite/x_ite-4.2.4/content/pirate/sky scape bent frount.jpg"
+  leftUrl "../../../../../../../../../../../../home/simon/Downloads/x_ite/x_ite-4.2.4/content/pirate/sky scape bent frount.jpg"
+  rightUrl "../../../../../../../../../../../../home/simon/Downloads/x_ite/x_ite-4.2.4/content/pirate/sky scape bent frount.jpg"
+  topUrl "../../../../../../../../../../../../home/simon/Downloads/x_ite/x_ite-4.2.4/content/pirate/star scape.gif"
+  skyAngle [
+    1.2,
+    1.4,
+    1.57,
+    1.57,
+    1.7,
+    3.15
+  ]
+  skyColor [
+    0 0 0,
+    0.05 0.05 0.1,
+    0.05 0.1 0.15,
+    0.3 0.3 0.35,
+    0.05 0.1 0.05,
+    0 0 0,
+    0 0 0
+  ]
+}
+
+Transform {
+  scale 1000 1000 1000
+  children [
+    Sound {
+      intensity 0.5
+      minBack 1000
+      minFront 1000
+      maxBack 10000
+      maxFront 10000
+      source AudioClip {
+        url [
+          "../../../../../../../../../../../../home/simon/Downloads/x_ite/x_ite-4.2.4/content/pirate/wind.mp3",
+          "../../../../../../../../../../../../home/simon/Downloads/x_ite/x_ite-4.2.4/content/pirate/wind.wav"
+        ]
+        pitch 0.8
+        loop TRUE
+      }
+    }
+    Transform {
+      translation 3 4 -20
+      children Shape {
+        appearance Appearance {
+          material Material {
+            specularColor 1 1 1
+            emissiveColor 1 1 1
+          }
+          texture ImageTexture {
+            url "../../../../../../../../../../../../home/simon/Downloads/x_ite/x_ite-4.2.4/content/pirate/moon.gif"
+          }
+        }
+        geometry Sphere { }
+      }
+    }
+  ]
+}
+
+DEF moonLight DirectionalLight {
+  direction -2 -3 10
+}
+
+DEF starLight DirectionalLight {
+  intensity 0.5
+  direction 0 -1 0
+}
+
+Transform {
+  translation -300 0 -300
+  children [
+    DEF topSurface surface {
+      xDimension 21
+      zDimension 21
+      xSpacing 30
+      zSpacing 30
+      dynamic TRUE
+      noiseAmount 1
+      amplitude 7
+      noiseSize -0.03
+      radiansPerSecond 0.5
+      pitch 2
+      location 100 15 500
+      surfaceAppearance DEF _1 Appearance {
+        material Material {
+          ambientIntensity 0.278
+          diffuseColor 0.1 0.15 0.3
+          specularColor 0.5 0.7 0.6
+          emissiveColor 0.1 0.1 0.1
+          shininess 0.7
+        }
+        texture ImageTexture {
+          url "../../../../../../../../../../../../home/simon/Downloads/x_ite/x_ite-4.2.4/content/pirate/wake.gif"
+          repeatS FALSE
+          repeatT FALSE
+        }
+        textureTransform TextureTransform {
+          translation 0.32 -0.4
+          rotation 0.2
+          scale 25 4
+          center -0.5 -0.5
+        }
+      }
+    }
+    DEF back Viewpoint {
+      description "behind"
+      position 65 10 555
+      orientation 0 -1 0 0.4
+    }
+    DEF front Viewpoint {
+      description "infront"
+      position 80 10 435
+      orientation 0 1 0 3.7
+    }
+    Viewpoint {
+      description "above"
+      position 100 70 480
+      orientation 1 0 0 4.71318530717959
+    }
+    DEF onWater1 Transform {
+      translation 100 18.4945 500
+      rotation -0.976016288700995 0 0.217697506164714 6.15691028445588
+      children DEF boatAngle Transform {
+        rotation 0 1 0 3.4
+        children [
+          boat { }
+          SpotLight {
+            color 1 0.8 0.8
+            intensity 0.5
+            attenuation 0.1 0.01 0
+            location 0 5 0
+            direction 0 -1 0
+            radius 30
+            cutOffAngle 1
+          }
+          SpotLight {
+            color 1 0.8 0.8
+            attenuation 0 0.1 0
+            location 0 -10 15
+            direction 0 1 0
+            radius 30
+            cutOffAngle 3
+          }
+          Sound {
+            intensity 0.5
+            maxFront 100
+            source AudioClip {
+              url [
+                "../../../../../../../../../../../../home/simon/Downloads/x_ite/x_ite-4.2.4/content/pirate/waterlap.mp3",
+                "../../../../../../../../../../../../home/simon/Downloads/x_ite/x_ite-4.2.4/content/pirate/waterlap.wav"
+              ]
+              loop TRUE
+            }
+          }
+          Sound {
+            maxBack 1000
+            maxFront 1000
+            source DEF bell AudioClip {
+              url [
+                "../../../../../../../../../../../../home/simon/Downloads/x_ite/x_ite-4.2.4/content/pirate/shipbell.mp3",
+                "../../../../../../../../../../../../home/simon/Downloads/x_ite/x_ite-4.2.4/content/pirate/shipbell.wav"
+              ]
+              startTime 1538598099.74095
+            }
+          }
+          DEF bellLoopTimer TimeSensor {
+            cycleInterval 30
+            loop TRUE
+          }
+        ]
+      }
+    }
+  ]
+}
+
+ROUTE bellLoopTimer.cycleTime TO bell.set_startTime
+ROUTE topSurface.locationOnSurface TO onWater1.set_translation
+ROUTE topSurface.rotationOnSurface TO onWater1.set_rotation
