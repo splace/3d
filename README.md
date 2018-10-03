@@ -6,8 +6,8 @@
 |[2008](./2008/)|constructions
 |[2005](./2005/)|environments with lighting/sound
 |[2004](./2004/)|physics
-|[2003](./2003/)|Prototypes (used in later projects)
+|[2003](./2003/)|Prototypes (used later)
 |[2002](./2002/)|shiny
-|[2001](./2001/)|animation
+|[2001](./2001/)|appearance
 
-### work in progress[.](./test/)
+### work in progress.
