@@ -21,14 +21,14 @@ EXTERNPROTO surface [
   field          SFBool     solid
   exposedField   SFVec2f    footPrint
 ]
-"../../../../../../../../../../../../home/simon/Downloads/x_ite/x_ite-4.2.4/content/pirate/surface.wrl#surface"
+"surface.wrl#surface"
 
 PROTO boat [ ]
 {
   Transform {
     scale 0.05 0.05 0.05
     children Inline {
-      url "../../../../../../../../../../../../home/simon/Downloads/x_ite/x_ite-4.2.4/content/pirate/galleon.wrl"
+      url "galleon.wrl"
     }
   }
 }
@@ -45,11 +45,11 @@ NavigationInfo {
 }
 
 Background {
-  frontUrl "../../../../../../../../../../../../home/simon/Downloads/x_ite/x_ite-4.2.4/content/pirate/sky scape bent frount.jpg"
-  backUrl "../../../../../../../../../../../../home/simon/Downloads/x_ite/x_ite-4.2.4/content/pirate/sky scape bent frount.jpg"
-  leftUrl "../../../../../../../../../../../../home/simon/Downloads/x_ite/x_ite-4.2.4/content/pirate/sky scape bent frount.jpg"
-  rightUrl "../../../../../../../../../../../../home/simon/Downloads/x_ite/x_ite-4.2.4/content/pirate/sky scape bent frount.jpg"
-  topUrl "../../../../../../../../../../../../home/simon/Downloads/x_ite/x_ite-4.2.4/content/pirate/star scape.gif"
+  frontUrl "sky scape bent frount.jpg"
+  backUrl "sky scape bent frount.jpg"
+  leftUrl "sky scape bent frount.jpg"
+  rightUrl "sky scape bent frount.jpg"
+  topUrl "star scape.gif"
   skyAngle [
     1.2,
     1.4,
@@ -80,8 +80,8 @@ Transform {
       maxFront 10000
       source AudioClip {
         url [
-          "../../../../../../../../../../../../home/simon/Downloads/x_ite/x_ite-4.2.4/content/pirate/wind.mp3",
-          "../../../../../../../../../../../../home/simon/Downloads/x_ite/x_ite-4.2.4/content/pirate/wind.wav"
+          "wind.mp3",
+          "wind.wav"
         ]
         pitch 0.8
         loop TRUE
@@ -96,7 +96,7 @@ Transform {
             emissiveColor 1 1 1
           }
           texture ImageTexture {
-            url "../../../../../../../../../../../../home/simon/Downloads/x_ite/x_ite-4.2.4/content/pirate/moon.gif"
+            url "moon.gif"
           }
         }
         geometry Sphere { }
@@ -138,7 +138,7 @@ Transform {
           shininess 0.7
         }
         texture ImageTexture {
-          url "../../../../../../../../../../../../home/simon/Downloads/x_ite/x_ite-4.2.4/content/pirate/wake.gif"
+          url "wake.gif"
           repeatS FALSE
           repeatT FALSE
         }
@@ -166,8 +166,8 @@ Transform {
       orientation 1 0 0 4.71318530717959
     }
     DEF onWater1 Transform {
-      translation 100 18.4945 500
-      rotation -0.976016288700995 0 0.217697506164714 6.15691028445588
+      translation 100 15.5387 500
+      rotation -0.979302950967794 0 0.20239992644705 6.12504257004979
       children DEF boatAngle Transform {
         rotation 0 1 0 3.4
         children [
@@ -194,8 +194,8 @@ Transform {
             maxFront 100
             source AudioClip {
               url [
-                "../../../../../../../../../../../../home/simon/Downloads/x_ite/x_ite-4.2.4/content/pirate/waterlap.mp3",
-                "../../../../../../../../../../../../home/simon/Downloads/x_ite/x_ite-4.2.4/content/pirate/waterlap.wav"
+                "waterlap.mp3",
+                "waterlap.wav"
               ]
               loop TRUE
             }
@@ -205,10 +205,10 @@ Transform {
             maxFront 1000
             source DEF bell AudioClip {
               url [
-                "../../../../../../../../../../../../home/simon/Downloads/x_ite/x_ite-4.2.4/content/pirate/shipbell.mp3",
-                "../../../../../../../../../../../../home/simon/Downloads/x_ite/x_ite-4.2.4/content/pirate/shipbell.wav"
+                "shipbell.mp3",
+                "shipbell.wav"
               ]
-              startTime 1538598099.74095
+              startTime 1538600775.42798
             }
           }
           DEF bellLoopTimer TimeSensor {
