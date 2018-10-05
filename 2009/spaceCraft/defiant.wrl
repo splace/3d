@@ -1,0 +1,314 @@
+#VRML V2.0 utf8
+
+DEF body Shape {
+	appearance Appearance {
+		material DEF metalHull Material {
+			diffuseColor .9 .95 1
+			specularColor .102 .102 .122
+			ambientIntensity .2
+			shininess .8
+		}
+
+	}
+	geometry Extrusion {
+		convex FALSE
+		creaseAngle .5
+		spine [
+			-9.4 1.65 0, -7.99922 1.68 0, -7.60757 1.7 0, -6.99758 1.74452 0,
+			-5.94475 1.9 0, -5.06458 2.02963 0, -3 2.3 0, -.691572 2.37851 0,
+			.872374 2.4 0, .965759 2.4 0, 10.75 2.04785 0, 10.85 2.00205 0, 11.9 1.97251 0,
+			12.6 1.92 0, 14.6 1.9 0
+		]
+		scale [
+			1 1, 4.5 6.8, 5 7.939, 6 9.303, 6.8 11, 7 11.87, 7 13, 7 13.61,
+			7 13.87, 6 13.7, 6 10.48, 5 9, 4.8 8.7, 5 8, 4.5 7.2
+		]
+		crossSection [
+			0 -.5, -.1 -.5, -.184776 -.18696, -.184776 .18696, -.1 .5,
+			0 .5, .15 .3, 0.1 .25, 0.1 -.25, .15 -.3, 0 -.5
+		]
+	}
+}
+
+
+DEF head Transform {
+	children [
+		Shape {
+			appearance Appearance {
+				material USE metalHull
+			}
+			geometry Extrusion {
+				ccw	FALSE
+				creaseAngle .6
+				spine [
+					 -12.7 1 0, -11.8 1.24903 0, -9.8 1.85 0,
+					-7 2.5 0, -5 2 0
+				]
+				scale [
+					 .6 .32, .8 .4, 1.2 .5, 2.2 .5, .1 .1
+				]
+				orientation [
+					 0 0 1 .5, 0 0 1 0, 0 0 -1 .5, 0 0 -1 .8,
+					0 0 1 0
+				]
+				crossSection [
+					-.4 3.9,-.4 -3.9, -.35 -4, .4 -4.8, 
+					1.4 -3.9, 1.5 0,  1.4 3.9, .4 4.8, -.35 4, -.4 3.9
+				]
+			}
+		}
+	]
+}
+DEF tail Shape {
+	appearance Appearance {
+		material USE metalHull
+	}
+	geometry Extrusion {
+		creaseAngle .489
+		spine [
+			14.55 2 0, 15.55 2 0
+		]
+		scale [
+			7 7, 6.5 6.5
+		]
+		crossSection [
+			-.00341064 -.45, -.0556844 -.45, -.1 -.168264, -.1 .168264, -.0556844 .45,
+			-.0556844 .45, -.00341064 .45, .075 .315, .075 -.315, -.00341064 -.45
+		]
+	}
+}
+Group {
+	children [
+		DEF disk Shape { 
+			appearance Appearance {
+				material USE metalHull
+			}
+			geometry Extrusion {
+				creaseAngle .244
+				spine [
+					-.62179 1.5 0, -.62179 1.6 0, -.62179 1.6 0, -.62179 1.5 0, -.62179 1.5 0,
+					-.62179 1.6 0, -.62179 3.84616 0, -.62179 4 0, -.62179 4 0, -.62179 3.9 0,
+					-.62179 3.9 0, -.62179 4 0
+				]
+				scale [
+					.1 .1, .2 .2, .4 .4, .5 .5, .9 .9, 1 1, 1 1, .9 .9, .5 .5, .4 .4, .2 .2,
+					.1 .1
+				]
+				crossSection [
+					3.2 0, 3.16623 -.45315, 3.06849 -.90406, 2.95642 -1.22459, 2.77129 -1.59721,
+					2.53615 -1.94911, 2.26274 -2.26274, 1.94911 -2.53615, 1.59721 -2.77129,
+					1.22459 -2.95642, .793012 -3.09863, .339022 -3.18088, 0 -3.2, -.45315 -3.16623,
+					-.904058 -3.06849, -1.22459 -2.95642, -1.59721 -2.77129, -1.94911 -2.53615,
+					-2.26274 -2.26274, -2.53615 -1.94911, -2.77129 -1.59721, -2.95642 -1.22459,
+					-3.09863 -.793013, -3.18088 -.339022, -3.2 0, -3.16623 .45315, -3.06849 .90406,
+					-2.95642 1.22459, -2.77129 1.59721, -2.53615 1.94911, -2.26274 2.26274,
+					-1.94911 2.53615, -1.59721 2.77129, -1.22459 2.95642, -.793012 3.09863,
+					-.339022 3.18088, 0 3.2, .45315 3.16623, .904058 3.06849, 1.22459 2.95642,
+					1.59721 2.77129, 1.94911 2.53615, 2.26274 2.26274, 2.53615 1.94911,
+					2.77129 1.59721, 2.95642 1.22459, 3.09863 .793013, 3.18088 .339022,
+					3.2 0
+				]
+			}
+		}
+		DEF brest Shape { 
+			appearance Appearance {
+				material USE metalHull
+				textureTransform TextureTransform {
+					scale 2.5 1
+
+				}
+			}
+			geometry Extrusion {
+				spine [
+					-.62179 3.3 0, 11.85 2.85 0
+				]
+				scale [
+					1.158 1.158, 1 .7
+				]
+				crossSection [
+					.4 2.8, .4 -2.8, -.4 -2.8, -.4 2.8, .4 2.8
+				]
+			}
+		}
+	]
+}
+DEF engine1 Transform {
+	children Shape {
+	appearance Appearance {
+		material USE metalHull
+	}
+	geometry Extrusion {
+		creaseAngle .541
+		spine [
+			-1.65 1.95 -8, 8.9 1.95 -6.55
+		]
+					orientation  [
+						1 0 0 -1.578
+					]	
+			crossSection [
+			-3.29275 -.489172,
+			-3.23618 -.205869,
+			-3.07961 .0507261,
+			-2.49275 .376963,
+			-1.59275 .716049, 
+			-.49275 1.05514,
+			.60725 1.28119,
+			1.50725 1.39422,
+			2.20725 1.50725,
+			2.2615 1.49325, 
+			2.28509 1.47681,
+			2.29774 1.45472, 
+			2.30725 1.28119,
+			2.30725 .639484, 
+			2.30725 -.489172,
+			2.21095 -1.08106,
+			2.10725 -1.31847,
+			1.87847 -1.56859,
+			1.50725 -1.77058,
+			0.60725 -1.88361, 
+			-.49275 -1.9,
+			-1.56426 -1.79261,
+			-2.47265 -1.48678,
+			-3.07961 -1.02907,
+			-3.23744 -.764258,
+			-3.29275 -.489172
+		]
+	}
+}
+}
+
+
+DEF engine2 Transform {
+	children Shape {
+	appearance Appearance {
+		material USE metalHull
+	}
+	geometry Extrusion {
+		creaseAngle .541
+		spine [
+		   8.9 1.95 6.55,-1.65 1.95 8
+	]
+					orientation  [
+						1 0 0 -1.578
+					]		
+					crossSection [
+			-3.29275 -.489172,
+			-3.23618 -.205869,
+			-3.07961 .0507261,
+			-2.49275 .376963,
+			-1.59275 .716049, 
+			-.49275 1.05514,
+			.60725 1.28119,
+			1.50725 1.39422,
+			2.20725 1.50725,
+			2.2615 1.49325, 
+			2.28509 1.47681,
+			2.29774 1.45472, 
+			2.30725 1.28119,
+			2.30725 .639484, 
+			2.30725 -.489172,
+			2.21095 -1.08106,
+			2.10725 -1.31847,
+			1.87847 -1.56859,
+			1.50725 -1.77058,
+			0.60725 -1.88361, 
+			-.49275 -1.9,
+			-1.56426 -1.79261,
+			-2.47265 -1.48678,
+			-3.07961 -1.02907,
+			-3.23744 -.764258,
+			-3.29275 -.489172
+
+		]
+	}
+}
+}
+
+
+DEF escapePods Group {
+	children [
+		Transform {
+			translation 6.1 0 3.5
+			children DEF pod Shape {
+				appearance Appearance {
+					material Material {
+						diffuseColor 0 0 0
+						specularColor .631 .922 1
+						ambientIntensity .1
+					}
+				}
+				geometry Extrusion {
+					creaseAngle .768
+					spine [
+						0 2.9 0, 0 3.3 0, 0 3.4 0
+					]
+					scale [
+						5.2 5.2, 5.2 5.2, 3.8 3.8
+					]
+					crossSection [
+						.1 0, .092388 -.0382683, .0707107 -.0707107, .0382683 -.092388, 0 -.1,
+						-.0382683 -.092388, -.0707107 -.0707107, -.092388 -.0382683, -.1 0,
+						-.092388 .0382683, -.0707107 .0707107, -.0382683 .092388, 0 .1, .0382683 .092388,
+						.0707107 .0707107, .092388 .0382683, .1 0
+					]
+				}
+			}
+		}
+		Transform {
+			translation 6.1 0 -3.5
+			children USE pod
+		}
+		Transform { 
+			translation 7.4 0 3.3
+			children USE pod
+		}
+		Transform { 
+			translation 7.4 0 -3.3
+			children USE pod
+		}
+		Transform {
+			translation 3.5 0 3.9
+			children USE pod
+		}
+		Transform {
+			translation 3.5 0 -3.9
+			children USE pod
+		}
+		Transform {
+			translation 4.8 0 3.7
+			children USE pod
+		}
+		Transform {
+			translation 4.8 0 -3.7
+			children USE pod
+		}
+	]
+}
+DEF flaps Group {
+	children [
+		DEF flap Shape { 
+			appearance Appearance {
+				material Material {
+					diffuseColor .502 .259 .208
+					specularColor .761 .729 .227
+					ambientIntensity .0633
+					shininess .07
+				}
+			}
+			geometry Extrusion {
+				spine [
+					8.01281 3.5 5.69018, 6.79417 3.3 5.84172
+				]
+				crossSection [
+					-.2 .4, .2 .4, .2 -.4, -.2 -.4, -.2 .4
+				]
+			}
+		}
+		Transform { 
+			translation 1.5571 -1.54783 -12.369
+			rotation .650721 .759317 7.38665e-4 -.379923
+			children USE flap
+		}
+	]
+}
+
