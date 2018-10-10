@@ -10,7 +10,6 @@
         shadowIntensity='1'>
     </DirectionalLight>
     <NavigationInfo
-        avatarSize='0.21, 1.6, 0.75'
         headlight='false'/>
     <Viewpoint
         position='-13.9453 8.32712 14.8403'
