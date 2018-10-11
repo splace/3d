@@ -2,17 +2,16 @@
 <!DOCTYPE X3D PUBLIC "ISO//Web3D//DTD X3D 3.3//EN" "http://www.web3d.org/specifications/x3d-3.3.dtd">
 <X3D profile='Full' version='3.3' xmlns:xsd='http://www.w3.org/2001/XMLSchema-instance' xsd:noNamespaceSchemaLocation='http://www.web3d.org/specifications/x3d-3.3.xsd'>
   <Scene>
-    <Inline
-        url='"enterprise ncc-1701d.x3d"'/>
-    <DirectionalLight
-        ambientIntensity='0.5'
-        direction='0.567795 -0.425019 0.70496'
-        shadowIntensity='1'>
-    </DirectionalLight>
-    <NavigationInfo
+     <NavigationInfo
         headlight='false'/>
-    <Viewpoint
-        position='-13.9453 8.32712 14.8403'
-        orientation='-0.437753622778319 -0.882214752661522 -0.173403852122226 0.844058371623036'/>
+     <Viewpoint
+        position='8.31694 2.61549 18.2857'
+        orientation='-0.431748237225937 0.891235956884651 0.138895388001894 0.692818408773976'/>
+     <Inline
+        url='"enterprise.wrl"'/>
+    <DirectionalLight
+        ambientIntensity='0.15'
+        direction='0.567795 -0.425019 0.70496'
+        shadowIntensity='1'/>
   </Scene>
 </X3D>
