@@ -36,7 +36,7 @@
               </Transform>
               <Shape  DEF="$2" >
                   <Appearance  USE="tube"/>
-                  <Extrusion  crossSection="0.7 -0.29, 0.29 -0.7, -0.29 -0.7, -0.7 -0.29, -0.7 0.29, -0.29 0.7, 0.29 0.7, 0.7 0.29, 0.7 -0.29, " endCap="false" creaseAngle="0.87" beginCap="false" spine="38.0 20.0 -10.0, 38.0 20.0 -18.0 "/>
+                  <Extrusion  crossSection="0.7 -0.29, 0.29 -0.7, -0.29 -0.7, -0.7 -0.29, -0.7 0.29, -0.29 0.7, 0.29 0.7, 0.7 0.29, 0.7 -0.29 " endCap="false" creaseAngle="0.87" beginCap="false" spine="38.0 20.0 -10.0, 38.0 20.0 -18.0 "/>
               </Shape>
               <Transform  translation="7.0 0.0 0.0">
                   <Shape  USE="$2"/>
