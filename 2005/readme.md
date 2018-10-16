@@ -1,6 +1,6 @@
 [mountain at night during storm (loud)](mountain/)
 
-[yacht circulating island](island/)
+[yacht circling island](island/)
 
 [square rigged ship at night](ship/)
 

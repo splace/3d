@@ -6,7 +6,7 @@
 |2008|[vrml constructions](./2008/)
 |2005|[vrml environments with lighting/sound](./2005/)
 |2004|[vrml physics](./2004/)
-|2003|[vrml Prototypes (used later)](./2003/)
+|2003|[vrml rapid building Prototypes (used later)](./2003/)
 |2002|[vrml shiny](./2002/)
 |2001|[vrml appearance](./2001/)
 
