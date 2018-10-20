@@ -1,0 +1,367 @@
+#VRML V2.0 utf8
+
+NavigationInfo{type	"NONE" headlight FALSE}
+Background {
+			skyColor	[ 0 0 .1,
+						.1 .1 .2,
+						.1 .1 .2,
+						.2 .1 .15,
+						.1 .1 .2,
+						0 0 .1,
+						0 0 .1,
+						.1 .1 .2,
+						.1 .1 .2,
+						.2 .1 .15,
+						.1 .1 .2,
+						0 0 .1,
+						0 0 .1,
+	 ]
+			skyAngle	[1.2,  1.26,1.27, 1.35, 1.43, 1.46,
+		   2,  2.06,2.07, 2.15, 2.23, 2.26  ]
+
+}
+Inline {url	["stars enhanced.wrl"] }
+
+Group{
+children[
+
+DEF vp1t Transform {	  translation 0 0 0
+	children [
+		PointLight {radius	40 attenuation 0 0 .1}
+
+		DEF vp1 Viewpoint {description "point" position 0 0 0}
+	]
+}
+
+
+DEF	viewOrientation Script {
+	eventIn	SFVec3f	from
+	eventIn	SFVec3f to
+	eventOut SFRotation lookat
+	field SFVec3f tfrom 0 0 0
+	field SFVec3f tto	0 0 0
+	field SFBool tfromset FALSE
+	field SFBool ttoset FALSE
+	field SFVec3f base 0 0 -1
+	field SFRotation r1 0 0 1 0
+	field SFRotation r2 0 0 1 0
+	field SFVec3f temp 0 0 -1
+
+
+   	url "javascript:
+	function from(dir) {
+		tfrom=dir;
+		tfromset=true;
+		if (ttoset){look(tfrom,tto);};
+		}
+	function to(dir) {
+		tto=dir;
+		ttoset=true;
+		if (tfromset){look(tfrom,tto);};
+		}
+	function look(a,b){
+		temp=b.subtract(a);
+		r1=new SFRotation(base,new SFVec3f(temp.x,0,temp.z ));
+		r2=new SFRotation(new SFVec3f(temp.x,0,temp.z),temp);
+		lookat=r2.multiply(r1) ;
+
+		//lookat=new SFRotation(base,b.subtract(a)) ;
+		}
+
+	"
+
+}
+
+
+DEF ship1 Transform {  
+	children [
+		DEF ship2 Transform { rotation 0 -1 0 3.14	
+			children [
+				DEF ship3 Transform { 
+					children [
+						Transform {	translation 0 0 -5 
+							children [ 
+								Inline {url	["enterprise.wrl"]}
+								DirectionalLight{color 1 .9 .9 direction -0.6 -0.3 -0.3 shadowIntensity 1 shadowMapSize 4096 shadowBias 0.005}
+
+							]
+						}
+					]
+				}
+			]
+		}
+	]
+}
+
+DEF move Script {
+				eventIn	SFTime time 
+				field SFInt32 lasttemp 0
+				field SFInt32 start 0
+				directOutput TRUE
+				field SFNode vp USE vp1t
+				field SFNode object1 USE ship1
+				field SFNode object2 USE ship2
+				field SFNode object3 USE ship3
+				field SFFloat rate 20
+				field SFFloat speed 10
+#				field SFFloat rate .5
+#				field SFFloat speed 4
+				field SFFloat offset 0
+				field SFFloat soffset 0
+				field SFInt32 stage 0
+				field SFFloat stageoffset 0
+				field SFInt32 vstage 0
+				field SFFloat vstageoffset 0
+				field SFInt32 sstage 0
+				field SFFloat sstageoffset 0
+				
+
+	url	["javascript:
+		function time(ts){
+		t=ts-start;
+		if (start==0) {
+			start=t-offset/speed;
+			t=offset/speed;
+			vp.translation =new SFVec3f (2,0,20);
+			};
+		t*=speed;
+		
+		if (Math.floor(t*rate)>lasttemp)  {
+		lasttemp=t*rate;
+
+		soffset=180
+		if (sstage==0 & t>soffset){++sstage;sstageoffset=soffset;};
+		soffset=soffset+80
+		if (sstage==1 & t>soffset){++sstage;sstageoffset=soffset;};
+		soffset=400
+		if (sstage==2 & t>soffset){++sstage;sstageoffset=soffset;};
+
+
+		if (sstage==0){
+		lt=t-sstageoffset;
+		}
+		
+		if (sstage==1){
+		lt=t-sstageoffset;
+		object2.rotation=new SFRotation (0 ,-1,0,3.14-lt*1*3.14/80);
+		}
+
+		if (sstage==2){
+		lt=t-sstageoffset;
+		}
+
+		if (sstage==3){
+		lt=t-sstageoffset;
+		}
+
+
+
+		soffset=190
+		if (vstage==0 & t>soffset){++vstage;vstageoffset=soffset;};
+		soffset=soffset+30
+		if (vstage==1 & t>soffset){++vstage;vstageoffset=soffset;};
+		soffset=soffset+100
+		if (vstage==2 & t>soffset){++vstage;vstageoffset=soffset;};
+
+
+		if (vstage==0){
+		lt=t-vstageoffset;
+		}
+		
+		if (vstage==1){
+		lt=t-vstageoffset;
+		}
+
+		if (vstage==2){
+		lt=t-vstageoffset;
+		vp.translation=new SFVec3f(2-lt/2.5,lt/6,20-lt);
+		}
+
+		if (vstage==3){
+		lt=t-vstageoffset;
+		}
+
+		soffset=200
+		if (stage==0 & t>soffset){++stage;stageoffset=soffset;};
+		soffset=soffset+100
+		if (stage==1 & t>soffset){++stage;stageoffset=soffset;};
+		soffset=400
+		if (stage==2 & t>soffset){++stage;stageoffset=soffset;};
+		soffset=soffset+200
+		if (stage==3 & t>soffset){++stage;stageoffset=soffset;};
+		soffset=soffset+200
+		if (stage==4 & t>soffset){++stage;stageoffset=soffset;};
+
+
+		if (stage==0){
+		lt=t-stageoffset;
+		object1.translation= new SFVec3f(0,10-(200-t)*(200-t)/4,0);
+		}
+		
+		if (stage==1){
+		lt=t-stageoffset;
+		object1.translation= new SFVec3f(0,10,0);
+		}
+
+		if (stage==2){
+		lt=t-stageoffset;
+		object1.translation= new SFVec3f(0,10,-lt*lt/8);
+		}
+
+		if (stage==3){
+		lt=t-stageoffset;
+		object1.translation= new SFVec3f(0,10,-13*lt);
+		vp.translation=new SFVec3f(-4+lt/50,20-lt/20,-13*lt+10+(200-lt)*(200-lt)/400);
+		}
+
+		if (stage==4){
+		lt=t-stageoffset;
+		object1.translation= new SFVec3f(0,10,-13*lt);
+		vp.translation=new SFVec3f(0+lt/50,10-lt/100,-13*lt+10-lt*lt/400);
+
+		}
+
+		if (stage==5){
+		lt=t-stageoffset;
+		object1.translation= new SFVec3f(0,10,-13*lt);
+		vp.translation=new SFVec3f(4,10-2,-13*lt+10-100);
+
+		}
+
+ 		}
+ 		}
+		"]
+}
+
+
+
+
+
+DEF dustSwitch Switch { 
+	choice [
+		DEF dustCloud Transform {	scale 2 2 2
+			children [
+
+				DEF dustCube Transform { 
+					children [
+						DEF	smallDustCube Transform {	scale 20 20 20
+							children [
+								Shape {
+									appearance Appearance {material	Material {emissiveColor	.8 .8 .6}}
+									geometry	PointSet {coord	DEF points Coordinate { point  [] } } }
+							]
+						}
+					]
+				}
+				Transform { translation 0 0 -100
+					children [
+						USE dustCube
+					]
+				}
+				Transform { translation 0 -100 0
+					children [
+						USE dustCube
+					]
+				}
+				Transform { translation -100 0 0
+					children [
+						USE dustCube
+					]
+				}
+				Transform { translation 0 -100 -100
+					children [
+						USE dustCube
+					]
+				}
+	 			Transform { translation -100 -100 0
+					children [
+						USE dustCube
+					]
+				}
+				Transform { translation -100 0 -100
+					children [
+						USE dustCube
+					]
+				}
+	 			Transform { translation -100 -100 -100
+					children [
+						USE dustCube
+					]
+				}]
+		}]
+}
+
+
+
+
+
+
+
+DEF calcRanPoints Script {
+	field SFInt32 dim 5
+	eventOut MFVec3f ranPoints
+	url	["javascript:
+	function initialize(){
+		c=0;
+		for (x=0;x<dim;++x){
+ 			for (y=0;y<dim;++y){
+	 			for (z=0;z<dim;++z){
+					ranPoints[c].x=x+Math.random()*.8+.1;
+					ranPoints[c].y=y+Math.random()*.8+.1;
+					ranPoints[c].z=z+Math.random()*.8+.1;
+					++c;
+					};
+				};
+			};
+		}
+		"]
+}
+
+
+DEF	intPosition Script {
+	field SFFloat scale 100
+	eventIn	SFVec3f	location 
+	eventOut SFVec3f intLocation
+	field SFInt32 lastlocationx 0 
+	field SFInt32 lastlocationy 0 
+	field SFInt32 lastlocationz 0 
+	url	["javascript:
+		function location(loc) {
+			if (lastlocationx!=loc.x-loc.x%scale ||  lastlocationy!=loc.y-loc.y%scale || lastlocationz!=loc.z-loc.z%scale ){
+				lastlocationx=loc.x-loc.x%scale;			
+				lastlocationy=loc.y-loc.y%scale;			
+				lastlocationz=loc.z-loc.z%scale;			
+				intLocation=new SFVec3f (lastlocationx,lastlocationy,lastlocationz);
+			};
+	}"]
+
+}
+
+
+DEF boolToInt  Script {
+ eventIn SFBool inp
+ eventOut SFInt32 out
+ url "javascript: 
+    function inp(value) { out=value-1 ; }
+	"}
+
+DEF	t1 TimeSensor {loop	TRUE }
+
+
+]
+
+ROUTE vp1t.translation TO viewOrientation.from
+ROUTE ship1.translation TO viewOrientation.to
+ROUTE viewOrientation.lookat	TO vp1.orientation
+
+ROUTE t1.time TO move.time
+
+
+ROUTE vp1.isBound TO	boolToInt.inp
+ROUTE boolToInt.out	TO dustSwitch.whichChoice
+ROUTE  vp1t.translation TO intPosition.location
+ROUTE intPosition.intLocation TO dustCloud.translation
+
+ROUTE calcRanPoints.ranPoints TO points.point
+
+}
