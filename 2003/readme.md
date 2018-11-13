@@ -1,3 +1,3 @@
-* [simple procedural terrain Prototype](surface/)
+* [simple procedural terrain](surface/)
 
-* [extrusion cylinders](cylinder/)
+* [coloured cylinders](cylinder/)
