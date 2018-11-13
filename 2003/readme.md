@@ -1,3 +1,3 @@
-* [simple procedural terrain](surface/)
+* [simple terrain](surface/)
 
-* [coloured cylinders](cylinder/)
+* [coloured tubes](cylinder/)
