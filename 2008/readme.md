@@ -1,5 +1,5 @@
-[machines](machines/)
+* [machines](machines/)
 
-[furniture](furniture/)
+* [furniture](furniture/)
 
-[vehicles](vehicles/)
+* [vehicles](vehicles/)

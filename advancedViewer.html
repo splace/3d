@@ -4,11 +4,11 @@
     <title>Model</title>
 	<script type="text/javascript" src="https://code.create3000.de/x_ite/4.2.6/dist/x_ite.min.js"></script>
     <script type="text/javascript">
-		function GetURLParameter(param){
+		function GetURLParameter(paramName){
 			var fs = window.location.search.substring(1).split('&');
 			for (var i = 0; i < fs.length; i++) {
 				var f = fs[i].split('=',2);
-				if (f[0] == param){
+				if (f[0] == paramName){
 				    return f[1];
 				}
 			}

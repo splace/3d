@@ -1,0 +1,113 @@
+#VRML V2.0 utf8
+
+PROTO CircleExtrusion [
+	field SFBool beginCap TRUE
+	field SFBool endCap TRUE
+	field SFBool ccw TRUE
+	field SFBool convex TRUE
+	field SFFloat creaseAngle 0
+	field MFRotation orientation 0 0 1 0
+	field SFBool solid TRUE
+	field MFVec2f scale 1 1
+	field MFVec3f spine [
+	0 0 0,
+	0 1 0
+	]
+	field SFFloat radius 1
+	field SFInt32 sides 32
+	field SFFloat shear 1
+]
+{
+	DEF this Extrusion {
+	beginCap IS beginCap
+	endCap IS endCap
+	solid IS solid
+	ccw IS ccw
+	convex IS convex
+	creaseAngle IS creaseAngle
+	orientation IS orientation
+	scale IS scale
+	spine IS spine
+	}
+
+	DEF circleGen Script {
+	field SFFloat r IS radius
+	field SFInt32 f IS sides
+	field SFFloat s IS shear
+	eventOut MFVec2f cs
+
+	url "javascript:
+		function initialize(){
+			temp = new MFVec2f();
+			angle=Math.PI*2/f;
+			for (i=0;i<f;i++){
+				temp[i]=new SFVec2f(r*Math.sin(i*angle)*s,r*Math.cos(i*angle)/s);						
+			};
+			temp[i]=temp[0]
+			cs=temp;
+		}
+	"
+	}
+
+	ROUTE circleGen.cs TO this.set_crossSection
+}
+
+PROTO ExtrusionTextureGenerator [
+	field SFNode sourceExtrusion NULL
+	field MFColor segmentColors 1 1 1
+	field MFInt32 segmentColorIndexes [ ]
+	field SFInt32 quality 10
+]
+{
+	DEF this_1 PixelTexture { }
+
+	DEF texGen Script {
+	field MFColor colors IS segmentColors
+	field MFInt32 colorInds IS segmentColorIndexes
+	field SFNode extrusion IS sourceExtrusion
+	field SFInt32 q IS quality
+	eventOut SFImage texture
+
+	url "javascript:
+		function initialize(){
+			spineBoundaries = new Array();
+			minimumSegment=1;
+			spineLength= 0;
+			c=0;
+			for (i=1;i<extrusion.spine.length;i++){
+				segmentLength=segLen(i);
+				spineLength+=segmentLength;
+				spineBoundaries[c]=spineLength;
+				c++;
+				// keep the index of shortest spine segment to use calculating a nice default resolution
+				if (i>1 && segmentLength>0 && (minimumSegment==1 || segmentLength < segLen(minimumSegment))){
+					minimumSegment=i;
+					};
+				};
+			tempInts=new MFInt32();
+			textWidth=Math.ceil(spineLength/(segLen(minimumSegment))*q);
+			c=0;
+			if (textWidth<Infinity){
+				if (colorInds.length==0){
+					for (i=0;i<textWidth;i++){
+						tempInts[i] = Math.floor(colors[c].r*255)*256*256+Math.floor(colors[c].g*255)*256+Math.floor(colors[c].b*255);
+						if (c<spineBoundaries.length && spineBoundaries[c]<i*spineLength/(textWidth-1)){c++;};
+						};
+				}else{
+					for (i=0;i<textWidth;i++){
+						tempInts[i] = Math.floor(colors[colorInds[c]].r*255)*256*256+Math.floor(colors[colorInds[c]].g*255)*256+Math.floor(colors[colorInds[c]].b*255);
+						if (c<colorInds.length && spineBoundaries[c]<i*spineLength/(textWidth-1)){c++;};
+					};
+				}
+			}
+			texture = new SFImage(1, tempInts.length, 3, tempInts);
+		}
+		function segLen(i){
+			return extrusion.spine[i].subtract(extrusion.spine[i-1]).length()
+		}
+	"
+	}
+
+	ROUTE texGen.texture TO this_1.set_image
+}
+
