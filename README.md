@@ -1,12 +1,12 @@
 |year|theme|
 |-|-|
-|2001|[vrml appearance](./2001/)
-|2002|[vrml shiny](./2002/)
-|2003|[vrml rapid building Prototypes (used later)](./2003/)
-|2004|[vrml physics](./2004/)
-|2005|[vrml environments with lighting/sound](./2005/)
-|2008|[vrml constructions](./2008/)
-|2009|[vrml movie creation](./2009/)
+|2001|[VRML appearance](./2001/)
+|2002|[decorative VRML](./2002/)
+|2003|[rapid building VRML Prototypes (used later)](./2003/)
+|2004|[VRML physics](./2004/)
+|2005|[VRML environments with lighting/sound](./2005/)
+|2008|[VRML constructions](./2008/)
+|2009|[VRMl movie creation](./2009/)
 |2010|[in-browser 3d using JS and SVG](./2010/)
 
 ### uploads continuing.

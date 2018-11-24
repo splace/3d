@@ -18,7 +18,7 @@ PROTO CircleExtrusion [
 	field SFFloat shear 1
 ]
 {
-	DEF this Extrusion {
+DEF this Extrusion {
 	beginCap IS beginCap
 	endCap IS endCap
 	solid IS solid
@@ -30,7 +30,7 @@ PROTO CircleExtrusion [
 	spine IS spine
 	}
 
-	DEF circleGen Script {
+DEF circleGen Script {
 	field SFFloat r IS radius
 	field SFInt32 f IS sides
 	field SFFloat s IS shear
