@@ -1,1 +1,1 @@
-[baubles](decorations/)
+[decorations](decorations/)

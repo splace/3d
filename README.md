@@ -1,7 +1,7 @@
 |year|theme|
 |-|-|
 |2001|[VRML appearance](./2001/)
-|2002|[decorative VRML](./2002/)
+|2002|[abstract VRML](./2002/)
 |2003|[rapid building VRML Prototypes (used later)](./2003/)
 |2004|[VRML physics](./2004/)
 |2005|[VRML environments with lighting/sound](./2005/)
