@@ -4,7 +4,7 @@
 
 * [![bubbles](bubbles.png)](../../advancedViewer.html?model=./2002/decorations/bubbles.wrl "click to browse in 3d")
 
-* [rendering (side-by-side 3d for AR viewer.)](https://youtu.be/wgNiOMX7mJg)
+* [rendering (side-by-side 3d for VR viewer.)](https://youtu.be/wgNiOMX7mJg)
 
 * [![pebbles](pebbles.jpg)](../../advancedViewer.html?model=./2002/decorations/pebbles.wrl "click to browse in 3d")
 
