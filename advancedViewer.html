@@ -2,8 +2,10 @@
 <head>
 <meta http-equiv="content-type" content="text/html; charset=windows-1252">
     <title>Model</title>
-	<script type="text/javascript" src="https://code.create3000.de/x_ite/4.2.6/dist/x_ite.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="https://code.create3000.de/x_ite/4.2.7/dist/x_ite.css"/>
+	<script type="text/javascript" src="https://code.create3000.de/x_ite/4.2.7/dist/x_ite.min.js"></script>
     <script type="text/javascript">
+		// pull a parameter off url
 		function GetURLParameter(paramName){
 			var fs = window.location.search.substring(1).split('&');
 			for (var i = 0; i < fs.length; i++) {
@@ -13,6 +15,8 @@
 				}
 			}
 		}
+		// set the text of an element from the model parameter pulled off the pages url 
+		// and make a new X3DCanvas Element, before it, with the source being the same text
 		function insertModel(id){
 			var x3d = document.createElement("X3DCanvas")
 			var att = document.createAttribute("src")
@@ -23,7 +27,6 @@
  		return att.value
      }
 	</script>
-	<link rel="stylesheet" type="text/css" href="https://code.create3000.de/x_ite/4.2.6/dist/x_ite.css"/>
     <style>
     X3DCanvas {
       width: 100%;
@@ -32,7 +35,7 @@
     </style>
 </head>
 <body onLoad="document.getElementById('title').innerText=decodeURI(insertModel('title').split('/').pop())">
-<h1 style="color:white;position:absolute;z-index:1;text-shadow: 2px 2px 2px black;padding-left:1em" id="title">Model</h1>
+<h1 style="color:rgb(181, 232, 83);opacity:0.5;position:absolute;z-index:1;text-shadow: 2px 2px 2px black;pointer-events: none;" id="title" >Model Loading...</h1>
 </body>
 </html>
 
