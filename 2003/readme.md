@@ -4,6 +4,7 @@ Example uses of simple building Prototypes.
 
 * [coloured tubes](cylinder/)
 
+* [voxel grids](blocks/)
 
 <!--
 Surface Prototype
