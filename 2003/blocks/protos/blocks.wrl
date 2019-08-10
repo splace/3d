@@ -1,0 +1,713 @@
+#VRML V2.0 utf8
+
+# define a shape by defining binary on/off (exists/empty space) of cubic blocks on a cubic grid
+PROTO BinaryMatrix [
+	# grid dimensions
+	field SFInt32 x 1
+	field SFInt32 y 1
+	field SFInt32 z 1
+	# various binary definitions of block existence, rastered in 3d (x then y then z)
+	field MFInt32 filled [] 
+	]{WorldInfo {}}
+
+
+PROTO BlockGrid [
+	# node defining the shape of the 3d binary block structure
+	field SFNode blockDef BinaryMatrix {filled	[1] x 1 y 1 z 1}
+	# set to remove unneeded surfaces etc. note; can take a long time on a large grid
+	field SFBool tidyUp FALSE 
+	# set to wrap z-axis into a circle
+	field SFBool radial FALSE 
+	field SFFloat creaseAngle 0
+	field SFBool solid TRUE
+	#  position of each grid divider. dimension+1 items, if missed out, divides space equally, 
+	field MFFloat xDividers [] 
+	field SFBool xDividersIncremental FALSE
+	field MFFloat yDividers []
+	field SFBool yDividersIncremental FALSE
+	field MFFloat zDividers []
+	field SFBool zDividersIncremental FALSE
+	# mirror axis, so that the same binarymatrix can be used to produce mirrored objects
+	field SFBool mirrorx FALSE
+	field SFBool mirrory FALSE
+	field SFBool mirrorz FALSE
+	# changes direction and contectual texture mapping algorithm ( advanced )
+	field SFBool preferConvex FALSE
+	# how many times to split the texture, for packing multiple textures into one
+	field SFInt32 textureSplit 0 
+	# is texture size per box or rescaled to be per object
+    field SFBool rescaleTexture	FALSE
+
+]{
+DEF main IndexedFaceSet {
+	ccw	TRUE
+	solid IS solid
+	creaseAngle IS creaseAngle 
+	convex FALSE
+	texCoord DEF dummy2 TextureCoordinate {point 	[] }
+	texCoordIndex	[]
+	normalPerVertex	FALSE
+	coord DEF dummy Coordinate {point []  } }
+
+
+DEF	build Script {
+	field SFNode faceSet USE main
+	field SFNode binary IS blockDef 
+	field SFInt32 fillType 0
+	field SFBool tidyUp IS tidyUp
+	field SFBool radial IS radial
+	field SFInt32	textureSplit IS	textureSplit
+	field SFBool preferConvex IS preferConvex
+	field MFFloat xDividers IS xDividers
+	field SFBool xDividersIncremental IS xDividersIncremental
+	field MFFloat yDividers IS yDividers
+	field SFBool yDividersIncremental IS yDividersIncremental
+	field MFFloat zDividers IS zDividers 
+	field SFBool zDividersIncremental IS zDividersIncremental
+	field SFBool mirrorx IS	mirrorx
+	field SFBool mirrory IS	mirrory
+	field SFBool mirrorz IS	mirrorz
+	field SFString base64 "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/" 
+	field SFBool rescaleTexture IS rescaleTexture
+
+	field SFNode dummy USE dummy
+	field SFNode dummy2 USE dummy2
+	field SFInt32 x 0
+	field SFInt32 y 0
+	field SFInt32 z 0
+
+	directOutput TRUE
+
+
+	url	["javascript:
+		function initialize(){
+			//new SFImage(/*x, y, comp, array*/);
+			var coordinates= new MFVec3f();
+			var index=new MFInt32();
+			var textureCoordinates=new MFVec2f();
+			var textureIndex=new MFInt32();	
+				x=binary.x;								  
+				y=binary.y;
+				z=binary.z;
+				//print('start:'+x+','+y+','+z);
+
+				// find out what form the filling data is in.
+				if (binary.filled.length!=1 && binary.filled.length!=x*y*z){
+					fillType=2;	  // bit are packed 32 to each item
+					binary.filled.length=x*y*z/32;
+					} else {
+					notBinary=false;
+					for (temp=0;temp<binary.filled.length;temp++){
+						if (binary.filled[temp]!=0 && binary.filled[temp]!=1){
+							notBinary=true;
+							break;
+						};
+					};
+					if (binary.filled.length==1){
+						if (notBinary){
+							fillType=2;
+							} else {
+							fillType=0;
+						}; 
+					}; 
+					if (binary.filled.length==x*y*z){
+						if (notBinary){
+							fillType=2;
+							} else {
+							fillType=1;
+
+						}; 
+				}; 
+			}; 
+			//print (fillType);
+
+			// setup / complete the dividers with even spaces			
+			if (xDividers.length<=x){
+				if (xDividers.length==0){xDividers[0]=0;};
+				if (xDividersIncremental){
+					for (dx=1;dx<xDividers.length;dx++){
+					xDividers[dx]=xDividers[dx]+xDividers[dx-1];
+					};
+				};
+				var gap=(1-xDividers[xDividers.length-1])/(x-xDividers.length+1);
+				for (dx=xDividers.length;dx<=x;dx++){
+					xDividers[dx]=xDividers[dx-1]+gap;
+				};
+		    };
+
+			if (yDividers.length<=y){
+				if (yDividers.length==0){yDividers[0]=0;};
+				if (yDividersIncremental){
+					for (dy=1;dy<yDividers.length;dy++){
+					yDividers[dy]=yDividers[dy]+yDividers[dy-1];
+					};
+				};
+				var gap=(1-yDividers[yDividers.length-1])/(y-yDividers.length+1);
+				for (dy=yDividers.length;dy<=y;dy++){
+					yDividers[dy]=yDividers[dy-1]+gap;
+				};
+		    };
+
+			if (zDividers.length<=z){
+				if (zDividers.length==0){zDividers[0]=0;};
+				if (zDividersIncremental){
+					for (dz=1;dz<zDividers.length;dz++){
+					zDividers[dz]=zDividers[dz]+zDividers[dz-1];
+					};
+				};
+				var gap=(1-zDividers[zDividers.length-1])/(z-zDividers.length+1);
+				for (dz=zDividers.length;dz<=z;dz++){
+					zDividers[dz]=zDividers[dz-1]+gap;
+				};
+		    };
+
+			//print (xDividers);
+			//print (yDividers);
+			//print (zDividers);
+
+			// set up the coordinates for straight or round grids
+			pos=0;
+			ind=0;
+			for (dx=0;dx<=x;dx++){
+				for (dy=0;dy<=y;dy++){
+					for (dz=0;dz<=z;dz++){
+						if (radial){
+						coordinates[pos].x=.5*Math.cos(Math.PI*2*xDividers[dx])*(1-yDividers[dy]);
+						coordinates[pos].y=.5*Math.sin(Math.PI*2*xDividers[dx])*(1-yDividers[dy]);
+						coordinates[pos].z=zDividers[dz]-.5; 
+						} else {
+						coordinates[pos].x=xDividers[dx]-.5;
+						coordinates[pos].y=yDividers[dy]-.5;
+						coordinates[pos].z=zDividers[dz]-.5; 
+						};
+
+						// for each block set up sides, if needed
+						if (isfilled(dx,dy,dz) ){
+							if (!isfilled(dx+1,dy,dz) ){
+								// left side
+								index[ind++]=pos;
+								index[ind++]=pos-(z+1);
+								index[ind++]=pos-1-(z+1);
+								index[ind++]=pos-1;
+								index[ind++]=pos;
+								index[ind++]=-1;
+								};
+							if (!isfilled(dx,dy,dz+1) ){
+								// under side
+								index[ind++]=pos;
+								index[ind++]=pos-(y+1)*(z+1);
+								index[ind++]=pos-(z+1)-(y+1)*(z+1);
+								index[ind++]=pos-(z+1);
+								index[ind++]=pos;
+								index[ind++]=-1;
+								};
+							if (!isfilled(dx,dy+1,dz) ){
+								// far side
+								index[ind++]=pos;
+								index[ind++]=pos-1;
+								index[ind++]=pos-1-(y+1)*(z+1);
+								index[ind++]=pos-(y+1)*(z+1);
+								index[ind++]=pos;
+								index[ind++]=-1;
+								};
+							if (!isfilled(dx-1,dy,dz) ){
+								// right side
+								index[ind++]=pos-(y+1)*(z+1);
+								index[ind++]=pos-1-(y+1)*(z+1);
+								index[ind++]=pos-1-(z+1)-(y+1)*(z+1);
+								index[ind++]=pos-(z+1)-(y+1)*(z+1);
+								index[ind++]=pos-(y+1)*(z+1);
+								index[ind++]=-1;
+								};
+							if (!isfilled(dx,dy,dz-1) ){
+								// top side
+								index[ind++]=pos-1;
+								index[ind++]=pos-1-(z+1);
+								index[ind++]=pos-1-(z+1)-(y+1)*(z+1);
+								index[ind++]=pos-1-(y+1)*(z+1);
+								index[ind++]=pos-1;
+								index[ind++]=-1;
+								};
+							if (!isfilled(dx,dy-1,dz) ){
+								// front side
+								index[ind++]=pos-(z+1);
+								index[ind++]=pos-(z+1)-(y+1)*(z+1);
+								index[ind++]=pos-1-(z+1)-(y+1)*(z+1);
+								index[ind++]=pos-1-(z+1);
+								index[ind++]=pos-(z+1);
+								index[ind++]=-1;
+								};
+							};
+						pos++;
+					};
+				};
+			};
+
+			ind=0;
+			pos=0;
+			for (dx=0;dx<=x;dx++){
+				for (dy=0;dy<=y;dy++){
+					for (dz=0;dz<=z;dz++){
+						// for each block set up texture map coordinates.
+						if (isfilled(dx,dy,dz) ){
+							if (!isfilled(dx+1,dy,dz) ){
+								// left side
+								toffset=0;
+								if (textureSplit>1){toffset=2;};
+								if (textureSplit>2){toffset=3;};
+								if (textureSplit>3){
+									concave=isfilled(dx+1,dy+1,dz) || isfilled(dx+1,dy,dz+1) || isfilled(dx+1,dy-1,dz) || isfilled(dx+1,dy,dz-1);
+									convex=!isfilled(dx,dy+1,dz) || !isfilled(dx,dy,dz+1) || !isfilled(dx,dy-1,dz) || !isfilled(dx,dy,dz-1);
+									if (textureSplit==4){
+										if (!concave && !convex){toffset=2;};
+										if (convex){toffset=5;};
+										if (concave){toffset=8;};
+										if (preferConvex && convex){toffset=5;};
+										};
+									if (textureSplit==5){
+										if (!concave && !convex){toffset=2;};
+										if (convex){toffset=6;};
+										if (concave){toffset=10;};
+										if (preferConvex && convex){toffset=6;};
+										};
+									if (textureSplit==6){
+										if (!concave && !convex){toffset=2;};
+										if (convex){toffset=6;};
+										if (concave){toffset=10;};
+										if (concave && convex){toffset=14;};
+										};
+									};
+								if (rescaleTexture){
+									toffsetscaler=4*dx*dy*dz;
+									} else {
+									toffsetscaler=4;
+									};
+								textureIndex[ind++]=3+toffset*toffsetscaler;
+								textureIndex[ind++]=0+toffset*toffsetscaler;
+								textureIndex[ind++]=1+toffset*toffsetscaler;
+								textureIndex[ind++]=2+toffset*toffsetscaler;
+								textureIndex[ind++]=3+toffset*toffsetscaler;
+								textureIndex[ind++]=-1;
+								};
+							if (!isfilled(dx,dy,dz+1) ){
+								// far side
+								toffset=0;
+								if (textureSplit>1){toffset=3;};
+								if (textureSplit>2){toffset=5;};
+								if (textureSplit>3){
+									concave=isfilled(dx+1,dy,dz+1) || isfilled(dx,dy+1,dz+1) || isfilled(dx-1,dy,dz+1) || isfilled(dx,dy-1,dz+1);
+									convex=!isfilled(dx+1,dy,dz) || !isfilled(dx,dy+1,dz) || !isfilled(dx-1,dy,dz) || !isfilled(dx,dy-1,dz);
+									if (textureSplit==4){
+										if (!concave && !convex){toffset=2;};
+										if (convex){toffset=5;};
+										if (concave){toffset=8;};
+										if (preferConvex && convex){toffset=5;};
+										};
+									if (textureSplit==5){
+										if (!concave && !convex){toffset=3;};
+										if (convex){toffset=7;};
+										if (concave){toffset=11;};
+										if (preferConvex && convex){toffset=7;};
+										};
+									if (textureSplit==6){
+										if (!concave && !convex){toffset=3;};
+										if (convex){toffset=7;};
+										if (concave){toffset=11;};
+										if (concave && convex){toffset=15;};
+										};
+									};
+								if (rescaleTexture){
+									toffsetscaler=4*dx*dy*dz;
+									} else {
+									toffsetscaler=4;
+									};
+								textureIndex[ind++]=2+toffset*toffsetscaler;
+								textureIndex[ind++]=3+toffset*toffsetscaler;
+								textureIndex[ind++]=0+toffset*toffsetscaler;
+								textureIndex[ind++]=1+toffset*toffsetscaler;
+								textureIndex[ind++]=2+toffset*toffsetscaler;
+								textureIndex[ind++]=-1;
+								};
+							if (!isfilled(dx,dy+1,dz) ){
+								// bottom
+								toffset=0;
+								if (textureSplit>0){toffset=1;};
+								if (textureSplit>2){toffset=2;};
+								if (textureSplit>3){
+									concave=isfilled(dx+1,dy+1,dz) || isfilled(dx,dy+1,dz+1) || isfilled(dx-1,dy+1,dz) || isfilled(dx,dy+1,dz-1);
+									convex=!isfilled(dx+1,dy,dz) || !isfilled(dx,dy,dz+1) || !isfilled(dx-1,dy,dz) || !isfilled(dx,dy,dz-1);
+									if (textureSplit==4){
+										if (!concave && !convex){toffset=1;};
+										if (convex){toffset=4;};
+										if (concave){toffset=7;};
+										if (preferConvex && convex){toffset=4;};
+										};
+									if (textureSplit==5){
+										if (!concave && !convex){toffset=1;};
+										if (convex){toffset=5;};
+										if (concave){toffset=9;};
+										if (preferConvex && convex){toffset=5;};
+										};
+									if (textureSplit==6){
+										if (!concave && !convex){toffset=1;};
+										if (convex){toffset=5;};
+										if (concave){toffset=9;};
+										if (concave && convex){toffset=13;};
+										};
+									};
+								if (rescaleTexture){
+									toffsetscaler=4*dx*dy*dz;
+									} else {
+									toffsetscaler=4;
+									};
+								textureIndex[ind++]=3+toffset*toffsetscaler;
+								textureIndex[ind++]=0+toffset*toffsetscaler;
+								textureIndex[ind++]=1+toffset*toffsetscaler;
+								textureIndex[ind++]=2+toffset*toffsetscaler;
+								textureIndex[ind++]=3+toffset*toffsetscaler;
+								textureIndex[ind++]=-1;
+								};
+							if (!isfilled(dx-1,dy,dz) ){
+								// right side
+								toffset=0;
+								if (textureSplit>1){toffset=2;};
+								if (textureSplit>2){toffset=4;};
+								if (textureSplit>3){
+									concave=isfilled(dx-1,dy+1,dz) || isfilled(dx-1,dy,dz+1) || isfilled(dx-1,dy-1,dz) || isfilled(dx-1,dy,dz-1);
+									convex=!isfilled(dx,dy+1,dz) || !isfilled(dx,dy,dz+1) || !isfilled(dx,dy-1,dz) || !isfilled(dx,dy,dz-1);
+									if (textureSplit==4){
+										if (!concave && !convex){toffset=2;};
+										if (convex){toffset=5;};
+										if (concave){toffset=8;};
+										if (preferConvex && convex){toffset=5;};
+										};
+									if (textureSplit==5){
+										if (!concave && !convex){toffset=2;};
+										if (convex){toffset=6;};
+										if (concave){toffset=10;};
+										if (preferConvex && convex){toffset=6;};
+										};
+									if (textureSplit==6){
+										if (!concave && !convex){toffset=2;};
+										if (convex){toffset=6;};
+										if (concave){toffset=10;};
+										if (concave && convex){toffset=14;};
+										};
+									};
+								if (rescaleTexture){
+									toffsetscaler=4*dx*dy*dz;
+									} else {
+									toffsetscaler=4;
+									};
+								textureIndex[ind++]=2+toffset*toffsetscaler;
+								textureIndex[ind++]=3+toffset*toffsetscaler;
+								textureIndex[ind++]=0+toffset*toffsetscaler;
+								textureIndex[ind++]=1+toffset*toffsetscaler;
+								textureIndex[ind++]=2+toffset*toffsetscaler;
+								textureIndex[ind++]=-1;
+								};
+							if (!isfilled(dx,dy,dz-1) ){
+								// front side
+								toffset=0;
+								if (textureSplit>3){
+									concave=isfilled(dx+1,dy,dz-1) || isfilled(dx,dy+1,dz-1) || isfilled(dx-1,dy,dz-1) || isfilled(dx,dy-1,dz-1);
+									convex=!isfilled(dx+1,dy,dz) || !isfilled(dx,dy+1,dz) || !isfilled(dx-1,dy,dz) || !isfilled(dx,dy-1,dz);
+									if (textureSplit==4){
+										if (!concave && !convex){toffset=2;};
+										if (convex){toffset=5;};
+										if (concave){toffset=8;};
+										if (preferConvex && convex){toffset=5;};
+										};
+									if (textureSplit==5){
+										if (!concave && !convex){toffset=3;};
+										if (convex){toffset=7;};
+										if (concave){toffset=11;};
+										if (preferConvex && convex){toffset=7;};
+										};
+									if (textureSplit==6){
+										if (!concave && !convex){toffset=3;};
+										if (convex){toffset=7;};
+										if (concave){toffset=11;};
+										if (concave && convex){toffset=15;};
+										};
+									};
+								if (rescaleTexture){
+									toffsetscaler=4*dx*dy*dz;
+									} else {
+									toffsetscaler=4;
+									};
+								textureIndex[ind++]=3+toffset*toffsetscaler;
+								textureIndex[ind++]=0+toffset*toffsetscaler;
+								textureIndex[ind++]=1+toffset*toffsetscaler;
+								textureIndex[ind++]=2+toffset*toffsetscaler;
+								textureIndex[ind++]=3+toffset*toffsetscaler;
+								textureIndex[ind++]=-1;
+								};
+							if (!isfilled(dx,dy-1,dz) ){
+								// top side
+								toffset=0;
+								if (textureSplit>0){toffset=1;};
+								if (textureSplit>3){
+									concave=isfilled(dx+1,dy-1,dz) || isfilled(dx,dy-1,dz+1) || isfilled(dx-1,dy-1,dz) || isfilled(dx,dy-1,dz-1);
+									convex=!isfilled(dx+1,dy,dz) || !isfilled(dx,dy,dz+1) || !isfilled(dx-1,dy,dz) || !isfilled(dx,dy,dz-1);
+									if (textureSplit==4){
+										if (!concave && !convex){toffset=0;};
+										if (convex){toffset=3;};
+										if (concave){toffset=6;};
+										if (preferConvex && convex){toffset=3;};
+										};
+									if (textureSplit==5){
+										if (!concave && !convex){toffset=0;};
+										if (convex){toffset=4;};
+										if (concave){toffset=8;};
+										if (preferConvex && convex){toffset=4;};
+										};
+									if (textureSplit==6){
+										if (!concave && !convex){toffset=0;};
+										if (convex){toffset=4;};
+										if (concave){toffset=8;};
+										if (concave && convex){toffset=12;};
+										};
+									};
+								if (rescaleTexture){
+									toffsetscaler=4*(dx*dy*dz+toffset);
+									} else {
+									toffsetscaler=4*toffset;
+									};
+								textureIndex[ind++]=2+toffsetscaler;
+								textureIndex[ind++]=3+toffsetscaler;
+								textureIndex[ind++]=0+toffsetscaler;
+								textureIndex[ind++]=1+toffsetscaler;
+								textureIndex[ind++]=2+toffsetscaler;
+								textureIndex[ind++]=-1;
+								};
+							};
+					};
+				};
+			};
+
+			 
+
+			if (mirrorx || mirrory || mirrorz ){
+				faceSet.ccw=false;
+				for (coordIndex=0;coordIndex<coordinates.length;coordIndex++){
+					if (mirrorx){
+						coordinates[coordIndex].x=-coordinates[coordIndex].x;
+					} else {
+						if (mirrory){
+							coordinates[coordIndex].y=-coordinates[coordIndex].y;
+							} else {
+							if (mirrorz){coordinates[coordIndex].z=-coordinates[coordIndex].z;};
+						};
+					};
+				};
+			};
+
+			//t3=new Date();
+			//print (t3.getSeconds()-t1.getSeconds());
+
+			if (tidyUp)		// remove unused coordinates and reindex.
+			{
+			if (pos<100){
+			shift=0;
+			for (coordIndex=0;coordIndex<coordinates.length-shift;coordIndex++){
+				found=false;
+				for (indexIndex=0;indexIndex<index.length;indexIndex++){
+					if ( index[indexIndex]==coordIndex){
+						found=true;
+						break;
+					};
+				};
+				if (!found){
+					shift++;
+					if (coordIndex<coordinates.length-shift){
+						// move the last good coord into the location of the one not required 
+						coordinates[coordIndex]=coordinates[coordinates.length-shift];
+						// change all the indexs that pointed to the moved coord
+						for (indexIndex=0;indexIndex<index.length;indexIndex++){
+							if (index[indexIndex]==coordinates.length-shift){
+								index[indexIndex]=coordIndex;
+							};
+						};
+					};
+				};
+			};
+			coordinates.length=coordinates.length-shift;
+			};
+			} else {
+				movedToo=new Array();
+				for (indexIndex=0;indexIndex<index.length;indexIndex++){
+
+
+				};
+				for (coordIndex=0;coordIndex<coordinates.length;coordIndex++){
+
+				};
+
+
+
+			};
+
+			faceSet.coordIndex=index;
+			faceSet.coord.point=coordinates;
+
+
+			// the split number, how many divides are used to split up a texture.
+			// number in brackets is the number of sub-textures the texture is split into
+			// first few (1-3) are then arranged only by the direction a surface faces in.
+			// others are arranged by the direction and how that surface is attached to those around it.
+			// 
+			// split    arrangment
+			//	1 (2)	top + bottom  
+			//			sides
+			//	2 (4)	top
+			//			bottom
+			//			left + right
+			//			front + back
+			//	3 (6)	top
+			//			bottom
+			//			right
+			//			left
+			//			front
+			//			back
+			//  4 (9)	flat top 
+			//			flat bottom
+			//			flat side
+			//			convex top
+			//			convex bottom
+			//			convex side
+			//			concave top
+			//			concave bottom
+			//			concave side
+			//  5 (12)	flat top 
+			//			flat bottom
+			//			flat left/right
+			//			flat front/back
+			//  		convex top 
+			//			convex bottom
+			//			convex left/right
+			//			convex front/back
+			//  		concave top 
+			//			concave bottom
+			//			concave left/right
+			//			concave front/back
+			//  6 (16)	flat top 
+			//			flat bottom
+			//			flat left/right
+			//			flat front/back
+			//  		convex top 
+			//			convex bottom
+			//			convex left/right
+			//			convex front/back
+			//  		concave top 
+			//			concave bottom
+			//			concave left/right
+			//			concave front/back
+			//  		reflex top 
+			//			reflex bottom
+			//			reflex left/right
+			//			reflex front/back
+			//  7 (20)  
+			//  8 (25) 
+						
+
+			if (textureSplit==0){xsplit=1;ysplit=1;};
+			if (textureSplit==1){xsplit=2;ysplit=1;};
+			if (textureSplit==2){xsplit=2;ysplit=2;};
+			if (textureSplit==3){xsplit=3;ysplit=2;};
+			if (textureSplit==4){xsplit=3;ysplit=3;};
+			if (textureSplit==5){xsplit=4;ysplit=3;};
+			if (textureSplit==6){xsplit=4;ysplit=4;};
+
+			// setup the texture coordinate index
+			ind=0;
+			if (rescaleTexture){
+				// stretch textures to preseve texture scale when dimensions of blocks change
+				// this means each and every block might have different texture coordinates!
+				for (ty=0;ty<1;ty+=1/ysplit){
+					for (tx=0;tx<1;tx+=1/xsplit){
+						for (dx=0;dx<=x;dx++){
+							for (dy=0;dy<=y;dy++){
+								for (dz=0;dz<=z;dz++){
+									textureCoordinates[ind].x=tx;
+									textureCoordinates[ind++].y=1-ty-1/ysplit;
+									textureCoordinates[ind].x=tx+1/xsplit;
+									textureCoordinates[ind++].y=1-ty-1/ysplit;
+									textureCoordinates[ind].x=tx+1/xsplit;
+									textureCoordinates[ind++].y=1-ty;
+									textureCoordinates[ind].x=tx;
+									textureCoordinates[ind++].y=1-ty;
+								};
+							};
+						};
+					};
+				};
+			} else {
+				for (ty=0;ty<1;ty+=1/ysplit){
+					for (tx=0;tx<1;tx+=1/xsplit){
+						textureCoordinates[ind].x=tx;
+						textureCoordinates[ind++].y=1-ty-1/ysplit;
+						textureCoordinates[ind].x=tx+1/xsplit;
+						textureCoordinates[ind++].y=1-ty-1/ysplit;
+						textureCoordinates[ind].x=tx+1/xsplit;
+						textureCoordinates[ind++].y=1-ty;
+						textureCoordinates[ind].x=tx;
+						textureCoordinates[ind++].y=1-ty;
+					};
+				};
+			};
+			//print ('textCoords:'+ind);
+			
+			faceSet.texCoord.point=textureCoordinates;
+			faceSet.texCoordIndex=textureIndex;
+
+			//t2=new Date();
+			//print (faceSet.coord.point+','+faceSet.coordIndex);
+		}
+
+		function isfilled(tx,ty,tz){
+			if (radial)
+			{
+			//if (tx==0 || ty==0 || tz==0 || tx>x || ty>y || tz>z){return false;};
+			if (ty==0 || tz==0 || ty>y || tz>z ){return false;};
+			if (tx==0){return true;};
+			if (tx>x){return true;};
+			if (fillType==0){return true;};
+			if (fillType==1){return binary.filled[tx-1+(ty-1)*x+(tz-1)*x*y]!=0;};
+			temp=tx-1+(ty-1)*x+(tz-1)*x*y;
+			return ((binary.filled[temp>>>5] & (1<<temp%32)) != 0) ;
+			}
+			else
+			{
+			//print(tx+','+ty+','+tz);
+			if (tx==0 || ty==0 || tz==0 || tx>x || ty>y || tz>z){return false;};
+//			if (tx<0 || ty<0 || tz<0 || tx>=x || ty>=y || tz>=z){return false;};
+//			};
+			if (fillType==0){return true;};
+			if (fillType==1){return binary.filled[tx-1+(ty-1)*x+(tz-1)*x*y]!=0;};
+			temp=tx-1+(ty-1)*x+(tz-1)*x*y;
+			return ((binary.filled[temp>>>5] & (1<<temp%32)) != 0) ;
+			};
+		}
+		
+		"]
+}
+}
+
+
+		Transform {	scale 1 6 1
+			children [
+				Shape	{
+					appearance Appearance	{ 
+						material Material	{shininess 1 ambientIntensity 0.8 specularColor .5 .5 .5 }	
+						texture	ImageTexture {url ["wallandflag.jpg"]}	
+					}
+					geometry BlockGrid {
+						solid TRUE
+						textureSplit 1 
+						rescaleTexture FALSE
+					}
+
+				}
+			]
+		}
