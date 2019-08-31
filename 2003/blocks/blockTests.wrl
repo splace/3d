@@ -1,0 +1,271 @@
+#VRML V2.0 utf8
+
+EXTERNPROTO BinaryMatrix [
+	field SFInt32 x
+	field SFInt32 y
+	field SFInt32 z
+	field MFInt32 filled
+]
+"protos/blocks.wrl#BinaryMatrix"
+
+EXTERNPROTO BlockGrid [
+	field SFNode blockDef
+	field SFBool tidyUp
+	field SFBool radial
+	field SFFloat creaseAngle
+	field SFBool solid
+	field SFInt32 textureSplit
+	field MFFloat xDividers
+	field MFFloat yDividers
+	field MFFloat zDividers
+	field SFBool mirrorx
+	field SFBool mirrory
+	field SFBool mirrorz
+	field SFBool preferConvex
+	field SFBool rescaleTexture
+]
+"protos/blocks.wrl#BlockGrid"
+
+
+
+DirectionalLight {direction	.3 -1 -.7 ambientIntensity 1}
+NavigationInfo {headlight FALSE	type ["EXAMINE", "ANY"] }
+Viewpoint {description "start"  position 0 0 10 orientation 0 1 0 -.5 }
+
+
+Transform {
+	rotation 0 1 0 -1.57
+	translation	3.6 1.2 2.4
+	children [
+	Transform {translation 0 1.2 0
+	children [
+		Shape	{
+			appearance Appearance	{ material Material	{}	}
+			geometry BlockGrid { }
+		}
+	]
+}
+
+Transform {translation -1.2 0 0
+	children [
+		Shape	{
+			appearance Appearance	{ material Material	{	}	texture	ImageTexture {url ["dice.gif"]}	}
+			geometry BlockGrid{textureSplit 3}
+		}
+	]
+}
+
+
+Transform {translation 0 0 0
+	children [
+		Shape	{
+			appearance Appearance	{ 
+				material Material	{	}
+				texture	ImageTexture {url ["dice.jpg"]}
+				}
+			geometry BlockGrid{}
+		}
+					
+	]
+}
+
+Transform {translation 1.2 0 0
+	children [
+		Shape	{
+			appearance Appearance	{ 
+				material Material	{	}
+				texture	ImageTexture {url ["dice.gif"]}
+				}
+			geometry BlockGrid{}
+		}
+					
+	]
+}
+
+Transform {translation -1.2 -1.2 0
+	children [
+		Shape	{
+			appearance Appearance	{ 
+				material Material	{	}
+				texture	ImageTexture {url ["dice.gif"]}
+				}
+				geometry BlockGrid{textureSplit 3 blockDef BinaryMatrix {z 3 x 1 y 1 filled [1,0,1 ]}  }
+		}
+					
+	]
+}
+
+
+Transform {	translation	0 -1.2 0
+	children [
+		Shape	{
+			appearance Appearance	{ 
+				material Material	{
+					diffuseColor 0 0 1
+				}	
+				texture	ImageTexture {url ["brick.png"]}
+			}
+			geometry BlockGrid {blockDef BinaryMatrix {x 2 y 2 z 2 filled [1,0,0,1,0,1,1,0] } textureSplit 2 }
+		}
+	]
+}
+
+Transform {	translation	1.2 -1.2 0
+	children [
+	Shape	{
+		appearance Appearance	{ material Material	{	
+			diffuseColor .12 .6 0
+			specularColor .5 .5 .5
+			emissiveColor .03 .14 0
+			ambientIntensity 0
+		}	}
+		geometry BlockGrid {blockDef BinaryMatrix{ x 3 y 3 z 2 filled [1,0,0,1,0,1,1,0,0,0,1,0,1,1,0,0,0,1] }}
+	}
+]}
+
+Transform {	translation	1.2 1.2 0
+	children [
+	Shape	{
+		
+		appearance Appearance	{ material Material	{	}	texture	ImageTexture {url ["grid9.png"]}	}
+		geometry BlockGrid {
+			solid FALSE
+			textureSplit 4 blockDef BinaryMatrix{ x 3 y 3 z 3 filled [1] }}
+	}
+]}
+
+	
+	
+	]
+}
+
+
+
+Shape	{
+	
+	appearance Appearance	{ 
+		material Material	{shininess 1 ambientIntensity 0.8 specularColor 1 1 1 }	
+		texture	ImageTexture {url ["wallandflag.jpg"]}	
+		}
+	geometry BlockGrid {
+		solid TRUE
+		textureSplit 1 
+		blockDef BinaryMatrix{ x 3 y 3 z 3 filled [1] }}
+}
+
+
+
+
+
+Transform {	translation	1.2 1.2 0
+	children [
+	Shape	{
+		
+		appearance Appearance	{ 
+			material Material	{shininess 1 ambientIntensity 0.8 specularColor 1 1 1 	}
+			texture	ImageTexture {url ["four.gif"]}
+			}
+		geometry BlockGrid {
+			solid TRUE
+			textureSplit 2
+			blockDef BinaryMatrix{ x 3 y 3 z 3 filled [1,1,1,1,1,1,1,1,1,1,0,0,0,0,1,0,0,0,1,1,1,1,1,1,0,1,0] }}
+	}
+]}
+
+Transform {	translation	1.2 0 0
+	children [
+	Shape	{
+		
+		appearance Appearance	{ 
+			material Material	{shininess 1 ambientIntensity 0.8 specularColor 1 1 1 	}
+			texture	ImageTexture {url ["dice.gif"]}
+			}
+		geometry BlockGrid {
+			solid TRUE
+			textureSplit 3 
+			blockDef BinaryMatrix{ x 3 y 3 z 3 filled [1] }}
+	}
+]}
+
+Transform {	translation	0 1.2 0
+	children [
+	Shape	{
+		
+		appearance Appearance	{ 
+			material Material	{shininess 1 ambientIntensity 0.8 specularColor 1 1 1 	}
+			texture	ImageTexture {url ["dice.gif"]}
+			}
+		geometry BlockGrid {
+			solid TRUE
+			textureSplit 3
+		}
+	}
+]}
+
+
+Transform {	translation	1.2 2.4 0
+	children [
+	Shape	{
+		
+		appearance Appearance	{ 
+			material Material	{shininess 1 ambientIntensity 0.8 specularColor 1 1 1 	}
+			texture	ImageTexture {url ["16gridcolour.png"]}
+			}
+		geometry BlockGrid {
+			solid TRUE
+			textureSplit 6
+
+			blockDef BinaryMatrix{ x 3 y 3 z 3 filled [1,1,1,1,1,1,1,1,1,1,0,0,0,0,1,0,0,0,1,1,1,1,1,0,0,0,0] }}
+	}
+]}
+
+Transform {	translation	2.4 2.4 0
+	children [
+	Shape	{
+		
+		appearance Appearance	{ 
+			material Material	{shininess 1 ambientIntensity 0.8 specularColor 1 1 1 	}
+			texture	ImageTexture {url ["12gridcolour.png"]}
+			}
+		geometry BlockGrid {
+			solid TRUE
+			textureSplit 5
+
+			blockDef BinaryMatrix{ x 3 y 3 z 3 filled [1,1,1,1,1,1,1,1,1,1,0,0,0,0,1,0,0,0,1,1,1,1,1,0,0,0,0] }}
+	}
+]}
+
+
+
+Transform { translation	0 2.4 0
+	children [
+		Shape	{
+			appearance Appearance	{ 
+				material Material	{shininess 1 ambientIntensity 0.8 specularColor 1 1 1 }	
+				texture	ImageTexture {url ["wallandflag.jpg"]}	
+			}
+			geometry BlockGrid {
+				solid TRUE
+				textureSplit 1 
+				blockDef BinaryMatrix{ x 3 y 3 z 3 filled [1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,1,0,0,1,1,1,1,0,0,1,0,0] } xDividers [0,.1] yDividers [0,.1] }
+
+		}
+	]
+}
+
+Transform { translation	2.4 0 0
+	children [
+		Shape	{
+			appearance Appearance	{ 
+				material Material	{shininess 1 ambientIntensity 0.8 specularColor 1 1 1 }	
+				texture	ImageTexture {url ["wallandflag.jpg"]}	
+			}
+			geometry BlockGrid {
+				solid TRUE
+				textureSplit 1 
+				mirrorx	TRUE
+				blockDef BinaryMatrix{ x 3 y 3 z 3 filled [1,1,1,1,1,1,1,0,1,1,1,1,1,1,1,1,0,0,1,1,1,1,0,0,1,0,0] } xDividers [0,.1] yDividers [0,.1] }
+
+		}
+	]
+}
