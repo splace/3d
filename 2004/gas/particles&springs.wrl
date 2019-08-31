@@ -1,0 +1,819 @@
+#VRML V2.0 utf8
+PROTO force [field SFFloat multiplier 1 field SFFloat power 0 field SFFloat offset 0 ]{}
+
+PROTO springObject  []{ Transform {scale .25 1 1  rotation 0 1 0 1.57 children [
+	Shape {
+		appearance Appearance {material	Material {
+			emissiveColor .53 .82 .02
+		} }
+		geometry	IndexedLineSet {coord Coordinate {point	[0 0 0,-.0625 0 0, -.0625 1 0,-.1875 .7 .7,-.3125 0 1,-.4375 -.7 .7,-.5625 -1 0,-.6875 -.7 -.7,-.8125 0 -1,-.9375 .7 -.7, -1.0625 1 0,-1.1875 .7 .7,-1.3125 0 1,-1.4375 -.7 .7,-1.5625 -1 0,-1.6875 -.7 -.7,-1.8125 0 -1,-1.9375 .7 -.7, -2.0625 1 0,-2.1875 .7 .7,-2.3125 0 1,-2.4375 -.7 .7,-2.5625 -1 0,-2.6875 -.7 -.7,-2.8125 0 -1,-2.9375 .7 -.7, -3.0625 1 0,-3.1875 .7 .7,-3.3125 0 1,-3.4375 -.7 .7,-3.5625 -1 0,-3.6875 -.7 -.7,-3.8125 0 -1,-3.9375 .7 -.7,-3.9375 0 0, -4 0 0] } coordIndex [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35] }}
+]}}
+
+PROTO planet  [exposedField SFColor diffuseColor 1 0.2 0.1]{ Shape {geometry	Sphere {} appearance Appearance {material Material {diffuseColor IS diffuseColor specularColor .3 .3 .3	ambientIntensity 1	shininess .5}}} }
+
+PROTO line []{Shape {geometry	IndexedLineSet {coord Coordinate {point	[0 0 0,0 0 1] } coordIndex [0,1] }}}
+
+PROTO springVisible [field SFString ref ""
+			eventIn SFVec3f location1 
+			eventIn	SFVec3f	location2
+			eventOut SFVec3f force
+			eventOut SFBool	connected 
+			exposedField MFNode	shape line {}
+			field SFFloat damping 0
+			field MFNode forces []
+			field SFFloat range 0
+]{
+	Group	{children [
+	DEF	geometry Transform {translation IS location1 children IS shape }
+	]}
+	DEF force Script { eventIn SFVec3f location1 IS location1
+			eventIn	SFVec3f	location2 IS location2
+			eventOut SFVec3f force IS force
+			eventOut SFTime	snap
+			eventOut SFTime	join
+			eventOut SFBool	con	IS connected
+			eventOut SFVec3f length
+			eventOut SFRotation	direction
+			field SFVec3f temp1 0 0 0
+			field SFVec3f temp2 0 0 0
+#			field SFVec3f separation 0 0 0
+			field SFVec3f nextlength 0 0 0
+			field SFRotation nextdirection 0 0 1 0
+#			field SFTime lasttime 0
+			field SFTime flag -1
+#			field SFFloat lastForce 0
+			field SFFloat range IS range
+			field SFString ref IS ref
+			field SFFloat damping IS damping
+			field MFNode forces IS forces
+			field SFFloat lsep 0
+			field SFFloat lssep 0
+			field SFTime lts -1
+			field SFBool inRange FALSE
+			field SFBool linRange FALSE
+
+			field SFVec3f unitDirection 0 0 1
+			url	["javascript:
+				function location1 (position,ts){
+					temp1=position;
+					if (flag<ts) {flag=ts;}	else {force = calculateForce (temp2.subtract(position),ts);
+					//if (ref=='gravity'){print (ref);};
+				    };
+					}
+				function location2 (position,ts){
+					temp2=position;
+					if (flag<ts) {flag=ts;} else {force = calculateForce (position.subtract(temp1),ts);
+					//if (ref=='gravity'){print (ref);};
+					};
+					}
+				function calculateForce(separation,ts){
+					ssep=separation.length();
+					sforce=0;
+					inRange= range==0 || range>0 && range>=ssep || range<0 && -range<=ssep; 
+					if (linRange!=inRange) {
+					    con=inRange;
+					    linRange=inRange;
+						};
+					if (inRange)
+					{
+					for (i=0;i<forces.length;i++) 
+					{
+					sforce +=  forces[i].multiplier*Math.pow(ssep-forces[i].offset,forces[i].power);
+					};
+					if (lts>0 && damping>0 ){ sforce-=damping*(lssep-ssep)/(ts-lts); };
+					length=nextlength;
+					nextlength.x=1/Math.sqrt(ssep);
+					nextlength.y=nextlength.x;
+					nextlength.z=ssep;
+					direction=nextdirection;
+					nextdirection=new SFRotation (unitDirection,separation ) ;
+					};
+					lts=ts;
+					lssep=ssep;
+					return(separation.multiply(sforce/ssep));
+					}
+"]
+		  		}
+ROUTE force.length TO geometry.scale
+ROUTE force.direction TO geometry.rotation
+}
+
+PROTO springVisibleSound [field SFString ref ""
+			eventIn SFVec3f location1 
+			eventIn	SFVec3f	location2
+			eventOut SFVec3f force
+			eventOut SFBool	connected 
+			exposedField MFNode	shape line {}
+			field SFFloat damping 0
+			field MFNode forces []
+			field SFFloat range 0
+]{
+	Group	{children [
+	DEF	geometry Transform {translation IS location1 children IS shape }
+	Sound {source DEF snapSound AudioClip	{url ["snap.mp3"] }  minBack 100 minFront 100 maxBack 1000 maxFront 1000 }
+	Sound {source DEF joinSound AudioClip	{url ["join.mp3"] }  minBack 100 minFront 100 maxBack 1000 maxFront 1000 }
+	]}
+	DEF force Script { eventIn SFVec3f location1 IS location1
+			eventIn	SFVec3f	location2 IS location2
+			eventOut SFVec3f force IS force
+			eventOut SFTime	snap
+			eventOut SFTime	join
+			eventOut SFBool	con	IS connected
+			eventOut SFVec3f length
+			eventOut SFRotation	direction
+			field SFVec3f temp1 0 0 0
+			field SFVec3f temp2 0 0 0
+#			field SFVec3f separation 0 0 0
+			field SFVec3f nextlength 0 0 0
+			field SFRotation nextdirection 0 0 1 0
+#			field SFTime lasttime 0
+			field SFTime flag -1
+#			field SFFloat lastForce 0
+			field SFFloat range IS range
+			field SFString ref IS ref
+			field SFFloat damping IS damping
+			field MFNode forces IS forces
+			field SFFloat lsep 0
+			field SFFloat lssep 0
+			field SFTime lts -1
+			field SFBool inRange FALSE
+			field SFBool linRange FALSE
+
+			field SFVec3f unitDirection 0 0 1
+			url	["javascript:
+				function location1 (position,ts){
+					temp1=position;
+					if (flag<ts) {flag=ts;}	else {if (ts>lts){force = calculateForce (temp2.subtract(position),ts);};};
+					}
+				function location2 (position,ts){
+					temp2=position;
+					if (flag<ts) {flag=ts;} else {if (ts>lts){force = calculateForce (position.subtract(temp1),ts);};};
+					}
+				function calculateForce(separation,ts){
+					ssep=separation.length();
+					sforce=0;
+					inRange= range==0 || range>0 && range>=ssep || range<0 && -range<=ssep; 
+					if (linRange!=inRange) {
+					    con=inRange;
+						if (linRange<inRange) 
+						{join=ts;}
+					    else
+					    {snap=ts;};
+					    linRange=inRange;
+						};
+					if (inRange)
+					{
+					for (i=0;i<forces.length;i++) 
+					{
+					sforce +=  forces[i].multiplier*Math.pow(ssep-forces[i].offset,forces[i].power);
+					};
+					if (lts>0 && damping>0 ){ sforce-=damping*(lssep-ssep)/(ts-lts); };
+					length=nextlength;
+					nextlength.x=1/Math.sqrt(ssep);
+					nextlength.y=nextlength.x;
+					nextlength.z=ssep;
+					direction=nextdirection;
+					nextdirection=new SFRotation (unitDirection,separation ) ;
+					};
+					lts=ts;
+					lssep=ssep;
+					return(separation.multiply(sforce/ssep));
+					}
+"]
+		  		}
+ROUTE force.length TO geometry.scale
+ROUTE force.direction TO geometry.rotation
+ROUTE force.snap TO	snapSound.startTime
+ROUTE force.join TO	joinSound.startTime
+}
+PROTO spring [field SFString ref ""
+			eventIn SFVec3f location1 
+			eventIn	SFVec3f	location2
+			eventOut SFVec3f force
+			eventOut SFBool	connected 
+			field MFNode forces []
+			field SFFloat range 0
+			field SFFloat damping 0
+]{	
+
+	DEF force Script { 
+			eventIn SFVec3f location1 IS location1
+			eventIn	SFVec3f	location2 IS location2
+			eventOut SFVec3f force IS force
+			eventOut SFBool	con	IS connected
+#			eventOut SFVec3f length 
+#			eventOut SFRotation	direction
+			field SFVec3f temp1 0 0 0
+			field SFVec3f temp2 0 0 0
+			field SFTime flag -1
+			field SFTime lts -1
+			field MFNode forces IS forces
+			field SFFloat range IS range
+			field SFString ref IS ref
+			field SFFloat damping IS damping
+#			field SFFloat lsforce 0
+			field SFFloat lssep 0
+			field SFBool inRange FALSE
+			field SFBool linRange FALSE
+			mustEvaluate TRUE
+
+			url	["javascript:
+				function location1 (position,ts){
+					temp1=position;
+					if (flag<ts) {flag=ts;} else {if (ts>lts){force = calculateForce (temp2.subtract(position),ts);};};
+					}
+				function location2 (position,ts){
+					temp2=position;
+					if (flag<ts) {flag=ts;} else {if (ts>lts){force = calculateForce (position.subtract(temp1),ts);};};
+					}
+				function calculateForce(separation,ts){
+					ssep=separation.length();
+					sforce=0;
+					inRange= range==0 || range>0 && range>=ssep || range<0 && -range<=ssep; 
+					if (linRange!=inRange) {
+					    con=inRange;
+					    linRange=inRange;
+						};
+					if (inRange)
+					{
+					for (i=0;i<forces.length;i++) 
+					{
+					sforce +=  forces[i].multiplier*Math.pow(ssep-forces[i].offset,forces[i].power);
+					};
+					if (lts>0 && damping>0 ) {sforce-=damping*(lssep-ssep)/(ts-lts) ;};
+					};
+					lts=ts;
+					lssep=ssep;
+					return(separation.multiply(sforce/ssep));
+					}
+
+					"]
+		  		}
+
+}
+
+PROTO springSound [field SFString ref ""
+			eventIn SFVec3f location1 
+			eventIn	SFVec3f	location2
+			eventOut SFVec3f force
+			eventOut SFBool	connected 
+			field MFNode forces []
+			field SFFloat range 0
+			field SFFloat damping 0
+]{	
+	Sound {source DEF snapSound AudioClip	{url ["snap.mp3"] }  minBack 100 minFront 100 maxBack 1000 maxFront 1000 }
+	Sound {source DEF joinSound AudioClip	{url ["join.mp3"] }  minBack 100 minFront 100 maxBack 1000 maxFront 1000 }
+
+
+	DEF force Script { 
+			eventIn SFVec3f location1 IS location1
+			eventIn	SFVec3f	location2 IS location2
+			eventOut SFVec3f force IS force
+			eventOut SFTime	snap
+			eventOut SFTime	join
+			eventOut SFBool	con	IS connected
+#			eventOut SFVec3f length 
+#			eventOut SFRotation	direction
+			field SFVec3f temp1 0 0 0
+			field SFVec3f temp2 0 0 0
+			field SFTime flag -1
+			field SFTime lts -1
+			field MFNode forces IS forces
+			field SFFloat range IS range
+			field SFString ref IS ref
+			field SFFloat damping IS damping
+#			field SFFloat lsforce 0
+			field SFFloat lssep 0
+			field SFBool inRange FALSE
+			field SFBool linRange FALSE
+			mustEvaluate TRUE
+
+			url	["javascript:
+				function location1 (position,ts){
+					temp1=position;
+					if (flag<ts) {flag=ts;} else {if (ts>lts){force = calculateForce (temp2.subtract(position),ts);};};
+					}
+				function location2 (position,ts){
+					temp2=position;
+					if (flag<ts) {flag=ts;} else {if (ts>lts){force = calculateForce (position.subtract(temp1),ts);};};
+					}
+				function calculateForce(separation,ts){
+					ssep=separation.length();
+					sforce=0;
+					inRange= range==0 || range>0 && range>=ssep || range<0 && -range<=ssep; 
+					if (linRange!=inRange) {
+					    con=inRange;
+						if (linRange<inRange) 
+						{join=ts;}
+					    else
+					    {snap=ts;};
+					    linRange=inRange;
+						};
+					if (inRange)
+					{
+					for (i=0;i<forces.length;i++) 
+					{
+					sforce +=  forces[i].multiplier*Math.pow(ssep-forces[i].offset,forces[i].power);
+					};
+					if (lts>0 && damping>0 ) {sforce-=damping*(lssep-ssep)/(ts-lts) ;};
+					//print (ts+'@  '+sforce+'  '+(lssep-ssep)+'  '+(ts-lts));
+					};
+					lts=ts;
+					lssep=ssep;
+					return(separation.multiply(sforce/ssep));
+					}
+
+					"]
+		  		}
+ROUTE force.snap TO	snapSound.startTime
+ROUTE force.join TO	joinSound.startTime
+
+}
+
+PROTO particle [field SFString ref ""
+				exposedField SFBool enabled TRUE
+				eventIn SFVec3f force
+				eventIn SFVec3f negforce
+				exposedField SFInt32 arrowVelocityType -1
+				exposedField SFInt32 arrowAccelerationType -1
+				exposedField SFVec3f arrowScale 1 1 1
+				exposedField SFFloat mass 1
+				exposedField SFVec3f velocity 0 0 0
+				exposedField SFVec3f location 0 0 0
+				exposedField MFVec3f range [] 
+			 
+			  
+				exposedField MFNode shape [	Shape {geometry IndexedLineSet {  coord Coordinate	{ point	[1 0 0,0 1 0,0 0 1,-1 0 0,0 -1 0,0 0 -1] }	coordIndex [0,1,2,0,4,2,3,4,5,3,1,5,0]	}}	]
+				field SFBool randomStart FALSE
+				field SFVec3f scale 1 1 1
+				exposedField SFFloat damping 0
+				eventOut SFInt32 changedtimewarp
+				eventIn SFInt32 settimewarp
+				exposedField SFFloat sensitivity .01
+
+		
+		    ]{
+			DEF ploc Transform { children [
+			DEF view Transform {children [ Viewpoint {description	IS ref position 0 0 0 } Viewpoint {description IS ref position 0 0 5 }Viewpoint {description	IS ref orientation 0 1 0 1.57  position 5 0 0 } ]}
+			Transform { scale IS arrowScale	children [
+			Switch {
+				whichChoice	IS arrowVelocityType
+				choice [
+					DEF	arrowv0 Transform {children [
+						Shape {
+							appearance Appearance {material	DEF arrowColour Material	{emissiveColor .5 .5 1 diffuseColor 0 0 .5 transparency .5	ambientIntensity .2}}						
+							geometry	IndexedLineSet {coord Coordinate {point	[0 0 0,0 0 -1] } coordIndex [0,1] }}  
+						]}
+					DEF	arrowv1 Transform {children [
+						Shape {
+							appearance Appearance {material	USE arrowColour }		
+							geometry	IndexedLineSet {coord Coordinate {point	[0 0 0,0 0 -1] } coordIndex [0,1] }}  
+							Transform {rotation 1 0 0 -1.57 translation 0 0 -1  children [
+								Shape {
+									appearance Appearance {material	USE arrowColour }						
+									geometry Cone { bottom FALSE height .4 bottomRadius .1 }  } 
+							]}
+						]}
+					DEF	arrowv2 Transform {children [
+						Shape {
+							appearance Appearance {material	USE arrowColour }						
+							geometry	IndexedLineSet {coord Coordinate {point	[0 0 0,0 0 -1] } coordIndex [0,1] }}  
+							Transform {rotation 1 0 0 -1.57 translation 0 0 -1  children [
+								Shape {
+									appearance Appearance {material	USE arrowColour }						
+									geometry Cone { bottom FALSE height .4 bottomRadius .1 }  } 
+							]}
+						]}
+					DEF	arrowv3 Transform {children [
+						Shape {
+							appearance Appearance {material	USE arrowColour }						
+							geometry	IndexedLineSet {coord Coordinate {point	[0 0 0,0 0 -1] } coordIndex [0,1] }}  
+							Transform {rotation 1 0 0 -1.57 translation 0 0 -.75  children [
+								Shape {
+									appearance Appearance {material	USE arrowColour }						
+									geometry Cone { bottom FALSE height .4 bottomRadius .1 }  } 
+							]}
+							Transform {rotation 1 0 0 -1.57 translation 0 0 -1  children [
+								Shape {
+									appearance Appearance {material	USE arrowColour }						
+									geometry Cone { bottom FALSE height .4 bottomRadius .1 }  } 
+							]}
+						]}
+					DEF	arrowv4 Transform {children [
+						Shape {
+							appearance Appearance {material	USE arrowColour }						
+							geometry	IndexedLineSet {coord Coordinate {point	[0 0 0,0 0 -1] } coordIndex [0,1] }}  
+							Transform {rotation 1 0 0 -1.57 translation 0 0 -.75  children [
+								Shape {
+									appearance Appearance {material	USE arrowColour }						
+									geometry Cone { bottom FALSE height .4 bottomRadius .1 }  } 
+							]}
+							Transform {rotation 1 0 0 -1.57 translation 0 0 -1  children [
+								Shape {
+									appearance Appearance {material	USE arrowColour }						
+									geometry Cone { bottom FALSE height .4 bottomRadius .1 }  } 
+							]}
+
+						]}
+
+					]}
+			Switch {
+				whichChoice	IS arrowAccelerationType
+				choice [
+					DEF	arrowa0 Transform {children [
+						Shape {
+						appearance Appearance {material	DEF accelerationArrowColour  Material	{emissiveColor 1 .5 .5 diffuseColor .5 0 0 transparency .5	ambientIntensity .2} }						
+						geometry	IndexedLineSet {coord Coordinate {point	[0 0 0,0 0 -1] } coordIndex [0,1] }}  
+						]}
+					DEF	arrowa1 Transform {children [
+						Shape {
+						appearance Appearance {material	USE accelerationArrowColour }						
+						geometry	IndexedLineSet {coord Coordinate {point	[0 0 0,0 0 -1] } coordIndex [0,1] }}  
+							Transform {rotation 1 0 0 -1.57 translation 0 0 -1  children [
+								Shape {
+									appearance Appearance {material	USE accelerationArrowColour }						
+									geometry Cone { bottom FALSE height .4 bottomRadius .1 }  } 
+							]}
+						]}
+					DEF	arrowa2 Transform {children [
+						Shape {
+						appearance Appearance {material	USE accelerationArrowColour }						
+						geometry	IndexedLineSet {coord Coordinate {point	[0 0 0,0 0 -1] } coordIndex [0,1] }}  
+							Transform {rotation 1 0 0 -1.57 translation 0 0 -1  children [
+								Shape {
+									appearance Appearance {material	USE accelerationArrowColour }						
+									geometry Cone { bottom FALSE height .4 bottomRadius .1 }  } 
+							]}
+						]}
+					DEF	arrowa3 Transform {children [
+						Shape {
+						appearance Appearance {material	USE accelerationArrowColour }						
+						geometry	IndexedLineSet {coord Coordinate {point	[0 0 0,0 0 -1] } coordIndex [0,1] }}  
+							Transform {rotation 1 0 0 -1.57 translation 0 0 -.75  children [
+								Shape {
+									appearance Appearance {material	USE accelerationArrowColour }						
+									geometry Cone { bottom FALSE height .4 bottomRadius .1 }  } 
+							]}
+							Transform {rotation 1 0 0 -1.57 translation 0 0 -1  children [
+								Shape {
+									appearance Appearance {material	USE accelerationArrowColour }						
+									geometry Cone { bottom FALSE height .4 bottomRadius .1 }  } 
+							]}
+						]}
+					DEF	arrowa4 Transform {children [
+						Shape {
+						appearance Appearance {material	USE accelerationArrowColour }						
+						geometry	IndexedLineSet {coord Coordinate {point	[0 0 0,0 0 -1] } coordIndex [0,1] }}  
+							Transform {rotation 1 0 0 -1.57 translation 0 0 -.75  children [
+								Shape {
+									appearance Appearance {material	USE accelerationArrowColour }						
+									geometry Cone { bottom FALSE height .4 bottomRadius .1 }  } 
+							]}
+							Transform {rotation 1 0 0 -1.57 translation 0 0 -1  children [
+								Shape {
+									appearance Appearance {material	USE accelerationArrowColour }						
+									geometry Cone { bottom FALSE height .4 bottomRadius .1 }  } 
+							]}
+						]}
+
+					]}
+				]}
+			Transform {scale IS scale children IS shape }
+			]}
+			PROTO particleData [exposedField SFFloat sensitivity .01  exposedField SFFloat mass 1 exposedField SFVec3f velocity 0 0 0 exposedField SFVec3f location 0 0 0 exposedField MFVec3f range [] exposedField SFFloat damping 0 ]{ WorldInfo	{}}
+			DEF	thisParticleData particleData {damping IS damping sensitivity IS sensitivity mass IS mass	velocity	IS velocity location IS location range IS range }
+
+	DEF  move Script {
+			eventIn	SFTime time 
+			eventIn	SFVec3f	force  IS  force
+			eventIn	SFVec3f	negforce		 IS	negforce
+			eventIn	SFInt32	settimewarp  IS settimewarp
+			field SFNode data USE thisParticleData
+			field SFTime lasttime 0
+			field SFTime lastlastTime -1
+			field SFBool newcycle FALSE
+			field SFVec3f totalForce 0 0 0
+			field SFVec3f newtotalforce 0 0 0
+			field SFVec3f acceleration 0 0 0
+			field SFVec3f lastAcceleration 0 0 0
+			field SFVec3f lastVelocity 0 0 0
+			field SFVec3f lastPosition 0 0 0
+			field SFBool randomStart IS	randomStart
+			eventOut SFVec3f location
+			eventOut SFVec3f setPosition
+			eventOut SFRotation	adirection 
+			eventOut SFVec3f alength
+			eventOut SFRotation	vdirection 
+			eventOut SFVec3f vlength
+			eventOut SFInt32 changedtimewarp	IS changedtimewarp
+			field SFVec3f unitDirection 0 0 -1
+			field SFInt32 timewarp 1
+			field SFInt32 mytimewarp 1
+			field SFInt32 lastmytimewarp 1
+			field SFString ref IS ref
+			field SFTime skip -1
+			field SFFloat lastdacc 0
+			field SFTime interval 0
+			field SFTime lastInterval 0
+			field SFTime forcetime -1
+			field SFBool myflag TRUE
+			field SFTime lts -1
+			field SFInt32 fc 0
+			field SFFloat ldamping 0
+			mustEvaluate TRUE
+			url	["javascript:
+				function initialize (){
+					if (randomStart){
+						data.location.x=Math.random()*(data.range[1].x-data.range[0].x)+data.range[0].x;
+				   		data.location.y=Math.random()*(data.range[1].y-data.range[0].y)+data.range[0].y;
+				   		data.location.z=Math.random()*(data.range[1].z-data.range[0].z)+data.range[0].z;
+				    };
+					if (randomStart){
+						speed=data.velocity.length();
+						data.velocity.x=Math.random()-.5;
+				   		data.velocity.y=Math.random()-.5;
+				   		data.velocity.z=Math.random()-.5;
+						data.velocity=data.velocity.multiply(speed/data.velocity.length());
+				    };
+				 }
+				function settimewarp(value,ts){
+					if (ts>skip || value>timewarp){timewarp=value;
+					//	print (value);
+					};
+					
+					if (lasttime==ts) {
+					data.location=lastPosition;
+					data.velocity=lastVelocity;
+					acceleration=lastAcceleration;
+					lasttime=lastlastTime;
+					};
+					skip=ts;
+					}
+				function force(value,ts){
+					if (ts!=forcetime) 
+					{
+					totalForce=newtotalforce;	
+					newtotalforce= new SFVec3f(0,0,0);
+					forcetime=ts; }
+					newtotalforce=newtotalforce.add(value);
+					//if (ref=='shipmass'){print(ref+'+'+value+','+totalForce+','+newtotalforce );};
+					}
+				function negforce(value,ts){
+					if (ts!=forcetime) 
+					{
+					totalForce=newtotalforce;	
+					newtotalforce= new SFVec3f(0,0,0);
+					forcetime=ts; }
+					newtotalforce=newtotalforce.subtract(value);
+					//if (ref=='shipmass'){print(ref+'-'+value+','+totalForce+','+newtotalforce );};
+					}
+				function time(value){
+					if (skip<value) {
+					//if (ref=='shipmass'){print(ref+','+value+','+totalForce+','+newtotalforce );};
+					if (lasttime==0 ){lasttime=value;};
+					interval= value-lasttime;
+					if (forcetime!=value) { totalForce=newtotalforce;};
+					acceleration=totalForce.divide(data.mass);
+					//totalForce=newtotalforce;
+					//if (ref=='shipmass'){print(ref+','+value+','+totalForce+','+newtotalforce );};
+					dsAcc= acceleration.subtract(lastAcceleration).length() ;
+					if (!(dsAcc>0 || dsAcc<1 ) || dsAcc *lastInterval>data.sensitivity*timewarp)
+					{
+					mytimewarp=timewarp<<1;
+					if (mytimewarp>(2<<28)){print ('too chaotic to compute, unstable ossilation?'); };
+					changedtimewarp=mytimewarp;
+					}
+					else
+					{
+					if (mytimewarp==timewarp && lastmytimewarp==mytimewarp && mytimewarp>1 && acceleration.subtract(lastAcceleration).length()*lastInterval<data.sensitivity*timewarp/8)
+				    {
+					mytimewarp=timewarp>>1;
+					changedtimewarp=mytimewarp;
+					}
+					else 
+					{
+					if (lastVelocity.length()>0){
+					vdirection=new SFRotation (unitDirection,lastVelocity );
+					vlength.x=1;
+					vlength.y=1;
+					vlength.z=lastVelocity.length();};
+					if (lastAcceleration.length()>0){
+					adirection=new SFRotation (unitDirection,lastAcceleration );
+					alength.x=1;
+					alength.y=1;
+					alength.z=lastAcceleration.length();};
+					lastmytimewarp=mytimewarp;
+					lastAcceleration=acceleration;
+					lastVelocity=data.velocity;
+					lastPosition=data.location;
+					lastlastTime=lasttime;
+					setPosition=lastPosition;
+					acceleration=acceleration.multiply(lastInterval/timewarp);
+					data.velocity=data.velocity.add(acceleration.add(data.velocity.multiply(-data.damping*lastInterval/timewarp)));
+					data.location=data.location.add(data.velocity.multiply(lastInterval/timewarp));
+					if (data.range.length>1 ){
+					if (data.location.x<data.range[0].x){data.location.x=2*data.range[0].x-data.location.x;data.velocity.x=-data.velocity.x;};
+					if (data.location.x>data.range[1].x){data.location.x=2*data.range[1].x-data.location.x;data.velocity.x=-data.velocity.x;};
+					if (data.location.y<data.range[0].y){data.location.y=2*data.range[0].y-data.location.y;data.velocity.y=-data.velocity.y;};
+					if (data.location.y>data.range[1].y){data.location.y=2*data.range[1].y-data.location.y;data.velocity.y=-data.velocity.y;};
+					if (data.location.z<data.range[0].z){data.location.z=2*data.range[0].z-data.location.z;data.velocity.z=-data.velocity.z;};
+					if (data.location.z>data.range[1].z){data.location.z=2*data.range[1].z-data.location.z;data.velocity.z=-data.velocity.z;};
+					};
+					lastInterval=interval;
+					lasttimewarp=timewarp;	
+					location=data.location;
+					lasttime=value;
+					};
+					};
+					};
+				 }"]
+	}
+	DEF t1 TimeSensor { loop TRUE enabled IS enabled }
+	ROUTE t1.time TO move.time
+	ROUTE move.setPosition	TO ploc.translation
+	ROUTE move.vdirection TO	view.rotation
+
+	ROUTE move.vdirection TO	arrowv0.rotation
+	ROUTE move.vdirection TO	arrowv1.rotation
+	ROUTE move.vdirection TO	arrowv2.rotation
+	ROUTE move.vlength TO arrowv2.scale
+	ROUTE move.vdirection TO	arrowv3.rotation
+	ROUTE move.vdirection TO	arrowv4.rotation
+	ROUTE move.vlength TO arrowv4.scale
+
+	ROUTE move.adirection TO	arrowa0.rotation
+	ROUTE move.adirection TO	arrowa1.rotation
+	ROUTE move.adirection TO	arrowa2.rotation
+	ROUTE move.alength TO arrowa2.scale
+	ROUTE move.adirection TO	arrowa3.rotation
+	ROUTE move.adirection TO	arrowa4.rotation
+	ROUTE move.alength TO arrowa4.scale
+	
+
+
+}
+
+
+
+
+
+PROTO track [eventIn SFVec3f addpoint 
+			field	SFInt32 maxPoints 10 
+			field SFTime interval 1
+			exposedField SFColor color 1 1 1
+]{
+	Shape {appearance Appearance {material Material	{emissiveColor IS color	}}
+		    geometry	PointSet { coord DEF trackpoints  Coordinate { }}}
+		DEF trackgen2 Script {
+				eventIn	SFVec3f	addpoint IS	addpoint
+				eventOut MFVec3f trackcoord 
+ 				field SFInt32 maxPoints IS maxPoints
+				field SFInt32 pointAt 0
+				field SFTime interval IS interval
+				field SFTime lastTime -1
+			url	["javascript:
+				function initialize (){
+					trackcoord.length=maxPoints;}
+				function addpoint(value,ts){
+					if (pointAt>=maxPoints){pointAt=0;};
+					if (lastTime<ts-interval){
+					trackcoord[pointAt]=value;
+					pointAt++;
+					lastTime=ts;
+					};
+					}  "]
+		}  		ROUTE trackgen2.trackcoord TO trackpoints.point
+
+}
+
+PROTO trace [eventIn SFVec3f addpoint
+			 field	SFInt32 maxPoints 10 
+			 field SFFloat linelength 1
+			 exposedField SFColor color 1 1 1
+]{
+		Shape {appearance Appearance {material Material	{emissiveColor IS color	}}
+			geometry	DEF track IndexedLineSet {  coord DEF trackpoints  Coordinate { }}}
+		DEF trackgen Script {
+				eventIn	SFVec3f	addpoint IS	addpoint
+				eventOut MFVec3f trackcoord 
+				eventOut MFInt32 trackindex
+				field SFInt32 maxPoints IS maxPoints
+				field SFInt32 pointAt 0
+				field SFInt32 lastpointAt -1
+				field SFVec3f lastlocation 0 0 0
+				field SFFloat linelength IS	linelength
+			url	["javascript:
+				function initialize (){
+					trackcoord.length=maxPoints;
+					trackindex.length=maxPoints*3;}
+				function addpoint(value){
+					if (value.subtract(lastlocation).length()>linelength){
+					if (pointAt>=maxPoints){pointAt=0;};
+					trackcoord[pointAt]=value;
+					if (lastpointAt>-1){
+			    		 trackindex[pointAt*3+1]=trackindex[pointAt*3];
+						 trackindex[lastpointAt*3]=lastpointAt;
+						 trackindex[lastpointAt*3+1]=pointAt;
+						 trackindex[lastpointAt*3+2]=-1;};	 
+					lastpointAt=pointAt;
+					pointAt++;
+					lastlocation=value;
+					};
+					}  "]
+
+		}  		ROUTE trackgen.trackcoord TO trackpoints.point
+		ROUTE trackgen.trackindex TO track.set_coordIndex
+
+}
+
+
+
+
+
+PROTO boolHub [
+		eventIn SFBool in 
+		eventOut SFBool out]{
+		Script {eventIn	SFBool myin IS in
+			eventOut SFBool	myout IS out
+			url	["javascript:
+				function myin(state){
+					myout=state;
+				}"]
+			}}
+
+PROTO floatHub [
+		eventIn SFFloat in 
+		eventOut SFFloat out]{
+		Script {eventIn	SFFloat myin IS in
+			eventOut SFFloat	myout IS out
+			url	["javascript:
+				function myin(state){
+					myout=state;
+				}"]
+			}}
+		
+PROTO int32Hub [
+		eventIn SFInt32 in 
+		eventOut SFInt32 out
+		field SFString ref ""
+		]{
+		Script {eventIn	SFInt32 myin IS in
+			eventOut SFInt32	myout IS out
+			field SFString ref IS ref
+			url	["javascript:
+				function myin(state){
+//					print (ref+' '+state);
+					myout=state;
+				}"]
+			}}
+		
+PROTO displace [
+	field SFVec3f by 0 0 0
+	eventIn	SFVec3f	oldPos
+	eventOut	SFVec3f newPos
+]{
+   PROTO disData [exposedField SFVec3f dis 0 0 0  ]{ WorldInfo { }  }
+   DEF thisDisData disData {dis	IS by }
+Script {
+	field SFNode data USE thisDisData
+	eventIn	SFVec3f	oldPos IS oldPos
+	eventOut SFVec3f newPos IS	newPos
+	url	["javascript:
+				function oldPos (posOld){
+					newPos=posOld.add(data.dis);
+					}
+					"]
+
+}}
+
+DEF	viewOrientation Script {
+	eventIn	SFVec3f	from
+	eventIn	SFVec3f to
+	eventOut SFRotation lookat
+	field SFBool tfromset FALSE
+	field SFBool ttoset FALSE
+	field SFVec3f base 0 0 -1
+
+   	url "javascript:
+	function from(dir) {
+		tfrom=dir;
+		tfromset=true;
+		if (ttoset){look(tfrom,tto);};
+		}
+	function to(dir) {
+		tto=dir;
+		ttoset=true;
+		if (tfromset){look(tfrom,tto);};
+		}
+	function look(a,b){
+		temp=b.subtract(a);
+		r1=new SFRotation(base,new SFVec3f(temp.x,0,temp.z ));
+		r2=new SFRotation(new SFVec3f(temp.x,0,temp.z),temp);
+		lookat=r2.multiply(r1) ;
+
+		//lookat=new SFRotation(base,b.subtract(a)) ;
+		}
+
+	"
+
+}

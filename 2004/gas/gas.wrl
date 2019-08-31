@@ -1,0 +1,999 @@
+#VRML V2.0 utf8
+EXTERNPROTO force [field SFFloat multiplier field SFFloat power field SFFloat offset]"particles&springs.wrl#force"
+EXTERNPROTO springVisible [ field SFFloat range field SFFloat damping exposedField MFNode	shape field SFString ref eventIn SFVec3f location1 eventIn	SFVec3f	location2 eventOut SFVec3f force field MFNode forces ]"particles&springs.wrl#springVisible"
+EXTERNPROTO spring [ field SFFloat range field SFFloat damping field SFString ref eventIn SFVec3f location1 eventIn	SFVec3f	location2 eventOut SFVec3f force field MFNode forces ]"particles&springs.wrl#spring"
+EXTERNPROTO particle [exposedField SFInt32 arrowVelocityType exposedField SFInt32 arrowAccelerationType exposedField SFFloat sensitivity exposedField SFFloat damping eventOut SFInt32 changedtimewarp eventIn SFInt32 settimewarp  field SFVec3f scale field SFString ref	eventIn SFVec3f force exposedField SFFloat mass	exposedField SFVec3f velocity exposedField SFVec3f location exposedField MFVec3f range exposedField MFNode shape eventIn SFVec3f negforce field SFBool randomStart  ] "particles&springs.wrl#particle"
+#EXTERNPROTO particle [exposedField SFInt32 arrowVelocityType exposedField SFInt32 arrowAccelerationType exposedField SFInt32 viewType exposedField SFFloat sensitivity exposedField SFFloat damping eventOut SFInt32 changedtimewarp eventIn SFInt32 settimewarp  field SFVec3f scale field SFString ref	eventIn SFVec3f force exposedField SFFloat mass	exposedField SFVec3f velocity exposedField SFVec3f location exposedField MFVec3f range exposedField MFNode shape eventIn SFVec3f negforce field SFBool randomStart  ] "particles&springs.wrl#particle"
+EXTERNPROTO track [exposedField SFColor color field SFFloat linelength eventIn SFVec3f addpoint field SFInt32 maxPoints]"particles&springs.wrl#track"
+EXTERNPROTO pointTrack [exposedField SFColor color field SFTime interval eventIn SFVec3f addpoint field SFInt32 maxPoints]"particles&springs.wrl#pointTrack"
+EXTERNPROTO	int32Hub [eventIn SFInt32 in eventOut SFInt32 out]"particles&springs.wrl#int32Hub"
+
+
+PROTO springObject  []{ Transform {scale .25 1 1 children [
+	Shape {
+		appearance Appearance {material	Material {
+			emissiveColor .53 .82 .02
+		} }
+		geometry	IndexedLineSet {coord Coordinate {point	[0 0 0,-.0625 0 0, -.0625 1 0,-.1875 .7 .7,-.3125 0 1,-.4375 -.7 .7,-.5625 -1 0,-.6875 -.7 -.7,-.8125 0 -1,-.9375 .7 -.7, -1.0625 1 0,-1.1875 .7 .7,-1.3125 0 1,-1.4375 -.7 .7,-1.5625 -1 0,-1.6875 -.7 -.7,-1.8125 0 -1,-1.9375 .7 -.7, -2.0625 1 0,-2.1875 .7 .7,-2.3125 0 1,-2.4375 -.7 .7,-2.5625 -1 0,-2.6875 -.7 -.7,-2.8125 0 -1,-2.9375 .7 -.7, -3.0625 1 0,-3.1875 .7 .7,-3.3125 0 1,-3.4375 -.7 .7,-3.5625 -1 0,-3.6875 -.7 -.7,-3.8125 0 -1,-3.9375 .7 -.7,-3.9375 0 0, -4 0 0] } coordIndex [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35] }}
+		
+]}}
+
+
+
+Transform {	
+	children [
+
+		Shape { 
+			
+			appearance Appearance {material	Material {
+				diffuseColor .3 .27 .27
+				specularColor .49 .49 .49
+				emissiveColor .3 .27 .27
+				ambientIntensity 0
+				shininess .1
+			}
+			}
+			geometry IndexedLineSet {
+		   	colorPerVertex FALSE
+			coord Coordinate {
+				point [
+					10 10 10, 10 10 -10, 10 -10 10, 10 -10 -10, -10 10 10, -10 10 -10,
+					-10 -10 10, -10 -10 -10
+				]
+			}
+			coordIndex [
+				4 0 1 5 -1 7 3 2 6 -1 6 2 0 4 -1 2 3 1 0 -1 3 7 5 1 -1 7 6 4 5
+			]
+		} 
+
+		}
+	]
+}
+Background {
+	backUrl "backdrop.gif"
+	frontUrl	"backdrop.gif"
+	leftUrl	"backdrop.gif"
+	rightUrl	"backdrop.gif"
+	topUrl "backdrop.gif"
+	bottomUrl "backdrop.gif"
+}
+NavigationInfo {headlight FALSE type ["EXAMINE","ANY"] }
+
+Viewpoint {fieldOfView 1 position 0 0 30}
+DirectionalLight  {direction -.3 -1 -1 }
+
+PROTO ball  []{ Shape {geometry	Sphere {} appearance Appearance {material Material {emissiveColor .2 .2 .4 diffuseColor .5 .5 1 specularColor .3 .3 .3	ambientIntensity 1	shininess .5}}} }
+
+Group {
+children [ DEF ts1 TouchSensor	{  } 
+
+DEF	p1 particle	{randomStart TRUE arrowVelocityType 2 arrowAccelerationType 4 sensitivity .1 scale .5 .5 .5 ref "1" mass 1 velocity 2 2 0 location -2.51 -2.5 -.2  shape ball {}  range   [-10 -10 -10,10 10 10]}
+DEF	p2 particle	{randomStart TRUE arrowVelocityType 2 arrowAccelerationType 4 sensitivity .1 scale .5 .5 .5 ref "2" mass 1 velocity 2 1 0  location -2.5 2.5 0 shape ball {}  range   [-10 -10 -10,10 10 10]}
+
+]}
+
+DEF s1 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p1.location TO s1.location1
+ROUTE p2.location TO s1.location2
+ROUTE s1.force TO p1.force
+ROUTE s1.force TO p2.negforce
+#ROUTE touchToggle.state TO p1.enabled
+
+DEF	h1 int32Hub {}
+ROUTE p1.changedtimewarp TO h1.in
+ROUTE p2.changedtimewarp TO h1.in
+ROUTE h1.out TO	p1.settimewarp
+ROUTE h1.out TO	p2.settimewarp
+
+#DEF	t2 track {linelength .1 maxPoints 1000 color 0 1 0}
+#DEF	t1 pointTrack {interval .1 maxPoints 1000 color 1 0 0}
+#ROUTE p1.location TO t2.addpoint
+#ROUTE p2.location TO t1.addpoint
+DEF	p3 particle	{randomStart TRUE arrowVelocityType 2 arrowAccelerationType 4 sensitivity .1 scale .5 .5 .5 scale .5 .5 .5 ref "3" mass 1 velocity 2 2 0 location 0 -2.5 0 shape ball {}  range   [-10 -10 -10,10 10 10] }
+
+DEF s2 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p2.location TO s2.location1
+ROUTE p3.location TO s2.location2
+ROUTE s2.force TO p2.force
+ROUTE s2.force TO p3.negforce
+
+DEF s3 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p1.location TO s3.location1
+ROUTE p3.location TO s3.location2
+ROUTE s3.force TO p1.force
+ROUTE s3.force TO p3.negforce
+
+ROUTE p3.changedtimewarp TO	h1.in
+ROUTE h1.out TO	p3.settimewarp
+
+DEF	p4 particle	{randomStart TRUE arrowVelocityType 2 arrowAccelerationType 4 sensitivity .1 scale .5 .5 .5 ref "4" mass 1 velocity 2 2 0 location -2.5 0 0 shape ball {}  range   [-10 -10 -10,10 10 10]}
+ROUTE p4.changedtimewarp TO	h1.in
+ROUTE h1.out TO	p4.settimewarp
+
+DEF s4 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p1.location TO s4.location1
+ROUTE p4.location TO s4.location2
+ROUTE s4.force TO p1.force
+ROUTE s4.force TO p4.negforce
+
+DEF s5 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p2.location TO s5.location1
+ROUTE p4.location TO s5.location2
+ROUTE s5.force TO p2.force
+ROUTE s5.force TO p4.negforce
+
+DEF s6 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p3.location TO s6.location1
+ROUTE p4.location TO s6.location2
+ROUTE s6.force TO p3.force
+ROUTE s6.force TO p4.negforce
+
+
+DEF	p5 particle	{randomStart TRUE arrowVelocityType 2 arrowAccelerationType 4 sensitivity .1 scale .5 .5 .5 ref "5" mass 1 velocity 2 2 0 location 0 0 0 shape ball {}  range   [-10 -10 -10,10 10 10]}
+ROUTE p5.changedtimewarp TO	h1.in
+ROUTE h1.out TO	p5.settimewarp
+
+DEF s7 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p1.location TO s7.location1
+ROUTE p5.location TO s7.location2
+ROUTE s7.force TO p1.force
+ROUTE s7.force TO p5.negforce
+
+DEF s8 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p2.location TO s8.location1
+ROUTE p5.location TO s8.location2
+ROUTE s8.force TO p2.force
+ROUTE s8.force TO p5.negforce
+
+DEF s9 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p3.location TO s9.location1
+ROUTE p5.location TO s9.location2
+ROUTE s9.force TO p3.force
+ROUTE s9.force TO p5.negforce
+
+DEF s10 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p4.location TO s10.location1
+ROUTE p5.location TO s10.location2
+ROUTE s10.force TO p4.force
+ROUTE s10.force TO p5.negforce
+
+DEF	p6 particle	{randomStart TRUE arrowVelocityType 2 arrowAccelerationType 4 sensitivity .1 scale .5 .5 .5 ref "6" mass 1 velocity 2 -2 0 location 2.5 0 0 shape ball {}  range   [-10 -10 -10,10 10 10]}
+ROUTE p6.changedtimewarp TO	h1.in
+ROUTE h1.out TO	p6.settimewarp
+
+DEF s11 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p1.location TO s11.location1
+ROUTE p6.location TO s11.location2
+ROUTE s11.force TO p1.force
+ROUTE s11.force TO p6.negforce
+
+DEF s12 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p2.location TO s12.location1
+ROUTE p6.location TO s12.location2
+ROUTE s12.force TO p2.force
+ROUTE s12.force TO p6.negforce
+
+DEF s13 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p3.location TO s13.location1
+ROUTE p6.location TO s13.location2
+ROUTE s13.force TO p3.force
+ROUTE s13.force TO p6.negforce
+
+DEF s14 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p4.location TO s14.location1
+ROUTE p6.location TO s14.location2
+ROUTE s14.force TO p4.force
+ROUTE s14.force TO p6.negforce
+
+DEF s15 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p5.location TO s15.location1
+ROUTE p6.location TO s15.location2
+ROUTE s15.force TO p5.force
+ROUTE s15.force TO p6.negforce
+
+DEF	p7 particle	{randomStart TRUE arrowVelocityType 2 arrowAccelerationType 4 sensitivity .1 scale .5 .5 .5 ref "7" mass 1 velocity 4 0 0 location 2.5 2.5 0 shape ball {}  range   [-10 -10 -10,10 10 10]}
+ROUTE p7.changedtimewarp TO	h1.in
+ROUTE h1.out TO	p7.settimewarp
+
+DEF s16 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p1.location TO s16.location1
+ROUTE p7.location TO s16.location2
+ROUTE s16.force TO p1.force
+ROUTE s16.force TO p7.negforce
+
+DEF s17 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p2.location TO s17.location1
+ROUTE p7.location TO s17.location2
+ROUTE s17.force TO p2.force
+ROUTE s17.force TO p7.negforce
+
+DEF s18 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p3.location TO s18.location1
+ROUTE p7.location TO s18.location2
+ROUTE s18.force TO p3.force
+ROUTE s18.force TO p7.negforce
+
+DEF s19 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p4.location TO s19.location1
+ROUTE p7.location TO s19.location2
+ROUTE s19.force TO p4.force
+ROUTE s19.force TO p7.negforce
+
+DEF s20 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p5.location TO s20.location1
+ROUTE p7.location TO s20.location2
+ROUTE s20.force TO p5.force
+ROUTE s20.force TO p7.negforce
+
+DEF s21 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p6.location TO s21.location1
+ROUTE p7.location TO s21.location2
+ROUTE s21.force TO p6.force
+ROUTE s21.force TO p7.negforce
+
+
+DEF	p8 particle	{randomStart TRUE arrowVelocityType 2 arrowAccelerationType 4 sensitivity .1 scale .5 .5 .5 ref "8" mass 1 velocity 4 0 0 location 0 2.5 0 shape ball {}  range   [-10 -10 -10,10 10 10]}
+ROUTE p8.changedtimewarp TO	h1.in
+ROUTE h1.out TO	p8.settimewarp
+
+DEF s22 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p1.location TO s22.location1
+ROUTE p8.location TO s22.location2
+ROUTE s22.force TO p1.force
+ROUTE s22.force TO p8.negforce
+
+DEF s23 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p2.location TO s23.location1
+ROUTE p8.location TO s23.location2
+ROUTE s23.force TO p2.force
+ROUTE s23.force TO p8.negforce
+
+DEF s24 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p3.location TO s24.location1
+ROUTE p8.location TO s24.location2
+ROUTE s24.force TO p3.force
+ROUTE s24.force TO p8.negforce
+
+DEF s25 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p4.location TO s25.location1
+ROUTE p8.location TO s25.location2
+ROUTE s25.force TO p4.force
+ROUTE s25.force TO p8.negforce
+
+DEF s26 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p5.location TO s26.location1
+ROUTE p8.location TO s26.location2
+ROUTE s26.force TO p5.force
+ROUTE s26.force TO p8.negforce
+
+DEF s27 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p6.location TO s27.location1
+ROUTE p8.location TO s27.location2
+ROUTE s27.force TO p6.force
+ROUTE s27.force TO p8.negforce
+
+DEF s28 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p7.location TO s28.location1
+ROUTE p8.location TO s28.location2
+ROUTE s28.force TO p7.force
+ROUTE s28.force TO p8.negforce
+
+
+DEF	p9 particle	{randomStart TRUE arrowVelocityType 2 arrowAccelerationType 4 sensitivity .1 scale .5 .5 .5 ref "8" mass 1 velocity 2 2 0 location -2.5 5 0 shape ball {}  range   [-10 -10 -10,10 10 10]}
+ROUTE p9.changedtimewarp TO	h1.in
+ROUTE h1.out TO	p9.settimewarp
+
+DEF s29 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p1.location TO s29.location1
+ROUTE p9.location TO s29.location2
+ROUTE s29.force TO p1.force
+ROUTE s29.force TO p9.negforce
+
+DEF s30 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p2.location TO s30.location1
+ROUTE p9.location TO s30.location2
+ROUTE s30.force TO p2.force
+ROUTE s30.force TO p9.negforce
+
+DEF s31 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p3.location TO s31.location1
+ROUTE p9.location TO s31.location2
+ROUTE s31.force TO p3.force
+ROUTE s31.force TO p9.negforce
+
+DEF s32 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p4.location TO s32.location1
+ROUTE p9.location TO s32.location2
+ROUTE s32.force TO p4.force
+ROUTE s32.force TO p9.negforce
+
+DEF s33 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p5.location TO s33.location1
+ROUTE p9.location TO s33.location2
+ROUTE s33.force TO p5.force
+ROUTE s33.force TO p9.negforce
+
+DEF s34 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p6.location TO s34.location1
+ROUTE p9.location TO s34.location2
+ROUTE s34.force TO p6.force
+ROUTE s34.force TO p9.negforce
+
+DEF s35 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p7.location TO s35.location1
+ROUTE p9.location TO s35.location2
+ROUTE s35.force TO p7.force
+ROUTE s35.force TO p9.negforce
+
+DEF s36 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p8.location TO s36.location1
+ROUTE p9.location TO s36.location2
+ROUTE s36.force TO p8.force
+ROUTE s36.force TO p9.negforce
+
+DEF	p10 particle	{randomStart TRUE arrowVelocityType 2 arrowAccelerationType 4 sensitivity .1 scale .5 .5 .5 ref "8" mass 1 velocity 2 2 0 location -2.5 -5 0 shape ball {}  range   [-10 -10 -10,10 10 10]}
+ROUTE p10.changedtimewarp TO	h1.in
+ROUTE h1.out TO	p10.settimewarp
+
+DEF s37 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p1.location TO s37.location1
+ROUTE p10.location TO s37.location2
+ROUTE s37.force TO p1.force
+ROUTE s37.force TO p10.negforce
+
+DEF s38 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p2.location TO s38.location1
+ROUTE p10.location TO s38.location2
+ROUTE s38.force TO p2.force
+ROUTE s38.force TO p10.negforce
+
+DEF s39 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p3.location TO s39.location1
+ROUTE p10.location TO s39.location2
+ROUTE s39.force TO p3.force
+ROUTE s39.force TO p10.negforce
+
+DEF s40 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p4.location TO s40.location1
+ROUTE p10.location TO s40.location2
+ROUTE s40.force TO p4.force
+ROUTE s40.force TO p10.negforce
+
+DEF s41 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p5.location TO s41.location1
+ROUTE p10.location TO s41.location2
+ROUTE s41.force TO p5.force
+ROUTE s41.force TO p10.negforce
+
+DEF s42 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p6.location TO s42.location1
+ROUTE p10.location TO s42.location2
+ROUTE s42.force TO p6.force
+ROUTE s42.force TO p10.negforce
+
+DEF s43 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p7.location TO s43.location1
+ROUTE p10.location TO s43.location2
+ROUTE s43.force TO p7.force
+ROUTE s43.force TO p10.negforce
+
+DEF s44 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p8.location TO s44.location1
+ROUTE p10.location TO s44.location2
+ROUTE s44.force TO p8.force
+ROUTE s44.force TO p10.negforce
+
+DEF s45 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p9.location TO s45.location1
+ROUTE p10.location TO s45.location2
+ROUTE s45.force TO p9.force
+ROUTE s45.force TO p10.negforce
+
+DEF	p11 particle	{randomStart TRUE arrowVelocityType 2 arrowAccelerationType 4 sensitivity .1 scale .5 .5 .5 ref "8" mass 1 velocity 2 2 0 location 0 -5 0 shape ball {}  range   [-10 -10 -10,10 10 10]}
+ROUTE p11.changedtimewarp TO	h1.in
+ROUTE h1.out TO	p11.settimewarp
+
+DEF s46 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p1.location TO s46.location1
+ROUTE p11.location TO s46.location2
+ROUTE s46.force TO p1.force
+ROUTE s46.force TO p11.negforce
+
+DEF s47 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p2.location TO s47.location1
+ROUTE p11.location TO s47.location2
+ROUTE s47.force TO p2.force
+ROUTE s47.force TO p11.negforce
+
+DEF s48 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p3.location TO s48.location1
+ROUTE p11.location TO s48.location2
+ROUTE s48.force TO p3.force
+ROUTE s48.force TO p11.negforce
+
+DEF s49 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p4.location TO s49.location1
+ROUTE p11.location TO s49.location2
+ROUTE s49.force TO p4.force
+ROUTE s49.force TO p11.negforce
+
+DEF s50 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p5.location TO s50.location1
+ROUTE p11.location TO s50.location2
+ROUTE s50.force TO p5.force
+ROUTE s50.force TO p11.negforce
+
+DEF s51 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p6.location TO s51.location1
+ROUTE p11.location TO s51.location2
+ROUTE s51.force TO p6.force
+ROUTE s51.force TO p11.negforce
+
+DEF s52 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p7.location TO s52.location1
+ROUTE p11.location TO s52.location2
+ROUTE s52.force TO p7.force
+ROUTE s52.force TO p11.negforce
+
+DEF s53 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p8.location TO s53.location1
+ROUTE p11.location TO s53.location2
+ROUTE s53.force TO p8.force
+ROUTE s53.force TO p11.negforce
+
+DEF s54 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p9.location TO s54.location1
+ROUTE p11.location TO s54.location2
+ROUTE s54.force TO p9.force
+ROUTE s54.force TO p11.negforce
+
+DEF s55 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p10.location TO s55.location1
+ROUTE p11.location TO s55.location2
+ROUTE s55.force TO p10.force
+ROUTE s55.force TO p11.negforce
+
+
+
+
+DEF	p12 particle	{randomStart TRUE arrowVelocityType 2 arrowAccelerationType 4 sensitivity .1 scale .5 .5 .5 ref "8" mass 1 velocity 2 2 0 location 5 -5 0 shape ball {}  range   [-10 -10 -10,10 10 10]}
+ROUTE p12.changedtimewarp TO	h1.in
+ROUTE h1.out TO	p12.settimewarp
+
+DEF s56 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p1.location TO s56.location1
+ROUTE p12.location TO s56.location2
+ROUTE s56.force TO p1.force
+ROUTE s56.force TO p12.negforce
+
+DEF s57 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p2.location TO s57.location1
+ROUTE p12.location TO s57.location2
+ROUTE s57.force TO p2.force
+ROUTE s57.force TO p12.negforce
+
+DEF s58 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p3.location TO s58.location1
+ROUTE p12.location TO s58.location2
+ROUTE s58.force TO p3.force
+ROUTE s58.force TO p12.negforce
+
+DEF s59 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p4.location TO s59.location1
+ROUTE p12.location TO s59.location2
+ROUTE s59.force TO p4.force
+ROUTE s59.force TO p12.negforce
+
+DEF s60 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p5.location TO s60.location1
+ROUTE p12.location TO s60.location2
+ROUTE s60.force TO p5.force
+ROUTE s60.force TO p12.negforce
+
+DEF s61 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p6.location TO s61.location1
+ROUTE p12.location TO s61.location2
+ROUTE s61.force TO p6.force
+ROUTE s61.force TO p12.negforce
+
+DEF s62 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p7.location TO s62.location1
+ROUTE p12.location TO s62.location2
+ROUTE s62.force TO p7.force
+ROUTE s62.force TO p12.negforce
+
+DEF s63 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p8.location TO s63.location1
+ROUTE p12.location TO s63.location2
+ROUTE s63.force TO p8.force
+ROUTE s63.force TO p12.negforce
+
+DEF s64 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p9.location TO s64.location1
+ROUTE p12.location TO s64.location2
+ROUTE s64.force TO p9.force
+ROUTE s64.force TO p12.negforce
+
+DEF s65 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p10.location TO s65.location1
+ROUTE p12.location TO s65.location2
+ROUTE s65.force TO p10.force
+ROUTE s65.force TO p12.negforce
+
+DEF s66 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p11.location TO s66.location1
+ROUTE p12.location TO s66.location2
+ROUTE s66.force TO p11.force
+ROUTE s66.force TO p12.negforce
+
+
+DEF	p13 particle	{randomStart TRUE arrowVelocityType 2 arrowAccelerationType 4 sensitivity .1 scale .5 .5 .5 ref "8" mass 1 velocity 2 2 0 location -5 -2.5 0 shape ball {}  range   [-10 -10 -10,10 10 10]}
+ROUTE p13.changedtimewarp TO	h1.in
+ROUTE h1.out TO	p13.settimewarp
+
+DEF s67 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p1.location TO s67.location1
+ROUTE p13.location TO s67.location2
+ROUTE s67.force TO p1.force
+ROUTE s67.force TO p13.negforce
+
+DEF s68 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p2.location TO s68.location1
+ROUTE p13.location TO s68.location2
+ROUTE s68.force TO p2.force
+ROUTE s68.force TO p13.negforce
+
+DEF s69 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p3.location TO s69.location1
+ROUTE p13.location TO s69.location2
+ROUTE s69.force TO p3.force
+ROUTE s69.force TO p13.negforce
+
+DEF s70 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p4.location TO s70.location1
+ROUTE p13.location TO s70.location2
+ROUTE s70.force TO p4.force
+ROUTE s70.force TO p13.negforce
+
+DEF s71 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p5.location TO s71.location1
+ROUTE p13.location TO s71.location2
+ROUTE s71.force TO p5.force
+ROUTE s71.force TO p13.negforce
+
+DEF s72 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p6.location TO s72.location1
+ROUTE p13.location TO s72.location2
+ROUTE s72.force TO p6.force
+ROUTE s72.force TO p13.negforce
+
+DEF s73 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p7.location TO s73.location1
+ROUTE p13.location TO s73.location2
+ROUTE s73.force TO p7.force
+ROUTE s73.force TO p13.negforce
+
+DEF s74 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p8.location TO s74.location1
+ROUTE p13.location TO s74.location2
+ROUTE s74.force TO p8.force
+ROUTE s74.force TO p13.negforce
+
+DEF s75 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p9.location TO s75.location1
+ROUTE p13.location TO s75.location2
+ROUTE s75.force TO p9.force
+ROUTE s75.force TO p13.negforce
+
+DEF s76 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p10.location TO s76.location1
+ROUTE p13.location TO s76.location2
+ROUTE s76.force TO p10.force
+ROUTE s76.force TO p13.negforce
+
+DEF s77 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p11.location TO s77.location1
+ROUTE p13.location TO s77.location2
+ROUTE s77.force TO p11.force
+ROUTE s77.force TO p13.negforce
+
+
+DEF s78 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p12.location TO s78.location1
+ROUTE p13.location TO s78.location2
+ROUTE s78.force TO p12.force
+ROUTE s78.force TO p13.negforce
+
+DEF	p14 particle	{randomStart TRUE arrowVelocityType 2 arrowAccelerationType 4 sensitivity .1 scale .5 .5 .5 ref "8" mass 1 velocity 3 2 0 location -5 -5 0 shape ball {}  range   [-10 -10 -10,10 10 10]}
+ROUTE p14.changedtimewarp TO	h1.in
+ROUTE h1.out TO	p14.settimewarp
+
+DEF s79 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p1.location TO s79.location1
+ROUTE p14.location TO s79.location2
+ROUTE s79.force TO p1.force
+ROUTE s79.force TO p14.negforce
+
+DEF s80 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p2.location TO s80.location1
+ROUTE p14.location TO s80.location2
+ROUTE s80.force TO p2.force
+ROUTE s80.force TO p14.negforce
+
+DEF s81 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p3.location TO s81.location1
+ROUTE p14.location TO s81.location2
+ROUTE s81.force TO p3.force
+ROUTE s81.force TO p14.negforce
+
+DEF s82 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p4.location TO s82.location1
+ROUTE p14.location TO s82.location2
+ROUTE s82.force TO p4.force
+ROUTE s82.force TO p14.negforce
+
+DEF s83 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p5.location TO s83.location1
+ROUTE p14.location TO s83.location2
+ROUTE s83.force TO p5.force
+ROUTE s83.force TO p14.negforce
+
+DEF s84 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p6.location TO s84.location1
+ROUTE p14.location TO s84.location2
+ROUTE s84.force TO p6.force
+ROUTE s84.force TO p14.negforce
+
+DEF s85 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p7.location TO s85.location1
+ROUTE p14.location TO s85.location2
+ROUTE s85.force TO p7.force
+ROUTE s85.force TO p14.negforce
+
+DEF s86 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p8.location TO s86.location1
+ROUTE p14.location TO s86.location2
+ROUTE s86.force TO p8.force
+ROUTE s86.force TO p14.negforce
+
+DEF s87 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p9.location TO s87.location1
+ROUTE p14.location TO s87.location2
+ROUTE s87.force TO p9.force
+ROUTE s87.force TO p14.negforce
+
+DEF s88 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p10.location TO s88.location1
+ROUTE p14.location TO s88.location2
+ROUTE s88.force TO p10.force
+ROUTE s88.force TO p14.negforce
+
+DEF s89 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p11.location TO s89.location1
+ROUTE p14.location TO s89.location2
+ROUTE s89.force TO p11.force
+ROUTE s89.force TO p14.negforce
+
+
+DEF s90 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p12.location TO s90.location1
+ROUTE p14.location TO s90.location2
+ROUTE s90.force TO p12.force
+ROUTE s90.force TO p14.negforce
+
+DEF s91 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p13.location TO s91.location1
+ROUTE p14.location TO s91.location2
+ROUTE s91.force TO p13.force
+ROUTE s91.force TO p14.negforce
+
+
+
+
+DEF	p15 particle	{randomStart TRUE arrowVelocityType 2 arrowAccelerationType 4 sensitivity .1 scale .5 .5 .5 ref "8" mass 1 velocity 3 2 0 location -5 2.5 0 shape ball {}  range   [-10 -10 -10,10 10 10]}
+ROUTE p15.changedtimewarp TO	h1.in
+ROUTE h1.out TO	p15.settimewarp
+
+DEF s92 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p1.location TO s92.location1
+ROUTE p15.location TO s92.location2
+ROUTE s92.force TO p1.force
+ROUTE s92.force TO p15.negforce
+
+DEF s93 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p2.location TO s93.location1
+ROUTE p15.location TO s93.location2
+ROUTE s93.force TO p2.force
+ROUTE s93.force TO p15.negforce
+
+DEF s94 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p3.location TO s94.location1
+ROUTE p15.location TO s94.location2
+ROUTE s94.force TO p3.force
+ROUTE s94.force TO p15.negforce
+
+DEF s95 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p4.location TO s95.location1
+ROUTE p15.location TO s95.location2
+ROUTE s95.force TO p4.force
+ROUTE s95.force TO p15.negforce
+
+DEF s96 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p5.location TO s96.location1
+ROUTE p15.location TO s96.location2
+ROUTE s96.force TO p5.force
+ROUTE s96.force TO p15.negforce
+
+DEF s97 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p6.location TO s97.location1
+ROUTE p15.location TO s97.location2
+ROUTE s97.force TO p6.force
+ROUTE s97.force TO p15.negforce
+
+DEF s98 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p7.location TO s98.location1
+ROUTE p15.location TO s98.location2
+ROUTE s98.force TO p7.force
+ROUTE s98.force TO p15.negforce
+
+DEF s99 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p8.location TO s99.location1
+ROUTE p15.location TO s99.location2
+ROUTE s99.force TO p8.force
+ROUTE s99.force TO p15.negforce
+
+DEF s100 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p9.location TO s100.location1
+ROUTE p15.location TO s100.location2
+ROUTE s100.force TO p9.force
+ROUTE s100.force TO p15.negforce
+
+DEF s101 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p10.location TO s101.location1
+ROUTE p15.location TO s101.location2
+ROUTE s101.force TO p10.force
+ROUTE s101.force TO p15.negforce
+
+DEF s102 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p11.location TO s102.location1
+ROUTE p15.location TO s102.location2
+ROUTE s102.force TO p11.force
+ROUTE s102.force TO p15.negforce
+
+
+DEF s103 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p12.location TO s103.location1
+ROUTE p15.location TO s103.location2
+ROUTE s103.force TO p12.force
+ROUTE s103.force TO p15.negforce
+
+DEF s104 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p13.location TO s104.location1
+ROUTE p15.location TO s104.location2
+ROUTE s104.force TO p13.force
+ROUTE s104.force TO p15.negforce
+
+DEF s105 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p1.location TO s105.location1
+ROUTE p15.location TO s105.location2
+ROUTE s105.force TO p1.force
+ROUTE s105.force TO p15.negforce
+
+
+
+DEF	p16 particle	{randomStart TRUE arrowVelocityType 2 arrowAccelerationType 4 sensitivity .1 scale .5 .5 .5 ref "8" mass 1 velocity 3 2 0 location -5 0 0 shape ball {}  range   [-10 -10 -10,10 10 10]}
+ROUTE p16.changedtimewarp TO	h1.in
+ROUTE h1.out TO	p16.settimewarp
+
+DEF s106 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p1.location TO s106.location1
+ROUTE p16.location TO s106.location2
+ROUTE s106.force TO p1.force
+ROUTE s106.force TO p16.negforce
+
+DEF s107 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p2.location TO s107.location1
+ROUTE p16.location TO s107.location2
+ROUTE s107.force TO p2.force
+ROUTE s107.force TO p16.negforce
+
+DEF s108 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p3.location TO s108.location1
+ROUTE p16.location TO s108.location2
+ROUTE s108.force TO p3.force
+ROUTE s108.force TO p16.negforce
+
+DEF s109 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p4.location TO s109.location1
+ROUTE p16.location TO s109.location2
+ROUTE s109.force TO p4.force
+ROUTE s109.force TO p16.negforce
+
+DEF s110 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p5.location TO s110.location1
+ROUTE p16.location TO s110.location2
+ROUTE s110.force TO p5.force
+ROUTE s110.force TO p16.negforce
+
+DEF s111 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p6.location TO s111.location1
+ROUTE p16.location TO s111.location2
+ROUTE s111.force TO p6.force
+ROUTE s111.force TO p16.negforce
+
+DEF s112 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p7.location TO s112.location1
+ROUTE p16.location TO s112.location2
+ROUTE s112.force TO p7.force
+ROUTE s112.force TO p16.negforce
+
+DEF s113 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p8.location TO s113.location1
+ROUTE p16.location TO s113.location2
+ROUTE s113.force TO p8.force
+ROUTE s113.force TO p16.negforce
+
+DEF s114 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p9.location TO s114.location1
+ROUTE p16.location TO s114.location2
+ROUTE s114.force TO p9.force
+ROUTE s114.force TO p16.negforce
+
+DEF s115 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p10.location TO s115.location1
+ROUTE p16.location TO s115.location2
+ROUTE s115.force TO p10.force
+ROUTE s115.force TO p16.negforce
+
+DEF s116 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p11.location TO s116.location1
+ROUTE p16.location TO s116.location2
+ROUTE s116.force TO p11.force
+ROUTE s116.force TO p16.negforce
+
+
+DEF s117 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p12.location TO s117.location1
+ROUTE p16.location TO s117.location2
+ROUTE s117.force TO p12.force
+ROUTE s117.force TO p16.negforce
+
+DEF s118 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p13.location TO s118.location1
+ROUTE p16.location TO s118.location2
+ROUTE s118.force TO p13.force
+ROUTE s118.force TO p16.negforce
+
+DEF s119 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p14.location TO s119.location1
+ROUTE p16.location TO s119.location2
+ROUTE s119.force TO p14.force
+ROUTE s119.force TO p16.negforce
+
+
+
+DEF s120 spring {forces [force {multiplier 1 power -3 offset -.1 } force {multiplier -1 power -5 offset -.1 }] range 4}
+
+ROUTE p15.location TO s120.location1
+ROUTE p16.location TO s120.location2
+ROUTE s120.force TO p15.force
+ROUTE s120.force TO p16.negforce
