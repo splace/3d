@@ -28,8 +28,8 @@ DEF Lightening2 lightening{interval	17 circleInterval 71}
 ROUTE Lightening2.state TO lightSky.set_bind
 WorldInfo{}
 Shape{geometry	Box{size 480 240 480}}
-Viewpoint{description "1" position 71.454 1.6 97.056 orientation 0 1 0 .491 }
-Viewpoint{description "2" position 68.186 1.6 93.499 orientation 0 1 0 1.007}
+Viewpoint{description "1" position 71.454 1.6 97.056 orientation 0 1 0 .8 }
+Viewpoint{description "2" position 70.186 1.6 93.499 orientation 0 1 0 1.007}
 Viewpoint{description "3" position 35.653 1.6 81.768 orientation 0 1 0 1.354}
 Viewpoint{description "4" position 1.83 1.6 78.077 orientation 0 1 0 1.423}
 Viewpoint{description "5" position 1.779 1.6 78.07 orientation 0 1 0 .852}
