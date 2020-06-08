@@ -65,7 +65,7 @@ Sound{source AudioClip{url["wind.mp3","wind.wav"]loop TRUE pitch 2.222}minBack 1
 Sound{source DEF heartslow AudioClip{url["heart.wav"]loop TRUE}spatialize FALSE minBack 10000 minFront 10000 maxBack 10000 maxFront 10000 intensity .5 priority 1}
 Sound{source DEF heartfast AudioClip{url["heart.wav"]pitch 1.2}minBack 10000 minFront 10000 maxBack 10000 maxFront 10000 spatialize FALSE intensity .5 priority 1}
 Sound{source DEF heartvfast AudioClip{url["heart.wav"]pitch 1.5}minBack 10000 minFront 10000 maxBack 10000 maxFront 10000 spatialize FALSE intensity .5 priority 1}
-DEF worldNav NavigationInfo{headlight FALSE}
+DEF worldNav NavigationInfo{headlight FALSE type ["WALK","EXAMINE","FLY","LOOKAT","EXPLORE"]}
 Fog{color	.06 .06 .06 fogType "EXPONENTIAL" visibilityRange 150}
 DEF worldfog Fog{color	.06 .06 .06 fogType "EXPONENTIAL" visibilityRange 1500}
 ROUTE Lightening1.state	TO worldfog.set_bind
