@@ -1,6 +1,6 @@
 <html>
 <head>
-<meta http-equiv="content-type" content="text/html; charset=windows-1252">
+<meta http-equiv="content-type" content="text/html">
     <title>Model</title>
 	<link rel="stylesheet" type="text/css" href="https://create3000.github.io/code/x_ite/4.2.6/dist/x_ite.css"/>
 	<script type="text/javascript" src="https://create3000.github.io/code/x_ite/4.2.6/dist/x_ite.min.js"></script>
@@ -15,8 +15,8 @@
 				}
 			}
 		}
-		// set the text of an element from the model parameter pulled off the pages url 
-		// and make a new X3DCanvas Element, before it, with the source being the same text
+		// return the text from the 'model' parameter pulled off this pages url. 
+		// also make a new X3DCanvas Element, before the element with the provided name, with its 'src' attribute the same text
 		function insertModel(id){
 			var x3d = document.createElement("X3DCanvas")
 			var att = document.createAttribute("src")
@@ -35,7 +35,7 @@
     </style>
 </head>
 <body onLoad="document.getElementById('title').innerText=decodeURI(insertModel('title').split('/').pop())">
-<h1 style="color:rgb(181, 232, 83);opacity:0.5;position:absolute;z-index:1;text-shadow: 2px 2px 2px black;pointer-events: none;" id="title" >Model Loading...</h1>
+<h1 id="title" style="color:rgb(181, 232, 83);opacity:0.5;position:absolute;z-index:1;text-shadow: 2px 2px 2px black;pointer-events: none;" >Model Loading...</h1>
 </body>
 </html>
 
