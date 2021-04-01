@@ -1,0 +1,455 @@
+#VRML V2.0 utf8
+
+
+EXTERNPROTO regularLayout2D [
+	field SFFloat separation
+	field MFNode toLayout
+	field SFBool centerX
+	field SFBool centerY
+]
+"./proto/layout.wrl#regularLayout2D"
+
+EXTERNPROTO dividers [
+	field MFFloat xDividers
+	field MFFloat yDividers
+	field MFFloat zDividers
+	field SFBool yDividersIncremental
+	field SFBool zDividersIncremental
+	field SFBool xDividersIncremental
+]
+"./proto/gridProto.wrl#dividers"
+
+EXTERNPROTO GridCoordinate [
+	field SFVec3f extent
+	field SFNode dividers
+	field SFBool axial
+	field SFInt32 sides
+	field SFBool inscribe
+	field SFBool chamfer
+	exposedField MFVec3f point
+]
+"./proto/gridProto.wrl#GridCoordinate"
+
+
+EXTERNPROTO Blocks [
+	field SFNode grid
+	field SFNode pattern
+	field SFBool ccw
+	field SFBool solid
+	field SFFloat creaseAngle
+	field SFBool endSurfacePosX
+	field SFBool endSurfacePosY
+	field SFBool endSurfacePosZ
+	field SFBool endSurfaceNegX
+	field SFBool endSurfaceNegY
+	field SFBool endSurfaceNegZ
+	field SFBool nonEndSurfaces
+	field SFBool mirrorXAxis
+	field SFBool mirrorYAxis
+	field SFBool mirrorZAxis
+	field SFBool negative
+	field SFBool endBlocksPosXToggle
+	field SFBool endBlocksPosYToggle
+	field SFBool endBlocksPosZToggle
+	field SFBool endBlocksNegXToggle
+	field SFBool endBlocksNegYToggle
+	field SFBool endBlocksNegZToggle
+	field SFBool nonEndBlocksToggle
+	field SFBool wrapx
+	field SFBool wrapy
+	field SFBool wrapz
+	field SFBool textureMapped
+	field SFInt32 textureSplit
+	field SFBool preferConvex
+	field SFBool rescaleTexture
+]
+"./proto/blockProto.wrl#Blocks"
+
+
+EXTERNPROTO No [
+]
+"./proto/blockProto.wrl#No"
+
+EXTERNPROTO Yes [
+]
+"./proto/blockProto.wrl#Yes"
+
+EXTERNPROTO YesNoArray [
+	exposedField MFNode data
+]
+"./proto/blockProto.wrl#YesNoArray"
+
+EXTERNPROTO IndexSetYesNoArray [
+	field MFInt32 indexes
+	field SFInt32 offset
+	field SFNode too
+	exposedField MFNode data
+]
+"./proto/blockProto.wrl#IndexSetYesNoArray"
+
+EXTERNPROTO Base64YesNoArray [
+	field MFString base64Letters
+	field SFInt32 offset
+	field SFNode too
+	exposedField MFNode data
+]
+"./proto/blockProto.wrl#Base64YesNoArray"
+
+
+EXTERNPROTO BinaryYesNoArray [
+	field MFInt32 indexes 
+	field SFInt32 offset
+	exposedField MFNode data
+]
+"./proto/blockProto.wrl#BinaryYesNoArray"
+
+EXTERNPROTO HeightYesNoArray [
+	field MFInt32 heights
+	exposedField MFNode data
+	field SFFloat divider
+	field SFBool reverse
+]
+"./proto/blockProto.wrl#HeightYesNoArray"
+
+EXTERNPROTO IncrementalAlternatingGroups[
+	field MFInt32 groupLengths
+	field SFBool Trinary
+	exposedField MFNode data
+]
+"./proto/blockProto.wrl#IncrementalAlternatingGroups"
+
+DirectionalLight {
+	direction 0  -1 0
+	ambientIntensity 0.5
+}
+
+DEF b0 Transform {
+	children [
+		Shape { appearance	Appearance	 {
+			material Material {
+			}
+			texture ImageTexture {
+				url "stonewall.png"
+			}
+		}
+			geometry 
+			
+		Blocks {
+			textureMapped TRUE
+			rescaleTexture TRUE
+			pattern YesNoArray {data  [Yes{},No{},No{},Yes{},No{},Yes{},Yes{},No{}]}
+			grid GridCoordinate {extent 2 2 2} }
+		#Sphere {}
+
+	}
+	]
+}
+
+
+DEF b1 Transform {
+	children [
+		Shape { appearance Appearance	 {
+			material Material {
+			}
+						texture ImageTexture {
+				url "stonewall.png"
+			}
+		}
+			geometry
+			
+		Blocks {
+			textureMapped TRUE
+
+			pattern IndexSetYesNoArray	{indexes[1,5,11,15]}
+			grid GridCoordinate {
+					axial TRUE
+					chamfer	TRUE
+					sides 4
+					extent 8 2 2
+					dividers dividers {zDividers[0,.5]}
+				}
+				rescaleTexture TRUE
+		    }
+		#Sphere {}
+
+	}
+	]
+}
+
+DEF b2 Transform {
+	children [
+		
+		Shape { 
+			appearance  DEF a1 Appearance {
+				material Material {
+					diffuseColor .675 .482 .125
+					specularColor 1 1 1
+				}
+			}
+			geometry
+			
+		Blocks {
+			pattern DEF e1 IndexSetYesNoArray	{indexes[0,11,22,33,44,55,66,77,88,99]}
+			grid GridCoordinate {
+					axial TRUE
+					sides 5
+					extent 10 10 10
+					dividers dividers {zDividers[0,.2,.4]}
+				} }
+		#Sphere {}
+
+	}
+	]
+}
+
+DEF b3 Transform {	rotation 0 1 0 1.577
+	children [
+		Shape { appearance USE a1
+			geometry
+		
+	Blocks {
+			pattern USE e1
+			grid GridCoordinate {
+					extent 1 10 10
+				} }
+		#Sphere {}
+
+	}
+	]
+}
+
+DEF b4 Transform {
+	children [
+		Shape { appearance	Appearance	 {
+			material Material {
+			}
+						texture ImageTexture {
+				url "16gridcolour.png"
+			}
+		}
+			geometry
+		
+	Blocks{
+			textureMapped TRUE
+			textureSplit 6
+			preferConvex FALSE
+
+			pattern DEF randomPattern Base64YesNoArray {
+				base64Letters ["Base64LettersEncodedYesNoArray","Base64LettersEncodedYesNoArray","Base64LettersEncodedYesNoArray","Base64LettersEncodedYesNoArray","Base64LettersEncodedYesNoArray","Base64LettersEncodedYesNoArray"]
+			}
+			grid DEF randomPatternGrid GridCoordinate {
+					extent 10 10 10
+				} }
+		#Sphere {}
+
+	}
+	]
+}
+
+
+DEF b4a Transform {
+	children [
+		Shape { appearance	Appearance	 {
+			material Material {
+			}
+						texture ImageTexture {
+				url "16gridcolour.png"
+			}
+		}
+			geometry
+		
+	Blocks{
+			textureMapped TRUE
+			textureSplit 6
+			preferConvex TRUE
+
+			pattern USE	randomPattern
+			grid USE randomPatternGrid	}
+		#Sphere {}
+
+	}
+	]
+}
+
+
+
+
+DEF b5 Transform { 
+	children [Transform { 
+	children [Transform {	scale 1 .3 1
+	children [
+		Shape { 			
+			appearance	Appearance	 {
+			material Material {diffuseColor	0.4 0.4 0 
+			}
+
+		}
+
+			geometry
+		
+	Blocks {
+			pattern DEF building1Shape BinaryYesNoArray	{
+				indexes	[
+						1,1,1,1,1,1,1,1,1
+						1,1,0,1,1,1,0,1,1
+						1,1,1,1,1,1,1,1,1
+
+						1,0,0,0,0,0,0,0,1
+						1,0,0,0,0,0,0,0,1
+						1,0,0,0,0,0,0,0,1
+
+						1,0,0,0,0,0,0,0,1
+						0,0,0,0,0,0,0,0,0
+						1,0,0,0,0,0,0,0,1
+
+						1,0,0,0,0,0,0,0,1
+						1,0,0,0,0,0,0,0,1
+						1,0,0,0,0,0,0,0,1
+
+						1,0,0,0,0,0,0,0,1
+						0,0,0,0,0,0,0,0,0
+						1,0,0,0,0,0,0,0,1
+
+						1,0,0,0,0,0,0,0,1
+						1,0,0,0,0,0,0,0,1
+						1,0,0,0,0,0,0,0,1
+
+						1,1,1,1,-1,1,1,1,1
+						1,1,0,1,-1,1,0,1,1
+						1,1,1,1,1,1,1,1,1
+					]
+			}
+			grid DEF building1grid GridCoordinate {
+					extent 9 3 7
+					dividers  dividers {
+						xDividers [0,.03,.1,.3,.42,.58,.7,.9,.97]
+						yDividers [0,.3,.85]
+						zDividers [0,.03,.15,.35,.65,.85,.97]
+					}
+
+				} 
+			endSurfaceNegX FALSE
+			endSurfaceNegY FALSE
+			endSurfaceNegZ FALSE
+			endSurfacePosX FALSE
+			endSurfacePosY FALSE
+			endSurfacePosZ FALSE
+
+			}
+
+			}
+		Shape { appearance	Appearance	 {
+			texture ImageTexture {
+				url "stonewall.png"
+			}
+			textureTransform TextureTransform {
+				scale 4 2
+			}
+			material Material {diffuseColor	0.8 0.8 0.5
+
+			}
+		}
+			
+			geometry
+			Blocks {
+				textureMapped TRUE
+				rescaleTexture TRUE
+				grid USE building1grid
+				pattern USE building1Shape
+				nonEndSurfaces FALSE
+
+			}	}
+		Transform {
+			children [
+				Shape {
+					appearance Appearance {
+						material Material {
+							diffuseColor 0 0 .5
+							specularColor 1 1 1
+							transparency .7
+						}
+					}
+					geometry Blocks {
+						grid USE building1grid
+						pattern USE building1Shape
+						endBlocksNegXToggle	TRUE
+						endBlocksPosXToggle	TRUE
+						endBlocksNegZToggle	TRUE
+						endBlocksPosZToggle	TRUE
+
+
+					}
+
+				}
+			]
+		}
+	]
+}
+	]
+}
+
+	]
+}
+
+DEF b6 Transform { 
+	children [
+		Shape { appearance	Appearance	 {
+			material Material {
+			}
+			 			texture ImageTexture {
+				url "tile.png"
+			}
+		}
+			geometry
+		
+	Blocks{
+		textureMapped TRUE
+
+		pattern HeightYesNoArray	{heights [0,1,2,3,1,2,3,4,2,3,4,5,3,4,5,6 ]}
+			grid GridCoordinate {
+					extent 4 4 6
+				} }
+		#Sphere {}
+
+	}
+	]
+}
+
+
+DEF b9 Transform {
+	children [
+		Shape { appearance	Appearance	 {
+			material Material {
+			}
+						texture ImageTexture {
+				url "tile.png"
+			}
+		}
+			geometry
+		
+	Blocks{
+			textureMapped TRUE
+			rescaleTexture TRUE
+
+			pattern IncrementalAlternatingGroups{
+				groupLengths	[9,1,1,1,3,1,1,1,9]
+			}
+			grid GridCoordinate {
+				dividers dividers {
+					xDividers [0,.1,.9]
+				}
+					extent 3 3 3
+				} 
+			
+			}
+
+		#Sphere {}
+
+	}
+	]
+}
+
+
+regularLayout2D	{toLayout [USE b0,USE b1,USE b2,USE b3,USE b4,USE b4a, USE b5,USE b6,USE b9] separation 1.5 }
+
+

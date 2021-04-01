@@ -1,0 +1,52 @@
+#VRML V2.0 utf8
+
+PROTO regularLayout2D	[
+	field SFFloat separation 1
+	field MFNode	toLayout []
+	field SFBool centerX TRUE
+	field SFBool centerY FALSE
+]{
+Script {
+	directOutput FALSE
+	field SFFloat sep IS separation
+	field MFNode obs IS	toLayout
+	field SFBool centerX IS	centerX
+	field SFBool centerY IS centerY
+	url	["javascript:
+		function initialize(){
+			extent=Math.ceil(Math.pow(obs.length,.5))-1;
+		    for (var o=0;o<obs.length;o++){
+				if (centerX){
+			    	obs[o].translation.x=sep*(o%(extent+1)-extent/2);
+				} else {
+			    	obs[o].translation.x=sep*(o%(extent+1));
+				};
+				if (centerY){
+					obs[o].translation.y=sep*((o-o%(extent+1))/(extent+1)-extent/2);
+				}else{
+					obs[o].translation.y=sep*((o-o%(extent+1))/(extent+1));
+				};
+
+			};
+		}
+		"]
+}
+}
+
+DEF	o1 Transform {children [Shape {	geometry Sphere	{}}]}
+
+DEF	o2 Transform {children [Shape {	geometry Box	{}}]}
+
+DEF	o3 Transform {children [Shape {	geometry Cylinder	{}}]}
+
+DEF	o4 Transform {children [Shape {	geometry Sphere	{}}]}
+
+DEF	o5 Transform {children [Shape {	geometry Box	{}}]}
+
+DEF	o6 Transform {children [Shape {	geometry Cylinder	{}}]}
+DEF	o7 Transform {children [Shape {	geometry Sphere	{}}]}
+
+DEF	o8 Transform {children [Shape {	geometry Box	{}}]}
+
+
+regularLayout2D {toLayout	[USE o1 ,USE o2 ,USE o3,USE o4 ,USE o5 ,USE o6,USE o7 ,USE o8] separation 2.5}

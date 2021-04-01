@@ -1,0 +1,1063 @@
+#VRML V2.0 utf8
+
+EXTERNPROTO GridCoordinate [
+	field SFVec3f extent
+	field SFNode dividers
+	field SFBool axial
+	field SFInt32 sides
+	field SFBool inscribe
+	field SFBool chamfer
+	exposedField   MFVec3f point
+
+]
+"gridProto.wrl#GridCoordinate"
+
+
+PROTO Yes []{}
+
+PROTO No []{}
+
+PROTO YesNoArray[
+	exposedField MFNode data [Yes{}]
+ ]{}
+
+
+PROTO IndexSetYesNoArray[
+	field MFInt32 indexes []
+	field SFInt32 offset 0
+	field SFNode too Yes{}
+	exposedField MFNode data []
+]{
+
+DEF	yna YesNoArray {data IS data }
+
+Script	{
+	field SFNode yna USE yna
+	field MFInt32 indexes IS indexes
+	field SFInt32 offset IS	offset
+	field SFNode too IS	too
+	directOutput TRUE
+	mustEvaluate TRUE
+	url	["javascript:
+		function initialize(){
+			for (var si=0;si<indexes.length;si++){
+				yna.data[indexes[si]+offset]=too;
+				};
+		}
+
+		"]
+	}
+}
+
+
+PROTO BinaryYesNoArray[
+	field MFInt32 indexes []
+	field SFInt32 offset 0
+	exposedField MFNode data []
+]{
+
+DEF	yna YesNoArray {data IS data }
+
+Script	{
+	field SFNode yna USE yna
+	field MFInt32 indexes IS indexes
+	field SFInt32 offset IS	offset
+	field SFNode on Yes	{}
+	field SFNode off No	{}
+	directOutput TRUE
+	mustEvaluate TRUE
+	url	["javascript:
+		function initialize(){
+			for (var si=offset;si<indexes.length+offset;si++){
+				if (indexes[si]>0){
+					yna.data[si]=on;
+				} else {
+					if (indexes[si]==0){
+						yna.data[si]=off;
+						};
+					};
+				};
+			}
+		"]
+	}
+}
+
+
+PROTO HeightYesNoArray[
+	field MFInt32 heights []
+	exposedField MFNode data []
+	field SFFloat divider 1
+	field SFBool reverse FALSE
+]{
+
+DEF	yna YesNoArray {data IS data }
+
+Script	{
+	field SFNode yna USE yna
+	field MFInt32 heights IS heights
+	field  SFFloat  divider IS divider
+	field SFNode on Yes	{}
+	field SFBool reverse IS	reverse
+	directOutput TRUE
+	mustEvaluate TRUE
+	url	["javascript:
+		function initialize(){
+			var maxHeight=0;
+			for (var si=0;si<heights.length;si++){
+				if (heights[si]/divider>maxHeight){maxHeight=heights[si]/divider;};
+				};
+			for (var si=0;si<heights.length*maxHeight;si++){
+				if (reverse){
+					if (heights[si%heights.length]/divider<si/heights.length){yna.data[si]=on;};
+					} else {
+					if (heights[si%heights.length]/divider>si/heights.length){yna.data[si]=on;};
+					};
+				};
+			}
+		"]
+	}
+}
+
+
+
+PROTO Base64YesNoArray[
+ 	field MFString base64Letters []
+	field SFInt32 offset 0
+	field SFNode too Yes{}
+	exposedField MFNode data []
+	# form using base64 encoding, 6 blocks per char ('A'-000000, .... '/'-111111)
+
+]{
+
+DEF	yna YesNoArray {data IS data }
+
+
+Script	{
+	field SFNode yna USE yna
+	field MFString base64 IS base64Letters
+	field SFString b64lookup "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
+	field SFNode too IS	too
+	directOutput TRUE
+	mustEvaluate TRUE
+
+	url	["javascript:
+		function initialize(){
+			var int7;
+			var gi=0;
+			for (var si=0;si<base64.length;si++){
+				for (var ci=0;ci<base64[si].length;ci++){
+					int7=b64lookup.indexOf(base64[si].charAt(ci));
+					if ((int7 & 32)>0){yna.data[gi++]=too;} else {yna.data[gi++]=null;};
+					if ((int7 & 16)>0){yna.data[gi++]=too;} else {yna.data[gi++]=null;};
+					if ((int7 & 8)>0){yna.data[gi++]=too;} else {yna.data[gi++]=null;};
+					if ((int7 & 4)>0){yna.data[gi++]=too;} else {yna.data[gi++]=null;};
+					if ((int7 & 2)>0){yna.data[gi++]=too;} else {yna.data[gi++]=null;};
+					if ((int7 & 1)>0){yna.data[gi++]=too;} else {yna.data[gi++]=null;};
+					};
+				};
+			}
+
+		"]
+	}
+}
+
+
+PROTO SetArray[
+	field SFNode too Yes{}
+	field SFInt32 offset 0
+	field SFInt32 length 1
+	exposedField MFNode data []
+]{
+
+DEF	yna YesNoArray {data IS data }
+
+
+Script	{
+	field SFNode yna USE yna
+	field SFNode too IS	too
+	field SFInt32 offset IS	offset
+	field SFInt32 length IS	length
+	directOutput TRUE
+	mustEvaluate TRUE
+
+	url	["javascript:
+		function initialize(){
+			for (var si=offset;si<length+offset;si++){
+				yna.data[si]=too;
+				};
+			}
+		"]
+	}
+}
+
+
+PROTO IncrementalAlternatingGroups[
+	field MFInt32 groupLengths []
+	field SFBool Trinary FALSE
+	exposedField MFNode data []
+]{
+
+DEF	yna YesNoArray {data IS data }
+
+
+Script	{
+	field SFNode yna USE yna
+	field MFInt32 lengths IS groupLengths
+	field SFBool tristate IS Trinary
+	field SFNode on Yes	{}
+	field SFNode off No	{}
+	directOutput TRUE
+	mustEvaluate TRUE
+
+	url	["javascript:
+		function initialize(){
+			var ci=0;
+			var divider;
+			var state;
+			if (tristate){divider=3;} else {divider=2;};
+			for (var li=0;li<lengths.length;li++){
+				for (var si=0;si<lengths[li];si++){
+					state=li%divider;
+					if (state==0){
+						yna.data[ci+si]=on;
+					} else {
+						if (state==1){
+							yna.data[ci+si]=off;
+							};
+						};
+					};
+				ci+=lengths[li];
+				};
+			}
+		"]
+	}
+}
+
+
+
+PROTO duplicatingPosition[
+	field MFNode object []
+	field SFBool scale FALSE
+	eventIn SFNode newTransform
+]{
+DEF all Group {}
+DEF controller Script {
+	eventIn	SFNode trans IS newTransform
+	eventOut MFNode	item
+	field SFBool scale IS scale
+	field MFNode ob IS object
+	field SFNode all USE all
+	directOutput TRUE
+	mustEvaluate TRUE
+	url	["javascript:
+		function trans (val){
+			pob=new SFNode('Transform{}');
+		   	pob.translation=val.translation;
+			if (scale){
+				//print(val.scale);
+				pob.scale=val.scale;};
+			pob.children=ob;
+			item = new MFNode(pob);
+		}
+		"]
+		ROUTE  controller.item TO all.addChildren
+}
+}
+
+
+
+
+PROTO Blocks [
+	field SFNode grid GridCoordinate {}
+	field SFNode pattern YesNoArray {}
+	field SFBool ccw TRUE
+	field SFBool solid TRUE
+	field SFFloat creaseAngle 0
+	field SFBool endSurfacePosX TRUE
+	field SFBool endSurfacePosY TRUE
+	field SFBool endSurfacePosZ TRUE
+	field SFBool endSurfaceNegX TRUE
+	field SFBool endSurfaceNegY TRUE
+	field SFBool endSurfaceNegZ TRUE
+	field SFBool nonEndSurfaces TRUE
+	field SFBool mirrorXAxis FALSE
+	field SFBool mirrorYAxis FALSE
+	field SFBool mirrorZAxis FALSE
+	field SFBool negative FALSE
+	field SFBool endBlocksPosXToggle FALSE
+	field SFBool endBlocksPosYToggle FALSE
+	field SFBool endBlocksPosZToggle FALSE
+	field SFBool endBlocksNegXToggle FALSE
+	field SFBool endBlocksNegYToggle FALSE
+	field SFBool endBlocksNegZToggle FALSE
+	field SFBool nonEndBlocksToggle FALSE
+	field SFBool wrapx FALSE
+	field SFBool wrapy FALSE
+	field SFBool wrapz FALSE
+	field SFInt32 textureSplit 0
+	field SFBool preferConvex FALSE
+	field SFBool rescaleTexture FALSE
+	field SFBool textureMapped FALSE
+	eventOut SFNode blockTransform
+
+
+]{
+DEF main IndexedFaceSet {
+	ccw IS ccw
+	solid IS solid
+	creaseAngle IS creaseAngle
+	convex FALSE
+	normalPerVertex	FALSE
+	coord IS grid
+	coordIndex []
+	texCoord NULL
+	texCoordIndex []
+
+}
+
+
+DEF	build Script {
+	field SFNode faceSet USE main
+	field SFNode grid IS grid
+	eventOut SFNode blockTransform IS blockTransform
+
+	field SFNode exists IS  pattern
+	field SFBool endSurfacePosX IS endSurfacePosX
+	field SFBool endSurfacePosY IS endSurfacePosY
+	field SFBool endSurfacePosZ IS endSurfacePosZ
+	field SFBool endSurfaceNegX IS endSurfaceNegX
+	field SFBool endSurfaceNegY IS endSurfaceNegY
+	field SFBool endSurfaceNegZ IS endSurfaceNegZ
+	field SFBool nonEndSurfaces IS nonEndSurfaces
+
+	field SFFloat creaseAngle IS creaseAngle
+	field SFBool solid IS solid
+
+	# mirror axis,( so same binarymatrix can be used to produce mirrored objects)
+	field SFBool mirrorXAxis IS  mirrorXAxis
+	field SFBool mirrorYAxis IS	mirrorYAxis
+	field SFBool mirrorZAxis IS	mirrorZAxis
+	# negate grid,( so same matrix can be used to produce inverse objects)
+	field SFBool negative IS negative
+	# flip the state of blocks
+	field SFBool endBlocksPosXToggle IS	endBlocksPosXToggle
+	field SFBool endBlocksPosYToggle IS	endBlocksPosYToggle
+	field SFBool endBlocksPosZToggle IS	endBlocksPosZToggle
+	field SFBool endBlocksNegXToggle IS	endBlocksNegXToggle
+	field SFBool endBlocksNegYToggle IS	endBlocksNegYToggle
+	field SFBool endBlocksNegZToggle IS	endBlocksNegZToggle
+	field SFBool nonEndBlocksToggle IS nonEndBlocksToggle
+
+	field SFBool wrapx IS wrapx
+	field SFBool wrapy IS wrapy
+	field SFBool wrapz IS wrapz
+
+	field SFVec3f extent 0 0 0
+
+    field SFBool textureMapped IS textureMapped
+	field SFInt32	textureSplit IS	textureSplit
+	# how many times to split the texture, see rules table below in code
+	# changes automatic texture remapping algorithm
+	field SFBool preferConvex IS preferConvex
+	# rescale texture to be independent of the width of divides, ie as if no divides
+    field SFBool rescaleTexture	IS rescaleTexture
+	field SFNode textureCoordFiller TextureCoordinate {}
+
+	field SFNode blockTransformFiller Transform	{}
+
+	directOutput TRUE
+	mustEvaluate TRUE
+
+
+	url	["javascript:
+		function initialize(){
+			// set up the coordinates for straight or round grids
+			var index=new MFInt32();
+			extent=grid.extent;
+			//print ('init:block  negative='+negative);
+
+
+			pos=0;
+			ind=0;
+			for (dx=0;dx<=extent.x;dx++){
+				for (dy=0;dy<=extent.y;dy++){
+					for (dz=0;dz<=extent.z;dz++){
+						// for each block add faces, if not facing another filled block
+						if (dx && dy && dz && isfilled(dx,dy,dz) ){
+							maxVertex= grid.point[pos];
+							minVertex=grid.point[pos-1-extent.z-1-(extent.z+1)*(extent.y+1)];
+						 	blockTransformFiller.translation=minVertex.add(maxVertex).divide(2);
+							blockTransformFiller.scale =new SFVec3f(Math.abs(maxVertex.x-minVertex.x), Math.abs(maxVertex.y-minVertex.y), Math.abs(maxVertex.z-minVertex.z));
+							blockTransform=blockTransformFiller;
+							if ((nonEndSurfaces || dx==extent.x) && !isfilled(dx+1,dy,dz) && (dx<extent.x || endSurfacePosX )  ){
+								// right side
+								index[ind++]=pos;
+								index[ind++]=pos-(extent.z+1);
+								index[ind++]=pos-1-(extent.z+1);
+								index[ind++]=pos-1;
+								index[ind++]=pos;
+								index[ind++]=-1;
+								};
+							if ((nonEndSurfaces || dz==extent.z) && !isfilled(dx,dy,dz+1) && (dz<extent.z || endSurfacePosZ ) ){
+								// front side
+								index[ind++]=pos;
+								index[ind++]=pos-(extent.y+1)*(extent.z+1);
+								index[ind++]=pos-(extent.z+1)-(extent.y+1)*(extent.z+1);
+								index[ind++]=pos-(extent.z+1);
+								index[ind++]=pos;
+								index[ind++]=-1;
+								};
+							if ((nonEndSurfaces || dy==extent.y) && !isfilled(dx,dy+1,dz)  && (dy<extent.y || endSurfacePosY )){
+								// top side
+								index[ind++]=pos;
+								index[ind++]=pos-1;
+								index[ind++]=pos-1-(extent.y+1)*(extent.z+1);
+								index[ind++]=pos-(extent.y+1)*(extent.z+1);
+								index[ind++]=pos;
+								index[ind++]=-1;
+								};
+							if ((nonEndSurfaces || dx==1) && !isfilled(dx-1,dy,dz) && (dx>1 ||  endSurfaceNegX ) ){
+								// left side
+								index[ind++]=pos-(extent.y+1)*(extent.z+1);
+								index[ind++]=pos-1-(extent.y+1)*(extent.z+1);
+								index[ind++]=pos-1-(extent.z+1)-(extent.y+1)*(extent.z+1);
+								index[ind++]=pos-(extent.z+1)-(extent.y+1)*(extent.z+1);
+								index[ind++]=pos-(extent.y+1)*(extent.z+1);
+								index[ind++]=-1;
+								};
+							if ((nonEndSurfaces || dz==1) && !isfilled(dx,dy,dz-1)  && (dz>1 || endSurfaceNegZ )){
+								// back side
+								index[ind++]=pos-1;
+								index[ind++]=pos-1-(extent.z+1);
+								index[ind++]=pos-1-(extent.z+1)-(extent.y+1)*(extent.z+1);
+								index[ind++]=pos-1-(extent.y+1)*(extent.z+1);
+								index[ind++]=pos-1;
+								index[ind++]=-1;
+								};
+							if ((nonEndSurfaces || dy==1) && !isfilled(dx,dy-1,dz)  && (dy>1 || endSurfaceNegY )){
+								// bottom side
+								index[ind++]=pos-(extent.z+1);
+								index[ind++]=pos-(extent.z+1)-(extent.y+1)*(extent.z+1);
+								index[ind++]=pos-1-(extent.z+1)-(extent.y+1)*(extent.z+1);
+								index[ind++]=pos-1-(extent.z+1);
+								index[ind++]=pos-(extent.z+1);
+								index[ind++]=-1;
+								};
+							};
+						pos++;
+					};
+				};
+			};
+
+			faceSet.coordIndex=index;
+			faceSet.coord =grid;
+
+			if (!textureMapped){return;};
+
+
+			var textureCoordinates=new MFVec2f();
+			var textureIndex=new MFInt32();
+			var rescaleTextureX=rescaleTexture;
+			var	rescaleTextureY=rescaleTexture;
+			var	rescaleTextureZ=rescaleTexture;
+
+			x=extent.x;
+			y=extent.y;
+			z=extent.z;
+
+			ind=0;
+			pos=0;
+			for (width=0;width<=x;width++){
+				for (height=0;height<=y;height++){
+					for (depth=0;depth<=z;depth++){
+						// for each block set up texture map coordinates.
+						if (width && height && depth && isfilled(width,height,depth) ){
+							if (!isfilled(width+1,height,depth) && (nonEndSurfaces || width==x) && (width<x || endSurfacePosX )  ){
+								// right
+								toffset=0;
+								if (textureSplit>1){toffset=2;};
+								if (textureSplit>2){toffset=3;};
+								if (textureSplit>3){
+									concave=isfilled(width+1,height+1,depth) || isfilled(width+1,height,depth+1) || isfilled(width+1,height-1,depth) || isfilled(width+1,height,depth-1);
+									convex=!isfilled(width,height+1,depth) || !isfilled(width,height,depth+1) || !isfilled(width,height-1,depth) || !isfilled(width,height,depth-1);
+									if (textureSplit==4){
+										if (!concave && !convex){toffset=2;};
+										if (convex){toffset=5;};
+										if (concave && !(preferConvex && convex) ){toffset=8;};
+										};
+									if (textureSplit==5){
+										if (!concave && !convex){toffset=2;};
+										if (convex){toffset=6;};
+										if (concave && !(preferConvex && convex)){toffset=10;};
+										};
+									if (textureSplit==6){
+										if (!concave && !convex){toffset=2;};
+										if (convex){toffset=6;};
+										if (concave){toffset=10;};
+										if (concave && convex){toffset=14;};
+										};
+									};
+								if (rescaleTextureY || rescaleTextureZ){
+									ttoffset=4*((2*toffset+1)*(x*y+x*z+y*z)+x*y+z-depth+z*(y-height));
+									} else {
+									ttoffset=4*toffset;
+									};
+								textureIndex[ind++]=3+ttoffset;
+								textureIndex[ind++]=0+ttoffset;
+								textureIndex[ind++]=1+ttoffset;
+								textureIndex[ind++]=2+ttoffset;
+								textureIndex[ind++]=3+ttoffset;
+								textureIndex[ind++]=-1;
+								};
+							if (!isfilled(width,height,depth+1) && (nonEndSurfaces || depth==z) && (depth<z || endSurfacePosZ ) ){
+								// front
+								toffset=0;
+								if (textureSplit>1){toffset=3;};
+								if (textureSplit>2){toffset=5;};
+								if (textureSplit>3){
+									concave=isfilled(width+1,height,depth+1) || isfilled(width,height+1,depth+1) || isfilled(width-1,height,depth+1) || isfilled(width,height-1,depth+1);
+									convex=!isfilled(width+1,height,depth) || !isfilled(width,height+1,depth) || !isfilled(width-1,height,depth) || !isfilled(width,height-1,depth);
+									if (textureSplit==4){
+										if (!concave && !convex){toffset=2;};
+										if (convex && !(preferConvex && convex)){toffset=5;};
+										if (concave){toffset=8;};
+										};
+									if (textureSplit==5){
+										if (!concave && !convex){toffset=3;};
+										if (convex){toffset=7;};
+										if (concave && !(preferConvex && convex)){toffset=11;};
+										};
+									if (textureSplit==6){
+										if (!concave && !convex){toffset=3;};
+										if (convex){toffset=7;};
+										if (concave){toffset=11;};
+										if (concave && convex){toffset=15;};
+										};
+									};
+								if (rescaleTextureX || rescaleTextureY){
+									ttoffset=4*(2*toffset*(x*y+x*z+y*z)+y-height+y*(width-1));
+									} else {
+									ttoffset=4*toffset;
+									};
+								textureIndex[ind++]=2+ttoffset;
+								textureIndex[ind++]=3+ttoffset;
+								textureIndex[ind++]=0+ttoffset;
+								textureIndex[ind++]=1+ttoffset;
+								textureIndex[ind++]=2+ttoffset;
+								textureIndex[ind++]=-1;
+							};
+							if (!isfilled(width,height+1,depth) && (nonEndSurfaces || height==y) &&  (height<y || endSurfacePosY ) ){
+								// top
+								toffset=0;
+								if (textureSplit>0){toffset=1;};
+								if (textureSplit>2){toffset=2;};
+								if (textureSplit>3){
+									concave=isfilled(width+1,height+1,depth) || isfilled(width,height+1,depth+1) || isfilled(width-1,height+1,depth) || isfilled(width,height+1,depth-1);
+									convex=!isfilled(width+1,height,depth) || !isfilled(width,height,depth+1) || !isfilled(width-1,height,depth) || !isfilled(width,height,depth-1);
+									if (textureSplit==4){
+										if (!concave && !convex){toffset=1;};
+										if (convex){toffset=4;};
+										if (concave && !(preferConvex && convex)){toffset=7;};
+										};
+									if (textureSplit==5){
+										if (!concave && !convex){toffset=1;};
+										if (convex){toffset=5;};
+										if (concave && !(preferConvex && convex)){toffset=9;};
+										};
+									if (textureSplit==6){
+										if (!concave && !convex){toffset=1;};
+										if (convex){toffset=5;};
+										if (concave){toffset=9;};
+										if (concave && convex){toffset=13;};
+										};
+									};
+								if (rescaleTextureX || rescaleTextureZ){
+									ttoffset=4*((2*toffset+1)*(x*y+x*z+y*z)+x*y+y*z+width-1+x*(depth-1));
+									} else {
+									ttoffset=4*toffset;
+									};
+								textureIndex[ind++]=1+ttoffset;
+								textureIndex[ind++]=2+ttoffset;
+								textureIndex[ind++]=3+ttoffset;
+								textureIndex[ind++]=0+ttoffset;
+								textureIndex[ind++]=1+ttoffset;
+								textureIndex[ind++]=-1;
+								};
+							if (!isfilled(width-1,height,depth)   && (nonEndSurfaces || width==1) && (width>1 || endSurfaceNegX )){
+								// left
+								toffset=0;
+								if (textureSplit>1){toffset=2;};
+								if (textureSplit>2){toffset=4;};
+								if (textureSplit>3){
+									concave=isfilled(width-1,height+1,depth) || isfilled(width-1,height,depth+1) || isfilled(width-1,height-1,depth) || isfilled(width-1,height,depth-1);
+									convex=!isfilled(width,height+1,depth) || !isfilled(width,height,depth+1) || !isfilled(width,height-1,depth) || !isfilled(width,height,depth-1);
+									if (textureSplit==4){
+										if (!concave && !convex){toffset=2;};
+										if (convex){toffset=5;};
+										if (concave && !(preferConvex && convex)){toffset=8;};
+										};
+									if (textureSplit==5){
+										if (!concave && !convex){toffset=2;};
+										if (convex){toffset=6;};
+										if (concave && !(preferConvex && convex)){toffset=10;};
+										};
+									if (textureSplit==6){
+										if (!concave && !convex){toffset=2;};
+										if (convex){toffset=6;};
+										if (concave){toffset=10;};
+										if (concave && convex){toffset=14;};
+										};
+									};
+								if (rescaleTextureY || rescaleTextureZ){
+									ttoffset=4*(2*toffset*(x*y+x*z+y*z)+x*y+depth-1+z*(y-height));
+									} else {
+									ttoffset=4*toffset;
+									};
+								textureIndex[ind++]=2+ttoffset;
+								textureIndex[ind++]=3+ttoffset;
+								textureIndex[ind++]=0+ttoffset;
+								textureIndex[ind++]=1+ttoffset;
+								textureIndex[ind++]=2+ttoffset;
+								textureIndex[ind++]=-1;
+								};
+							if (!isfilled(width,height,depth-1)  && (nonEndSurfaces || depth==1) && (depth>1 || endSurfaceNegZ ) ){
+								// back
+								toffset=0;
+								if (textureSplit>3){
+									concave=isfilled(width+1,height,depth-1) || isfilled(width,height+1,depth-1) || isfilled(width-1,height,depth-1) || isfilled(width,height-1,depth-1);
+									convex=!isfilled(width+1,height,depth) || !isfilled(width,height+1,depth) || !isfilled(width-1,height,depth) || !isfilled(width,height-1,depth);
+									if (textureSplit==4){
+										if (!concave && !convex){toffset=2;};
+										if (convex){toffset=5;};
+										if (concave && !(preferConvex && convex)){toffset=8;};
+										};
+									if (textureSplit==5){
+										if (!concave && !convex){toffset=3;};
+										if (convex){toffset=7;};
+										if (concave && !(preferConvex && convex)){toffset=11;};
+										};
+									if (textureSplit==6){
+										if (!concave && !convex){toffset=3;};
+										if (convex){toffset=7;};
+										if (concave){toffset=11;};
+										if (concave && convex){toffset=15;};
+										};
+									};
+								if (rescaleTextureX || rescaleTextureY){
+									ttoffset=4*((2*toffset+1)*(x*y+x*z+y*z)+y*(x-width)+(y-height));
+									} else {
+									ttoffset=4*toffset;
+									};
+								textureIndex[ind++]=3+ttoffset;
+								textureIndex[ind++]=0+ttoffset;
+								textureIndex[ind++]=1+ttoffset;
+								textureIndex[ind++]=2+ttoffset;
+								textureIndex[ind++]=3+ttoffset;
+								textureIndex[ind++]=-1;
+								};
+							if (!isfilled(width,height-1,depth)   && (nonEndSurfaces || height==1) && (height>1 || endSurfaceNegY )){
+								// bottom
+								toffset=0;
+								if (textureSplit>0){toffset=1;};
+								if (textureSplit>3){
+									concave=isfilled(width+1,height-1,depth) || isfilled(width,height-1,depth+1) || isfilled(width-1,height-1,depth) || isfilled(width,height-1,depth-1);
+									convex=!isfilled(width+1,height,depth) || !isfilled(width,height,depth+1) || !isfilled(width-1,height,depth) || !isfilled(width,height,depth-1);
+									if (textureSplit==4){
+										if (!concave && !convex){toffset=0;};
+										if (convex){toffset=3;};
+										if (concave && !(preferConvex && convex)){toffset=6;};
+										};
+									if (textureSplit==5){
+										if (!concave && !convex){toffset=0;};
+										if (convex){toffset=4;};
+										if (concave && !(preferConvex && convex)){toffset=8;};
+										};
+									if (textureSplit==6){
+										if (!concave && !convex){toffset=0;};
+										if (convex){toffset=4;};
+										if (concave){toffset=8;};
+										if (concave && convex){toffset=12;};
+										};
+									};
+								if (rescaleTextureX || rescaleTextureZ){
+									ttoffset=4*(2*toffset*(x*y+x*z+y*z)+x*y+y*z+width-1+x*(z-depth));
+									} else {
+									ttoffset=4*toffset;
+									};
+								textureIndex[ind++]=2+ttoffset;
+								textureIndex[ind++]=3+ttoffset;
+								textureIndex[ind++]=0+ttoffset;
+								textureIndex[ind++]=1+ttoffset;
+								textureIndex[ind++]=2+ttoffset;
+								textureIndex[ind++]=-1;				};
+							};
+					};
+				};
+			};
+
+			// the split number, how many divides are used to split up a texture.
+			// number in brackets is the number of sub-textures the texture is split into
+			// first few (1-3) are then arranged only by the direction a surface faces in.
+			// others are arranged by the direction and how that surface is attached to those around it.
+			//
+			// split    arrangment
+			//	1 (2)	top + bottom
+			//			sides
+			//	2 (4)	top
+			//			bottom
+			//			left + right
+			//			front + back
+			//	3 (6)	top
+			//			bottom
+			//			right
+			//			left
+			//			front
+			//			back
+			//  4 (9)	flat top
+			//			flat bottom
+			//			flat side
+			//			convex top
+			//			convex bottom
+			//			convex side
+			//			concave top
+			//			concave bottom
+			//			concave side
+			//  5 (12)	flat top
+			//			flat bottom
+			//			flat left/right
+			//			flat front/back
+			//  		convex top
+			//			convex bottom
+			//			convex left/right
+			//			convex front/back
+			//  		concave top
+			//			concave bottom
+			//			concave left/right
+			//			concave front/back
+			//  6 (16)	flat top
+			//			flat bottom
+			//			flat left/right
+			//			flat front/back
+			//  		convex top
+			//			convex bottom
+			//			convex left/right
+			//			convex front/back
+			//  		concave top
+			//			concave bottom
+			//			concave left/right
+			//			concave front/back
+			//  		reflex top
+			//			reflex bottom
+			//			reflex left/right
+			//			reflex front/back
+			//  7 (20)
+			//  8 (25)
+
+
+			if (textureSplit==0){xsplit=1;ysplit=1;};
+			if (textureSplit==1){xsplit=2;ysplit=1;};
+			if (textureSplit==2){xsplit=2;ysplit=2;};
+			if (textureSplit==3){xsplit=3;ysplit=2;};
+			if (textureSplit==4){xsplit=3;ysplit=3;};
+			if (textureSplit==5){xsplit=4;ysplit=3;};
+			if (textureSplit==6){xsplit=4;ysplit=4;};
+
+ 			// setup the texture coordinate index
+			//print (grid.point);
+			//print (faceSet.coord.point );
+
+			ind=0;
+			if (rescaleTextureX || rescaleTextureY || rescaleTextureZ){
+				// stretch textures to preseve texture scale when dimensions of blocks vary
+				// this means each and every block might have different texture coordinates!
+
+				xd=newDividerDim(grid.dividers.xDividers,grid.extent.x,grid.dividers.xDividersIncremental);
+				yd=newDividerDim(grid.dividers.yDividers,grid.extent.y,grid.dividers.yDividersIncremental);
+				zd=newDividerDim(grid.dividers.zDividers,grid.extent.z,grid.dividers.zDividersIncremental);
+
+				for (ty=0;ty<1;ty+=1/ysplit){
+					for (tx=0;tx<1;tx+=1/xsplit){
+						for (dx=0;dx<x;dx++){
+							for (dy=0;dy<y;dy++){
+								textureCoordinates[ind].x=tx+xd[dx]/xsplit;
+								textureCoordinates[ind++].y=ty+yd[y-dy-1]/ysplit;
+								textureCoordinates[ind].x=tx+xd[dx+1]/xsplit;
+								textureCoordinates[ind++].y=ty+yd[y-dy-1]/ysplit;
+								textureCoordinates[ind].x=tx+xd[dx+1]/xsplit;
+								textureCoordinates[ind++].y=ty+yd[y-dy]/ysplit;
+								textureCoordinates[ind].x=tx+xd[dx]/xsplit;
+								textureCoordinates[ind++].y=ty+yd[y-dy]/ysplit;
+							};
+						};
+						for (dy=0;dy<y;dy++){
+							for (dz=0;dz<z;dz++){
+								textureCoordinates[ind].x=tx+zd[dz]/xsplit;
+								textureCoordinates[ind++].y=ty+yd[y-dy-1]/ysplit;
+								textureCoordinates[ind].x=tx+zd[dz+1]/xsplit;
+								textureCoordinates[ind++].y=ty+yd[y-dy-1]/ysplit;
+								textureCoordinates[ind].x=tx+zd[dz+1]/xsplit;
+								textureCoordinates[ind++].y=ty+yd[y-dy]/ysplit;
+								textureCoordinates[ind].x=tx+zd[dz]/xsplit;
+								textureCoordinates[ind++].y=ty+yd[y-dy]/ysplit;
+							};
+						};
+						for (dz=0;dz<z;dz++){
+							for (dx=0;dx<x;dx++){
+								textureCoordinates[ind].x=tx+xd[dx]/xsplit;
+								textureCoordinates[ind++].y=ty+zd[z-dz-1]/ysplit;
+								textureCoordinates[ind].x=tx+xd[dx+1]/xsplit;
+								textureCoordinates[ind++].y=ty+zd[z-dz-1]/ysplit;
+								textureCoordinates[ind].x=tx+xd[dx+1]/xsplit;
+								textureCoordinates[ind++].y=ty+zd[z-dz]/ysplit;
+								textureCoordinates[ind].x=tx+xd[dx]/xsplit;
+								textureCoordinates[ind++].y=ty+zd[z-dz]/ysplit;
+							};
+						};
+						for (dx=0;dx<x;dx++){
+							for (dy=0;dy<y;dy++){
+								textureCoordinates[ind].x=tx+(1-xd[x-dx])/xsplit;
+								textureCoordinates[ind++].y=ty+yd[y-dy-1]/ysplit;
+								textureCoordinates[ind].x=tx+(1-xd[x-dx-1])/xsplit;
+								textureCoordinates[ind++].y=ty+yd[y-dy-1]/ysplit;
+								textureCoordinates[ind].x=tx+(1-xd[x-dx-1])/xsplit;
+								textureCoordinates[ind++].y=ty+yd[y-dy]/ysplit;
+								textureCoordinates[ind].x=tx+(1-xd[x-dx])/xsplit;
+								textureCoordinates[ind++].y=ty+yd[y-dy]/ysplit;
+							};
+						};
+						for (dy=0;dy<y;dy++){
+							for (dz=0;dz<z;dz++){
+								textureCoordinates[ind].x=tx+(1-zd[z-dz])/xsplit;
+								textureCoordinates[ind++].y=ty+yd[y-dy-1]/ysplit;
+								textureCoordinates[ind].x=tx+(1-zd[z-dz-1])/xsplit;
+								textureCoordinates[ind++].y=ty+yd[y-dy-1]/ysplit;
+								textureCoordinates[ind].x=tx+(1-zd[z-dz-1])/xsplit;
+								textureCoordinates[ind++].y=ty+yd[y-dy]/ysplit;
+								textureCoordinates[ind].x=tx+(1-zd[z-dz])/xsplit;
+								textureCoordinates[ind++].y=ty+yd[y-dy]/ysplit;
+							};
+						};
+						for (dz=0;dz<z;dz++){
+							for (dx=0;dx<x;dx++){
+								textureCoordinates[ind].x=tx+xd[dx]/xsplit;
+								textureCoordinates[ind++].y=ty+(1-zd[dz+1])/ysplit;
+								textureCoordinates[ind].x=tx+xd[dx+1]/xsplit;
+								textureCoordinates[ind++].y=ty+(1-zd[dz+1])/ysplit;
+								textureCoordinates[ind].x=tx+xd[dx+1]/xsplit;
+								textureCoordinates[ind++].y=ty+(1-zd[dz])/ysplit;
+								textureCoordinates[ind].x=tx+xd[dx]/xsplit;
+								textureCoordinates[ind++].y=ty+(1-zd[dz])/ysplit;
+							};
+						};
+					};
+				};
+			} else {
+				for (ty=0;ty<1;ty+=1/ysplit){
+					for (tx=0;tx<1;tx+=1/xsplit){
+						textureCoordinates[ind].x=tx;
+						textureCoordinates[ind++].y=1-ty-1/ysplit;
+						textureCoordinates[ind].x=tx+1/xsplit;
+						textureCoordinates[ind++].y=1-ty-1/ysplit;
+						textureCoordinates[ind].x=tx+1/xsplit;
+						textureCoordinates[ind++].y=1-ty;
+						textureCoordinates[ind].x=tx;
+						textureCoordinates[ind++].y=1-ty;
+					};
+				};
+			};
+
+
+
+
+
+			//t3=new Date();
+			//print (t3.getSeconds()-t1.getSeconds());
+			//print(index);
+
+			faceSet.texCoord=textureCoordFiller;
+ 			faceSet.texCoord.point=textureCoordinates;
+			faceSet.texCoordIndex=textureIndex;
+
+			//print (index);
+			//print (grid);
+			//print ('init:block fin');
+			}
+
+		function isfilled(tx,ty,tz){
+
+			if (wrapx){
+				if (tx==0){
+					tx=extent.x;
+				} else {
+					if (tx>extent.x){tx=1;};
+					};
+				};
+			if (wrapy){
+				if (ty==0){
+					ty=extent.y;
+				} else {
+					if (ty>extent.y){ty=1;};
+					};
+				};
+			if (wrapz){
+				if (tz==0){
+					tz=extent.z;
+				} else {
+					if (tz>extent.z){tz=1;};
+					};
+				};
+
+			if (tx==0 || ty==0 || tz==0  || tx>extent.x || ty>extent.y || tz>extent.z ){return false;};
+
+			neg=negative;
+
+			if  (endBlocksPosXToggle && tx==extent.x || endBlocksPosYToggle && ty==extent.y || endBlocksPosZToggle && tz==extent.z || endBlocksNegXToggle && tx==1 || endBlocksNegYToggle && ty==1 || endBlocksNegZToggle && tz==1){
+				neg=!neg;
+				};
+
+			if  (nonEndBlocksToggle && tx!=1 && ty!=1 && tz!=1 && tx!=extent.x && ty!=extent.y &&  tz!=extent.z){
+				neg=!neg;
+			};
+
+			//index=tx-1+(ty-1)*extent.x+(tz-1)*extent.x*extent.y;
+
+			if (mirrorZAxis){
+				index=extent.z-tz;
+			} else {
+				index=tz-1;
+			};
+			index*=extent.y;
+			if (mirrorYAxis){
+				index+=extent.y-ty;
+			} else {
+				index+=ty-1;
+			};
+			index*=extent.x;
+
+			if (mirrorXAxis){
+				index+=extent.x-tx;
+			} else {
+				index+=tx-1;
+			};
+
+			//print (index+','+existsEncoding.compoundRasters[index] );
+			//if (existsEncoding){
+			//	if (existsEncoding.compoundRasters[index]==1){return !neg;};
+			//	if (existsEncoding.compoundRasters[index]==0){return neg;};
+			//	};
+			//return neg;
+			//return true;
+			//print (exists.data.length);
+			if (index<exists.data.length){
+				//int (index+','+exists.data[index].getType());
+				if (exists.data[index].getType()=='Yes'){return !neg;};
+				if (exists.data[index].getType()=='No'){return neg;};
+				return false;
+			} else {
+				return false;
+			};
+		}
+
+		function newDividerDim(dimDivider,dimExtent,incremental){
+			//print('start:'+dimDivider+'  ex:'+dimExtent);
+	 		if (dimDivider.length>dimExtent){
+				xd=dimDivider;
+				} else {
+				xd=new MFFloat();
+				if (incremental){
+					xd[0]=0;
+					for (var x=0;x<dimDivider.length;x++){
+						xd[x+1]=dimDivider[x]+xd[x];
+						};
+					}else{
+					if (dimDivider.length==0){xd[0]=0;};
+					for (var x=0;x<dimDivider.length;x++){
+						xd[x]=dimDivider[x];
+						};
+					};
+				//print('1:'+xd);
+
+				if (xd[xd.length-1]<1){
+					repeatCount=1;
+					xd[xd.length]=xd[xd.length-1]+(1-xd[xd.length-1])/(dimExtent-xd.length+1);
+					} else {
+					repeatCount=xd.length-1;
+					if (xd.length==1){xd[1]=1;};
+					xd[xd.length]=xd[xd.length-1]+xd[1]-xd[0];
+					};
+				//print('2:'+xd);
+
+				for (var x=xd.length;x<=dimExtent;x++){
+					xd[x]=xd[x-1]+xd[x-repeatCount]-xd[x-repeatCount-1];
+					};
+				};
+				//print('end:'+xd);
+			return xd;
+			}
+
+		"
+	]}
+}
+
+#PROTO BlocksTextured [
+#	field SFNode grid Coordinate {}
+#	field SFNode exists YesNoArray {}
+#	field SFBool ccw TRUE
+#	field SFBool solid TRUE
+#	field SFFloat creaseAngle 0
+#	field SFBool endSurfacePosX TRUE
+#	field SFBool endSurfacePosY TRUE
+#	field SFBool endSurfacePosZ TRUE
+#	field SFBool endSurfaceNegX TRUE
+#	field SFBool endSurfaceNegY TRUE
+#	field SFBool endSurfaceNegZ TRUE
+#	field SFBool nonEndSurfaces TRUE
+#	field SFBool mirrorXAxis FALSE
+#	field SFBool mirrorYAxis FALSE
+#	field SFBool mirrorZAxis FALSE
+#	field SFBool negative FALSE
+#	field SFBool endBlocksPosXToggle FALSE
+#	field SFBool endBlocksPosYToggle FALSE
+#	field SFBool endBlocksPosZToggle FALSE
+#	field SFBool endBlocksNegXToggle FALSE
+#	field SFBool endBlocksNegYToggle FALSE
+#	field SFBool endBlocksNegZToggle FALSE
+#	field SFBool nonEndBlocksToggle FALSE
+#	field SFBool wrapx FALSE
+#	field SFBool wrapy FALSE
+#	field SFBool wrapz FALSE
+
+
+#]{
+
+#	Blocks{
+#	grid IS	grid
+#	exists IS exists
+#	ccw IS ccw
+#	solid IS solid
+#	creaseAngle IS creaseAngle
+#	endSurfacePosX IS endSurfacePosX
+#	endSurfacePosY IS endSurfacePosY
+#	endSurfacePosZ IS endSurfacePosZ
+#	endSurfaceNegX IS endSurfaceNegX
+#	endSurfaceNegY IS endSurfaceNegY
+#	endSurfaceNegZ IS endSurfaceNegZ
+#	nonEndSurfaces IS nonEndSurfaces
+#	mirrorXAxis IS mirrorXAxis
+#	mirrorYAxis IS mirrorYAxis
+#	mirrorZAxis IS mirrorZAxis
+#	negative IS	negative
+#	endBlocksPosXToggle IS endBlocksPosXToggle
+#	endBlocksPosYToggle IS endBlocksPosYToggle
+#	endBlocksPosZToggle IS endBlocksPosZToggle
+#	endBlocksNegXToggle IS endBlocksNegXToggle
+#	endBlocksNegYToggle IS endBlocksNegYToggle
+#	endBlocksNegZToggle IS endBlocksNegZToggle
+#	nonEndBlocksToggle IS nonEndBlocksToggle
+#	wrapx IS wrapx
+#	wrapy IS wrapy
+#	wrapz IS wrapz
+#	}
+#}
+
+

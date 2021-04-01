@@ -1,0 +1,129 @@
+#VRML V2.0 utf8
+
+PROTO dividers [
+	field MFFloat xDividers []
+	field MFFloat yDividers []
+	field MFFloat zDividers []
+	field SFBool yDividersIncremental FALSE
+	field SFBool zDividersIncremental FALSE
+	field SFBool xDividersIncremental FALSE
+]{
+}
+
+
+
+PROTO GridCoordinate [
+	field SFVec3f extent 1 1 1
+	# poiition along axis of block dividers,
+	# auto fills to 1 using the last gap, so empty array is filled evenly from 0 to 1
+	# repeats to whole array to fill to required length, if lsat item over one
+	field SFNode dividers dividers {}
+	field SFBool axial FALSE
+	field SFInt32 sides 0
+	field SFBool inscribe FALSE
+	field SFBool chamfer FALSE
+	exposedField   MFVec3f point []
+]{
+
+	DEF	coord Coordinate	{point IS point }
+
+DEF	gridBuilder Script {
+	field SFNode coord USE coord
+	field SFVec3f extent IS	extent
+	field SFNode dividers IS dividers
+	# make grid x-axis form a circle in the z-axis
+	field SFBool axial IS axial
+	# make the curved grid a regular polygon ( 0 for circle )
+	field SFInt32 sides IS sides
+	# make polygon to fit inside unit circle ( or outside as defsult )
+	field SFBool inscribe IS inscribe
+	# move on half a division, makes corners flat or pointed in some cases
+	field SFBool chamfer IS	chamfer
+	directOutput TRUE
+
+	url	["javascript:
+		function initialize(){
+			var coordinates= new MFVec3f();
+			xd=newDividerDim(dividers.xDividers,extent.x,dividers.xDividersIncremental);
+			yd=newDividerDim(dividers.yDividers,extent.y,dividers.yDividersIncremental);
+			zd=newDividerDim(dividers.zDividers,extent.z,dividers.zDividersIncremental);
+
+			// set up the coordinates for straight or round grids
+			pos=0;
+			ind=0;
+			if (axial){
+				turns=1;
+				if (xd[xd.length-1]>1){turns=xd[xd.length-1];};
+				stepAngle=Math.PI/sides;
+				};
+			for (dx=0;dx<xd.length;dx++){
+				for (dy=0;dy<yd.length;dy++){
+					for (dz=0;dz<zd.length;dz++){
+						// add a completeg grid of points
+						if (!axial) {
+							coordinates[pos].x=xd[dx]-.5;
+							coordinates[pos].y=yd[dy]-.5;
+							coordinates[pos].z=zd[dz]-.5;
+
+						} else {
+							if (sides<3) {
+								coordinates[pos].x=.5*Math.cos(Math.PI*2*xd[dx])*(1-zd[dz]);
+								coordinates[pos].y=yd[dy]-.5;
+								coordinates[pos].z=.5*Math.sin(Math.PI*2*xd[dx])*(1-zd[dz]);
+							}else{
+								angle=Math.PI*2*xd[dx]/turns+stepAngle;
+								if (chamfer){angle+=Math.PI/(xd.length-1);};
+								radius=.5/Math.cos(stepAngle-Math.abs(stepAngle-angle%(2*stepAngle)));
+								if (inscribe){radius*=Math.cos(stepAngle);};
+								coordinates[pos].x=radius*Math.cos(angle)*(1-zd[dz]);
+								coordinates[pos].y=yd[dy]-.5;
+								coordinates[pos].z=radius*Math.sin(angle)*(1-zd[dz]);
+							};
+						};
+						// for each block add faces, if not facing another filled block
+						pos++;
+					};
+				};
+			};
+			coord.point=coordinates;
+		}
+
+
+		function newDividerDim(dimDivider,dimExtent,incremental){
+	 		if (dimDivider.length>dimExtent){
+				xd=dimDivider;
+				} else {
+				xd=new MFFloat();
+				if (incremental){
+					xd[0]=0;
+					for (var x=0;x<dimDivider.length;x++){
+						xd[x+1]=dimDivider[x]+xd[x];
+						};
+					}else{
+					if (dimDivider.length==0){xd[0]=0;};
+					for (var x=0;x<dimDivider.length;x++){
+						xd[x]=dimDivider[x];
+						};
+					};
+
+				if (xd[xd.length-1]<1){
+					repeatCount=1;
+					xd[xd.length]=xd[xd.length-1]+(1-xd[xd.length-1])/(dimExtent-xd.length+1);
+					} else {
+					repeatCount=xd.length-1;
+					if (xd.length==1){xd[1]=1;};
+					xd[xd.length]=xd[xd.length-1]+xd[1]-xd[0];
+					};
+
+				for (var x=xd.length;x<=dimExtent;x++){
+					xd[x]=xd[x-1]+xd[x-repeatCount]-xd[x-repeatCount-1];
+					};
+				};
+			return xd;
+			}
+
+		 "
+	 ]
+ }
+}
+
