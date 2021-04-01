@@ -1,6 +1,6 @@
 Clock based on the number seven rather than twelve.
 
-[![Week Clock](weekclock.png)](../../advancedViewer.html?model=./2007/weekclock/weekclock.wrl  "click to browse in 3d")
+[![Week Clock](weekclock.png)](../../viewer.html?model=./2007/weekclock/weekclock.wrl  "click to browse in 3d")
 
 # telling the time
 
