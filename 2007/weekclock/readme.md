@@ -13,7 +13,7 @@ notice the triangle brightness shows day/night.
 * long :- 7 rotations a day.
 * thin :- 343 (7x7x7) rotations a day.
 
-## Convertions to base 12 clock:
+## Conversions to base 12 clock:
 
 * long hand: each 'day' division about 1/2 an hour.
 * thin hand: each rotation about 4 mins.
