@@ -6,8 +6,8 @@ Clock based on the number seven rather than twelve.
 
 clock face has 7 'day' divisions each with 7 triangles.
 
-above is showing Thursday evening; (Thu 18∶47∶41 GMT)
-	Short hand tells you its just past 1.5 long hand rotations to midnight.
+above is showing (Thu 19∶47∶41)
+	Short hand tells you its Thursday evening just past 1.5 long hand rotations to midnight.
 	Long hand shows, more accurately, that its slightly more than 1.25 long hand rotations to midnight.
 
 ## Hands
