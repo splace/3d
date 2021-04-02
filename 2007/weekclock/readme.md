@@ -9,6 +9,9 @@ clock face has 7 'day' divisions each with 7 triangles.
 above is showing (Thu 19∶47∶41)
 	Short hand tells you its Thursday evening just past 1.5 long hand rotations to midnight.
 	Long hand shows, more accurately, that its slightly more than 1.25 long hand rotations to midnight.
+	in base 7:
+	or
+	Thu 19∶47∶41 (text-week-day base 24:base 60:base 60) == 421431 (base 7)†
 
 ## Hands
 
@@ -24,3 +27,6 @@ notice the triangle brightness shows day/night.
 * long hand: each 'day' division about 0.5 an hour.
 * thin hand: each rotation about 4 mins.
 * thin hand: each triangle about 5 secs.
+
+
+† midday used as zero not midnight

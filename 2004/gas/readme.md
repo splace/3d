@@ -10,7 +10,7 @@ using [X_ITE](http://create3000.de/x_ite).
 
 ## Bullet time
 	When calculation takes longer than frame rate, rate is reduced until accurate. 
-	Faster PC results in less Bullet time.
+	A Faster PC results in less Bullet time.
 	
 ## Chaos
-	Over time the Butterfly Effect will result in variations accumulating randomly.
+	Even though always starting the same, over time the Butterfly Effect results in runs diverging.
