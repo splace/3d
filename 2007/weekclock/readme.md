@@ -7,7 +7,7 @@ Clock based on the number seven rather than twelve.
 clock face has 7 'day' divisions each with 7 triangles.
 
 above is showing Thursday evening; (Thu 19∶47∶41 BST)
-	Big hand tells you its just past 1.5 long hand rotations to midnight.
+	Short hand tells you its just past 1.5 long hand rotations to midnight.
 	Long hand shows, more accurately, that its slightly more than 1.25 long hand rotations to midnight.
 
 ## Hands
@@ -19,7 +19,7 @@ notice the triangle brightness shows day/night.
 
 ## Conversions to base 12 clock:
 
-* big hand: each triangle 1/7 day or just under 3.5 hours.
+* short hand: each triangle 1/7 day or just under 3.5 hours.
 * long hand: each rotation, also 1/7 day.
 * long hand: each 'day' division about 0.5 an hour.
 * thin hand: each rotation about 4 mins.
