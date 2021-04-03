@@ -83,6 +83,7 @@ DEF GROUND Group {
 					}
 					geometry DEF GeoSculptedSurface1 IndexedFaceSet {
 						ccw FALSE
+						convex FALSE
 						coordIndex [
 18, 0, 17, -1,
 18, 1, 0, -1,
@@ -1888,6 +1889,7 @@ DEF GROUND Group {
 						}
 						geometry DEF GeoSculptedSurface2 IndexedFaceSet {
 							ccw FALSE
+							convex FALSE
 							coordIndex [
 18, 0, 17, -1,
 18, 1, 0, -1,
@@ -7117,6 +7119,7 @@ DEF GROUND Group {
 					}
 				}
 				geometry DEF Cylinder3_Geo IndexedFaceSet {
+					convex FALSE
 					coordIndex [
 49, 50, 48, -1,
 48, 50, 51, -1,
