@@ -21,8 +21,8 @@ or sensibly here as;
 
 - **Short** :- 1 rotation a week (week day glyphs shown)
 notice the triangle brightness shows day/night.
-- **Long** :- 7 rotations a day.
-- **Thin** :- 343 (7x7x7) rotations a day.
+- **Long** :- 7 rotations a day.(49 times faster)
+- **Thin** :- 343 (7x7x7) rotations a day.(49 times faster again)
 
 ## Conversions to base 12 clock:
 
