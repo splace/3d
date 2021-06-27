@@ -26,15 +26,15 @@ notice the triangle brightness shows day/night.
 
 ## Conversions to base 12 clock:
 
-- complete rotation of the *Short* hand a week.
-- complete rotation of the *Long* hand 1/7 day ~ 3.5 hours.
-- complete rotation of *Thin* hand ~ 4 mins.
-- 'day' division for *Short* hand a day.
-- 'day' division for *Long* hand ~ 0.5 an hour.
-- 'day' division for *Thin* hand ~ 0.5 a minute.
-- triangle for *Short* hand ~ 3.5 hours. (as complete rotation of *Long* hand)
-- triangle for *Long* hand ~ 4 minutes. (as complete rotation of *Thin* hand)
-- triangle for *Thin* hand ~ 5 secs.
+- one rotation of the *Short* hand a week.
+- one rotation of the *Long* hand 1/7 day ~ 3.5 hours.
+- one rotation of *Thin* hand ~ 4 mins.
+- move by a 'day' division for *Short* hand a day.
+- move by a 'day' division for *Long* hand ~ 0.5 an hour.
+- move by a 'day' division for *Thin* hand ~ 0.5 a minute.
+- move by a triangle for *Short* hand ~ 3.5 hours. (as complete rotation of *Long* hand)
+- move by a triangle for *Long* hand ~ 4 minutes. (as complete rotation of *Thin* hand)
+- move by a triangle for *Thin* hand ~ 5 secs.
 
 ## Zero value
 
