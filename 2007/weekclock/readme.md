@@ -6,8 +6,8 @@ Clock in base seven, rather than twelve, so days of the week are unified in one 
 
 the clock face has 7 'day' divisions each sub-divided by 7 (indicated by inward pointing triangles).
 
-above image has its **Short** hand that tell you its Thursday evening, just past 1.5 long hand rotations to midnight,
-and its **Long** hand telling you, more precisely, that it's slightly more than 1.25 long hand rotations to midnight.
+above image has its *Short* hand tell you its Thursday evening, just past 1.5 long hand rotations to midnight,
+and its *Long* hand telling you, more precisely, that it's slightly more than 1.25 long hand rotations to midnight.
 
 this would conventionally be written as;
 
@@ -26,11 +26,12 @@ notice the triangle brightness shows day/night.
 
 ## Conversions to base 12 clock:
 
-- **Short**: each triangle 1/7 day ~ 3.5 hours.
-- **Long**: each rotation, also 1/7 day.
-- **Long**: each 'day' division ~ 0.5 an hour.
-- **Thin**: each rotation ~ 4 mins.
-- **Thin**: each triangle ~ 5 secs.
+- complete rotation of the *Long* hand 1/7 day ~ 3.5 hours.
+- complete rotation of *Thin* hand ~ 4 mins.
+- 'day' division for *Long* hand ~ 0.5 an hour.
+- 'day' division for *Thin* hand ~ 0.5 a minute.
+- triangle for *Long* hand ~ 3.5 hours.
+- triangle for *Thin* hand ~ 5 secs.
 
 ## Zero value
 
