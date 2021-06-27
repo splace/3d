@@ -1,34 +1,36 @@
-Clock based on the number seven rather than twelve.
+Clock based on base seven, rather than twelve, so days of the week are unified in one clock face with only three hands.
 
-[![Week Clock](weekclock.png)](../../advancedViewer.html?model=./2007/weekclock/weekclock.wrl  "click to browse in 3d")
+[![Week Clock](weekclock.png)](../../advancedViewer.html?model=./2007/weekclock/weekclock.wrl  "__click to browse in 3d__")
 
-# telling the time
+# Telling the time
 
-clock face has 7 'day' divisions each sub-divided by 7 triangles.
+the clock face has 7 'day' divisions each sub-divided by 7 (indicated by inward pointing triangles).
 
-above is showing (Thu 19∶47∶41)
+so the Short hand tells you its Thursday evening just past 1.5 long hand rotations to midnight
+and the Long hand shows, more precisely, that it is slightly more than 1.25 long hand rotations to midnight.
 
-the Short hand tells you its Thursday evening just past 1.5 long hand rotations to midnight
-and the Long hand shows, more accurately, that its slightly more than 1.25 long hand rotations to midnight.
+this would conventionally be written as;
 
-digitally:
+	Thu 19∶47∶41 (in base 7 base 24:base 60:base 60)
 
-421431 (base 7) == Thu 19∶47∶41 (base 7 base 24:base 60:base 60)
+or sensibly here as; 
 
-## Hands
+	421431 (in base 7)
 
-* short:- 1 rotation a week (week day glyphs shown)
+## The Hands
+
+- **Short** :- 1 rotation a week (week day glyphs shown)
 notice the triangle brightness shows day/night.
-* long :- 7 rotations a day.
-* thin :- 343 (7x7x7) rotations a day.
+- **Long** :- 7 rotations a day.
+- **Thin** :- 343 (7x7x7) rotations a day.
 
 ## Conversions to base 12 clock:
 
-* short hand: each triangle 1/7 day or just under 3.5 hours.
-* long hand: each rotation, also 1/7 day.
-* long hand: each 'day' division about 0.5 an hour.
-* thin hand: each rotation about 4 mins.
-* thin hand: each triangle about 5 secs.
+- **Short**: each triangle 1/7 day	 ~ 3.5 hours.
+- **Long**: each rotation, also 1/7 day.
+- **Long**: each 'day' division		 ~ 0.5 an hour.
+- **Thin**: each rotation			 ~ 4 mins.
+- **Thin**: each triangle			 ~ 5 secs.
 
 ## Zero value
 

@@ -6,6 +6,11 @@ Example uses of simple building Prototypes.
 
 * [voxel grids](blocks/)
 
+# Voxel building
+
+intelligently self-texturing (adding/removing a block adjusts texture as required)
+
+
 <!--
 Surface Prototype
 
