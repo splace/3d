@@ -9,13 +9,13 @@ the clock face has 7 'day' divisions each sub-divided by 7 (indicated by inward 
 above image has its *Short* hand tell you its Thursday evening, just past 1.5 long hand rotations to midnight,
 and its *Long* hand telling you, more precisely, that it's slightly more than 1.25 long hand rotations to midnight.
 
-this would conventionally be written as;
+conventionally this is written as;
 
-	Thu 19∶47∶41 (in base 7 base 24:base 60:base 60)
+	Thu 19∶47∶41 (number bases:- 7 24:60:60)
 
-or sensibly here as; 
+but here, sensibly, as; 
 
-	421431 (all base 7)
+	421431 (simply base 7)
 
 ## The Hands
 
@@ -26,19 +26,22 @@ notice the triangle brightness shows day/night.
 
 ## Conversions to base 12 clock:
 
-- one rotation of the *Short* hand a week.
-- one rotation of the *Long* hand 1/7 day ~ 3.5 hours.
-- one rotation of *Thin* hand ~ 4 mins.
-- move by a 'day' division for *Short* hand a day.
-- move by a 'day' division for *Long* hand ~ 0.5 an hour.
-- move by a 'day' division for *Thin* hand ~ 0.5 a minute.
-- move by a triangle for *Short* hand ~ 3.5 hours. (as complete rotation of *Long* hand)
-- move by a triangle for *Long* hand ~ 4 minutes. (as complete rotation of *Thin* hand)
-- move by a triangle for *Thin* hand ~ 5 secs.
+- one full rotation:-
+	of the *Short* hand a week.
+	of the *Long* hand 1/7 day ~ 3.5 hours.
+	of the *Thin* hand ~ 4 mins.
+- rotation by a 'day' division:-
+	of the *Short* hand a day.
+	of the *Long* hand ~ half an hour.
+	of the *Thin* hand ~ half a minute.
+- rotation by a triangle
+	of the *Short* hand ~ 3.5 hours. (same as full rotation of *Long* hand)
+	of the *Long* hand ~ 4 minutes. (same as full rotation of *Thin* hand)
+	of the *Thin* hand ~ 5 secs.
 
 ## Zero value
 
 because a day is divided by an odd number, midnight and midday can't both be with the long hand in the same place.
-here midday is chosen to be straight up and so is represented, digitally, by zero.
-this means midnight occurs with the long hand straight down.
+here midday is chosen to be straight up, digitally represented by zero.(not midnight)
+and midnight occurs with the long hand straight down.
 	 
