@@ -31,8 +31,8 @@
 	        beforeElem.parentNode.insertBefore(d,null)
 			return s
 		}
-		// remove path from model source
-		function name(s){
+		// remove any path from source
+		function base(s){
 			return decodeURI(s).split('/').pop() 
 		}
 	</script>
@@ -51,7 +51,7 @@
     }
     </style>
 </head>
-<body onload="m=this.document.body.firstElementChild;m.innerText=name(insertModel(m))">
+<body onload="m=this.document.body.firstElementChild;m.innerText=base(insertModel(m))">
 <h1>Unsupported</h1>
 </body>
 </html>
