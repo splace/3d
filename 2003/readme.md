@@ -1,7 +1,7 @@
-# Examples of Simple building Prototypes.
+# Generic Environment building Prototypes.
 
 * [Voxel](blocks/) various procedural generation, intelligently self-texturing (adding/removing a block adjusts texture as required)
 
-* [Terrain](surface/) procedural generation, includes height based colours and auto-locating objects.
+* [Landscape](surface/) procedural generation, includes height based colours and auto-locating objects.
 
 * [Tubes](cylinder/) self-colouring extrusions
