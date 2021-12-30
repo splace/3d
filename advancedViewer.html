@@ -15,27 +15,40 @@
 				}
 			}
 		}
-		// return the text from the 'model' parameter pulled off this pages url. 
-		// also make a new X3DCanvas Element, before the element with the provided name, with its 'src' attribute the same text
-		function insertModel(id){
-			var x3d = document.createElement("X3DCanvas")
-			var att = document.createAttribute("src")
-			att.value =GetURLParameter('model');
-			x3d.setAttributeNode(att);  
-	        document.getElementById(id).parentNode.insertBefore(x3d,null)
-	        x3d.focus()
- 		return att.value
-     }
+		// make a new object to display the source; 'model' parameter of this pages url. 
+		function insertModel(elem){
+			d = displayerSource(elem)
+			d.value =GetURLParameter('model');
+	        elem.focus()
+ 		return d.value
+ 		}
+ 		
+		// make a new X3DCanvas Element, before the provided element and return its 'src' attribute
+ 		function displayerSource(beforeElem){
+			var d = document.createElement("X3DCanvas")
+			var s = document.createAttribute("src")
+			d.setAttributeNode(s);  
+	        beforeElem.parentNode.insertBefore(d,null)
+		return s
+ 		}
 	</script>
     <style>
     X3DCanvas {
       width: 100%;
       height: 100%;
     }
+    h1 {
+      color:rgb(181, 232, 83);
+      opacity:0.5;
+      position:absolute;
+      z-index:1;
+      text-shadow: 2px 2px 2px black;
+      pointer-events: none;
+    }
     </style>
 </head>
-<body onLoad="document.getElementById('title').innerText=decodeURI(insertModel('title').split('/').pop())">
-<h1 id="title" style="color:rgb(181, 232, 83);opacity:0.5;position:absolute;z-index:1;text-shadow: 2px 2px 2px black;pointer-events: none;" >Model Loading...</h1>
+<body onload="m=this.document.body.firstElementChild;m.innerText=decodeURI(insertModel(m).split('/').pop())">
+<h1>Unsupported</h1>
 </body>
 </html>
 
