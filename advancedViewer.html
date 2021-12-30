@@ -20,7 +20,7 @@
 			d = displayerSource(elem)
 			d.value =GetURLParameter('model');
 	        elem.focus()
- 		return d.value
+ 			return d.value
  		}
  		
 		// make a new X3DCanvas Element, before the provided element and return its 'src' attribute
@@ -29,8 +29,12 @@
 			var s = document.createAttribute("src")
 			d.setAttributeNode(s);  
 	        beforeElem.parentNode.insertBefore(d,null)
-		return s
- 		}
+			return s
+		}
+		// remove path from model source
+		function name(s){
+			return decodeURI(s).split('/').pop() 
+		}
 	</script>
     <style>
     X3DCanvas {
@@ -47,7 +51,7 @@
     }
     </style>
 </head>
-<body onload="m=this.document.body.firstElementChild;m.innerText=decodeURI(insertModel(m).split('/').pop())">
+<body onload="m=this.document.body.firstElementChild;m.innerText=name(insertModel(m))">
 <h1>Unsupported</h1>
 </body>
 </html>
