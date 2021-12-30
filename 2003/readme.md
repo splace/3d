@@ -1,7 +1,7 @@
-Example uses of simple building Prototypes.
+# Examples of Simple building Prototypes.
 
-* [voxel grids](blocks/)
+* [Voxel](blocks/) various procedural generation, intelligently self-texturing (adding/removing a block adjusts texture as required)
 
-* [simple terrain](surface/)
+* [Terrain](surface/) procedural generation, includes height based colours and auto-locating objects.
 
-* [coloured tubes](cylinder/)
+* [Tubes](cylinder/) self-colouring extrusions

@@ -1,6 +1,4 @@
-# Surface building
-
-procedural generation, includes height based colours and auto-locating objects.
+## Planet/Moon Surface 
 
 [![simple planet/moon surface](surface.jpg)](../../advancedViewer.html?model=./2003/surface/proto/surface.wrl  "click to browse in 3d")
 

@@ -1,6 +1,4 @@
-# Extrusion building
-
-simple colouring along length.
+## Coloured Extrusions
 
 [![examples](extrusion-tests.jpg)](../../advancedViewer.html?model=./2003/cylinder/extrusion-tests.wrl  "click to browse in 3d")
 
