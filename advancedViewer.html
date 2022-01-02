@@ -41,18 +41,39 @@
       width: 100%;
       height: 100%;
     }
-    h1 {
-      color:rgb(181, 232, 83);
-      opacity:0.5;
-      position:absolute;
-      z-index:1;
-      text-shadow: 2px 2px 2px black;
-      pointer-events: none;
-    }
+	@keyframes blinker {
+		50% {
+		    opacity: 0;
+		}
+	}
+	
+	#toggle:checked~label span:first-child{
+		animation: blinker .5s infinite;
+	}
+
+	#record {
+		color:red;
+	}
+	#model {
+		display: block;
+		font-size: 2em;
+		font-weight: bold;
+  		color:Grey;
+		opacity:0.5;
+		position:absolute;
+		z-index:1;
+		text-shadow: .04em .04em .04em black;
+		border-radius: .1em;
+		padding:0em 0.2em 0.2em; 
+		background-color: AliceBlue;
+		user-select: none;
+		cursor: pointer;
+	}
     </style>
 </head>
-<body onload="m=this.document.body.firstElementChild;m.innerText=base(insertModel(m))">
-<h1>Unsupported</h1>
+<body onload="m=this.document.body.firstElementChild;m.nextElementSibling.firstChild.nextSibling.textContent=base(insertModel(m))">
+<input id="toggle"  style="display:none;" type="checkbox">
+<label id="model" title="Toggle Recording" for="toggle" ><span id="record" title="Record Status">●</span>Model Undefined</label>
 </body>
 </html>
 

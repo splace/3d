@@ -1,4 +1,4 @@
-# Generic Environment building Prototypes.
+# Rapid Environment building Prototype Examples.
 
 * [Voxel](blocks/) various procedural generation, intelligently self-texturing (adding/removing a block adjusts texture as required)
 
