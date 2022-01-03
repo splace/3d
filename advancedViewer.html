@@ -69,10 +69,13 @@
 		user-select: none;
 		cursor: pointer;
 	}
+<!--	#toggle {-->
+<!--		display:none;-->
+<!--	}-->
     </style>
 </head>
 <body onload="m=this.document.body.firstElementChild;m.nextElementSibling.firstChild.nextSibling.textContent=base(insertModel(m))">
-<input id="toggle"  style="display:none;" type="checkbox">
+<input id="toggle" type="checkbox">
 <label id="model" title="Toggle Recording" for="toggle" ><span id="record" title="Record Status">●</span>Model Undefined</label>
 </body>
 </html>
