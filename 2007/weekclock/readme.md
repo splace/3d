@@ -1,4 +1,4 @@
-Clock in base seven, rather than twelve, so days of the week are unified in one clock face with only three hands.
+Clock in base 7, rather than base 12, so days of the week are unified in one clock face with only three hands.
 
 [![Week Clock](weekclock.png)](../../advancedViewer.html?model=./2007/weekclock/weekclock.wrl  "click to browse in 3d")
 
@@ -6,16 +6,15 @@ Clock in base seven, rather than twelve, so days of the week are unified in one 
 
 the clock face has 7 'day' divisions each sub-divided by 7 (indicated by inward pointing triangles).
 
-above image has its *Short* hand tell you its Thursday evening, just past 1.5 long hand rotations to midnight,
-and its *Long* hand telling you, more precisely, that it's slightly more than 1.25 long hand rotations to midnight.
+image shows: *Short* hand tells you its Thursday evening, just past 1.5 long hand rotations to midnight, *Long* hand tells you, more precisely, that it's slightly more than 1.25 long hand rotations to midnight.
 
 conventionally this is written as;
 
-	Thu 19∶47∶41 (number bases:- 7 24:60:60)
+	Thu 19∶47∶41 (bases: 7 24:60:60)
 
 but here, sensibly, as; 
 
-	421431 (simply base 7)
+	421431 (base 7)
 
 ## The Hands
 
@@ -24,7 +23,7 @@ notice the triangle brightness shows day/night.
 - **Long** :- 7 rotations a day.(49 times faster)
 - **Thin** :- 343 (7x7x7) rotations a day.(49 times faster again)
 
-## Conversions to base 12 clock:
+## Conversions to base 12 (days/hours/minutes/seconds) clock:
 
 - one full rotation:-
 	- *Short* hand a week.
