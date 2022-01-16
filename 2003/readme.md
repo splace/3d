@@ -4,4 +4,4 @@
 
 * [Landscape](surface/) procedural generation, includes height based colours with ability to auto-locating objects.
 
-* [Tubes](cylinder/) circular self-colouring extrusions
+* [Tubes](cylinder/) regular polygon self-colouring extrusions.
