@@ -1,7 +1,7 @@
 <html>
 <head>
-<meta http-equiv="content-type" content="text/html">
-    <title>Model</title>
+<meta http-equiv="content-type" content="text/html" charset="UTF-8">
+    <title>3D Model Viewer/Recorder</title>
 	<link rel="stylesheet" type="text/css" href="https://create3000.github.io/code/x_ite/4.7.0/dist/x_ite.css"/>
 	<script type="text/javascript" src="https://create3000.github.io/code/x_ite/4.7.0/dist/x_ite.min.js"></script>
     <script type="text/javascript">
@@ -15,68 +15,109 @@
 				}
 			}
 		}
-		// make a new object to display the source; 'model' parameter of this pages url. 
+		
+		// insert a new X3DCanvas Element, before the provided element, set its source from the page urls 'model' parameter and return that source. 
 		function insertModel(elem){
-			d = displayerSource(elem)
+			d = display3dbefore(elem)
 			d.value =GetURLParameter('model');
 	        elem.focus()
  			return d.value
  		}
  		
-		// make a new X3DCanvas Element, before the provided element and return its 'src' attribute
- 		function displayerSource(beforeElem){
+		// insert a new X3DCanvas Element, before the provided element and return its 'src' attribute
+ 		function display3dbefore(e){
 			var d = document.createElement("X3DCanvas")
 			var s = document.createAttribute("src")
 			d.setAttributeNode(s);  
-	        beforeElem.parentNode.insertBefore(d,null)
+	        e.parentNode.insertBefore(d,null)
 			return s
 		}
-		// remove any path from source
+		// return source with path stripped
 		function base(s){
 			return decodeURI(s).split('/').pop() 
 		}
 	</script>
+
+    <script type="text/javascript">
+		function record(ms){
+			var mr=new MediaRecorder(ms)
+			mr.onwarning = function(e){
+				console.log(e)
+			}
+			mr.onerror = function(e){
+				alert(e)
+			}
+			mr.ondataavailable = function(e){
+				downloadBlob(e.data)
+			}
+			return mr
+		}
+	
+		function downloadBlob(b) {
+			var url = URL.createObjectURL(b);
+			const a = document.createElement('a');
+			a.href = url;
+			a.style.display = 'none';
+<!--//			a.target="_blank" ;-->
+			document.body.appendChild(a);
+			setTimeout(() => {
+				document.body.removeChild(a);
+				window.URL.revokeObjectURL(url);
+				}, 5000);
+			a.click();
+		}
+	</script>
+
     <style>
     X3DCanvas {
       width: 100%;
       height: 100%;
     }
+
+	.widget {
+		display: block;
+		font-size: 2em;
+		opacity:0.75;
+		position:absolute;
+		z-index:1;
+		border-radius: .5em;
+		padding:0em 0.2em 0.2em; 
+		background-color: Grey;
+		cursor: pointer;
+		user-select: none;
+	}
+	
+	.labelledBlinkingToggler {
+		display:none;
+	}
+
+	.labelledBlinkingToggler:checked label span:first-child{
+		animation: blinker .5s infinite;
+	}
+
+	.outlinedText {
+		text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;		
+	}	
+	
 	@keyframes blinker {
 		50% {
 		    opacity: 0;
 		}
 	}
-	
-	#toggle:checked~label span:first-child{
-		animation: blinker .5s infinite;
-	}
-
-	#record {
-		color:red;
-	}
-	#model {
-		display: block;
-		font-size: 2em;
-		font-weight: bold;
-  		color:Grey;
-		opacity:0.5;
-		position:absolute;
-		z-index:1;
-		text-shadow: .04em .04em .04em black;
-		border-radius: .1em;
-		padding:0em 0.2em 0.2em; 
-		background-color: AliceBlue;
-		user-select: none;
-		cursor: pointer;
-	}
-	#toggle {
-		display:none;
-	}
     </style>
 </head>
-<body onload="m=this.document.body.firstElementChild;m.nextElementSibling.firstChild.nextSibling.textContent=base(insertModel(m))">
-<input id="toggle" type="checkbox">
-<label id="model" title="Toggle Recording" for="toggle" ><span id="record" title="Record Status">●</span>Model Undefined</label>
+<body onload="m=this.document.body.firstElementChild;m.nextElementSibling.firstElementChild.nextSibling.textContent=base(insertModel(m))">
+<input class="labelledBlinkingToggler" type="checkbox" oninput="if (this.checked){
+this[record]=record(document.body.children[2].children[0].children[1].children[0].captureStream(25));
+this[record].start();
+}else{
+this[record].stop();
+};">
+<label class="widget" title="Model Reference" ><span title="Recording Status" style="color:red;font-size:larger;">●</span><span class="outlinedText">No Model Set</span></label>
+</input>
+<!--<input type="checkbox" oninput="alert(this.firstElementChild);if (this.checked){this.firstElementChild.textContent='🔇︎'}else{this.firstElementChild.textContent='🔊︎'}">-->
+<!--<label><span title="Sound Status" style="color:blue;">🔊︎</span></label>-->
+<!--</input>-->
 </body>
 </html>
 

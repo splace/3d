@@ -1,7 +1,7 @@
 # Rapid Environment building Prototype Examples.
 
-* [Voxel](blocks/) various procedural generation, intelligently self-texturing (adding/removing a block adjusts texture as required)
+* [Voxel](blocks/) various procedurally generated, intelligently self-texturing demos.
 
-* [Landscape](surface/) procedural generation, includes height based colours and auto-locating objects.
+* [Landscape](surface/) procedural generation, includes height based colours with ability to auto-locating objects.
 
-* [Tubes](cylinder/) self-colouring extrusions
+* [Tubes](cylinder/) circular self-colouring extrusions
