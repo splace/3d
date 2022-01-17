@@ -16,25 +16,20 @@
 			}
 		}
 		
-		// insert a new X3DCanvas Element, before the provided element, set its source from the page urls 'model' parameter and return that source. 
-		function insertModel(elem){
-			d = display3dbefore(elem)
-			d.value =GetURLParameter('model');
-	        elem.focus()
- 			return d.value
+		// insert a new X3DCanvas Element, inside the provided element, set its source from the page urls 'paramName' parameter and return the base of the url. 
+		function insertX3DCanvasChild(elem,paramName){
+			var n = document.createElement("X3DCanvas")
+			var a = document.createAttribute("src")
+			a.value =GetURLParameter(paramName);
+			n.setAttributeNode(a);  
+	        elem.appendChild(n)
+<!--	        elem.focus()-->
+ 			return base(a.value)
  		}
  		
-		// insert a new X3DCanvas Element, before the provided element and return its 'src' attribute
- 		function display3dbefore(e){
-			var d = document.createElement("X3DCanvas")
-			var s = document.createAttribute("src")
-			d.setAttributeNode(s);  
-	        e.parentNode.insertBefore(d,null)
-			return s
-		}
-		// return source with path stripped
-		function base(s){
-			return decodeURI(s).split('/').pop() 
+		// strip path
+		function base(url){
+			return decodeURI(url).split('/').pop() 
 		}
 	</script>
 
@@ -74,14 +69,21 @@
       height: 100%;
     }
 
+	.content {
+		display: block;
+		position: absolute;
+		z-index:0;
+	}
+
 	.widget {
 		display: block;
-		font-size: 2em;
-		opacity:0.75;
-		position:absolute;
+		position: absolute;
 		z-index:1;
+		font-size: 2em;
+		font-weight: bold;
+		opacity:0.75;
 		border-radius: .5em;
-		padding:0em 0.2em 0.2em; 
+		padding:0em 0.5em 0.3em; 
 		background-color: Grey;
 		cursor: pointer;
 		user-select: none;
@@ -91,7 +93,7 @@
 		display:none;
 	}
 
-	.labelledBlinkingToggler:checked label span:first-child{
+	.labelledBlinkingToggler:checked+span:first-child{
 		animation: blinker .5s infinite;
 	}
 
@@ -106,15 +108,21 @@
 	}
     </style>
 </head>
-<body onload="m=this.document.body.firstElementChild;m.nextElementSibling.firstElementChild.nextSibling.textContent=base(insertModel(m))">
-<input class="labelledBlinkingToggler" type="checkbox" oninput="if (this.checked){
-this[record]=record(document.body.children[2].children[0].children[1].children[0].captureStream(25));
+<body onload="this.document.body.firstElementChild.firstElementChild.onload();">
+<label class="widget" title="Model Reference">
+<input class="labelledBlinkingToggler" type="checkbox" 
+onload="this.nextElementSibling.nextElementSibling.textContent=insertX3DCanvasChild(this.parentElement.nextElementSibling,'model')"
+oninput="if (this.checked){
+this[record]=record(this.parentElement.nextElementSibling.firstElementChild.children[0].children[1].children[0].captureStream(25));
 this[record].start();
 }else{
 this[record].stop();
 };">
-<label class="widget" title="Model Reference" ><span title="Recording Status" style="color:red;font-size:larger;">●</span><span class="outlinedText">No Model Set</span></label>
 </input>
+<span title="Recording Status" style="color:red;font-size:larger;">●</span>
+<span class="outlinedText">No Model Set</span>
+</label>
+<span></span>
 <!--<input type="checkbox" oninput="alert(this.firstElementChild);if (this.checked){this.firstElementChild.textContent='🔇︎'}else{this.firstElementChild.textContent='🔊︎'}">-->
 <!--<label><span title="Sound Status" style="color:blue;">🔊︎</span></label>-->
 <!--</input>-->
