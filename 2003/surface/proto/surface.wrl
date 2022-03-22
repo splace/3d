@@ -200,7 +200,7 @@ ROUTE ticker.time TO gridScript.calculateHeights
 ROUTE objectnode.location TO gridScript.objectLocation
 }
 
-NavigationInfo{headlight FALSE type "FLY,WALK"}
+NavigationInfo{headlight FALSE type "'FLY','WALK'"}
 Viewpoint{description "overview" position 0 157 159 orientation -.95 .25 .15 .5}
 
 DirectionalLight { direction -.5 -1 -.5 ambientIntensity .5 }
