@@ -20,7 +20,7 @@
 		
 		// insert a new X3DCanvas Element, inside the provided element, set its source from the page urls 'paramName' parameter and return the base of the url. 
 		function insertX3DCanvasChild(elem,paramName){
-			var n = document.createElement("X3DCanvas")
+			var n = document.createElement("x3d-canvas")
 			var a = document.createAttribute("src")
 			a.value =GetURLParameter(paramName);
 			n.setAttributeNode(a);  
