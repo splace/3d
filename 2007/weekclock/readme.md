@@ -41,6 +41,6 @@ notice the triangle brightness shows day/night.
 ## Zero value
 
 because a day is divided by an odd number, midnight and midday can't both be with the long hand in the same place.
-here midday is chosen to be straight up, digitally represented by zero.(not midnight)
-and midnight occurs with the long hand straight down.
+here midday is chosen to be straight up, digitally represented by zero.(not midnight) and midnight occurs with the long hand straight down.
+thus morning/afternoon confusion isn't an issue.
 	 

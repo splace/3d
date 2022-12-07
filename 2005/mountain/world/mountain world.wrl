@@ -1,178 +1,780 @@
-#VRML V2.0 utf8
-EXTERNPROTO surface[field SFFloat creaseAngle exposedField MFVec3f circleData exposedField MFInt32 circleShiftIndex exposedField MFFloat circleHeightShift exposedField MFInt32 circleIndex exposedField MFFloat circleHeight field SFInt32 border field SFInt32	xDimension field	SFInt32 zDimension	field SFFloat xSpacing field SFFloat zSpacing exposedField	SFBool dynamic exposedField	SFFloat	noiseAmount exposedField	SFFloat	amplitude exposedField SFFloat noiseSize exposedField SFFloat radiansPerSecond exposedField SFFloat pitch exposedField SFVec3f location exposedField SFNode surfaceAppearance eventOut SFVec3f locationOnSurface eventOut SFRotation rotationOnSurface exposedField SFVec2f waveCentre field SFBool solid exposedField SFVec2f footPrint]"surface2.wrl#surface"
-EXTERNPROTO spiralBird[exposedField SFVec3f scale exposedField SFTime rotationDuration exposedField SFTime duration]"spiralbird.wrl#spiralBird"
-EXTERNPROTO lightening[exposedField SFVec3f translation exposedField SFTime interval exposedField SFTime circleInterval exposedField SFBool state]"lightening proto.wrl#lightening"
-Background{
-skyColor[0 0 0,
-.1 .1 .2,
-.1 .2 .4,
-.8 .6 .6,
-.05 .1 .05,
-0 0 0,
-0 0 0]
-skyAngle[1.2,1.4,1.57,1.57,1.7,3.15]
-}
-DEF lightSky Background{
-skyColor[0 0 0,
-.7 .7 .7,
-.1 .2 .4,
-.8 .6 .6,
-.05 .1 .05,
-0 0 0,
-0 0 0]
-skyAngle[1.2,1.4,1.57,1.57,1.7,3.15]
-}
-DEF Lightening1 lightening{interval 27 circleInterval 100}
-ROUTE Lightening1.state TO lightSky.set_bind
-DEF Lightening2 lightening{interval	17 circleInterval 71}
-ROUTE Lightening2.state TO lightSky.set_bind
-WorldInfo{}
-Shape{geometry	Box{size 480 240 480}}
-Viewpoint{description "1" position 71.454 1.6 97.056 orientation 0 1 0 .8 }
-Viewpoint{description "2" position 70.186 1.6 93.499 orientation 0 1 0 1.007}
-Viewpoint{description "3" position 35.653 1.6 81.768 orientation 0 1 0 1.354}
-Viewpoint{description "4" position 1.83 1.6 78.077 orientation 0 1 0 1.423}
-Viewpoint{description "5" position 1.779 1.6 78.07 orientation 0 1 0 .852}
-Viewpoint{description "6" position -.34 1.6 75.89 orientation 0 1 0 .703}
-Viewpoint{description "7" position -14.54 3.6 53.984 orientation 0 1 0 .496}
-Viewpoint{description "8" position -23.086 5.091 38.186 orientation 0 1 0 .495}
-Viewpoint{description "9" position -33.806 7.619 14.954 orientation 0 1 0 .247}
-Viewpoint{description "10" position -35.482 7.6 -6.018 orientation 0 1 0 .058}
-Viewpoint{description "11" position -35.083 7.6 -6.989 orientation 0 -1 0 .395}
-Viewpoint{description "12" position -31.887 7.737 -15.344 orientation 0 -1 0 .359}
-Viewpoint{description "13" position -23.135 7.861 -31.212 orientation 0 -1 0 .68}
-Viewpoint{description "14" position -4.328 7.6 -45.087 orientation 0 -1 0 1.205}
-Viewpoint{description "15" position 11.417 8.467 -40.317 orientation 0 -1 0 2.324}
-Viewpoint{description "16" position 14.524 5.981 -41.985 orientation 0 -1 0 .872}
-Viewpoint{description "17" position 23.325 4.27 -54.812 orientation 0 1 0 .34}
-Viewpoint{description "18" position 9.001 1.6 -80.024 orientation 0 1 0 1.118}
-Viewpoint{description "19" position -20.025 1.6 -84.774 orientation 0 1 0 1.589}
-Viewpoint{description "20" position -28.496 1.6 -76.097 orientation 0 1 0 2.902}
-Viewpoint{description "21" position -34.635 1.6 -74.189 orientation 0 1 0 1.1}
-Viewpoint{description "22" position -57.536 1.6 -86.155 orientation 0 1 0 1.013}
-Viewpoint{description "23" position -71.464 1.6 -100.89 orientation 0 1 0 .749}
-Viewpoint{description "24" position -78.107 1.6 -128.365 orientation 0 1 0 .009}
-Viewpoint{description "25" position -80.661 1.6 -186.277 orientation 0 1 0 .057}
-Viewpoint{description "home" position 90 2 216 orientation 0 1 0 .4}
-Viewpoint{description "home" position 90 2 114 orientation .3 .9 -.1 .88}
-Viewpoint{description "home4" position 90 1 90 orientation .5 .8 -.2 .78}
-Viewpoint{description "home1" position 66 2 -64 orientation .05 1 -.2 2.65}
-Viewpoint{description "home2" position -90 1 -90 orientation 0 1 0 3.9}
-Viewpoint{description "home3" position -90 1 90 orientation 0 1 0 5.5}
-Viewpoint{description "Top" position 2.972 95.747 2.129 orientation -.066 -.951 -.303 2.735}
-Sound{source AudioClip{url["wind.mp3","wind.wav"]loop TRUE}minBack 1000 minFront 1000 maxBack 10000 maxFront 10000 intensity .5}
-Sound{source AudioClip{url["wind.mp3","wind.wav"]loop TRUE pitch 2.222}minBack 1000 minFront 1000 maxBack 10000 maxFront 10000 intensity .5}
-Sound{source DEF heartslow AudioClip{url["heart.wav"]loop TRUE}spatialize FALSE minBack 10000 minFront 10000 maxBack 10000 maxFront 10000 intensity .5 priority 1}
-Sound{source DEF heartfast AudioClip{url["heart.wav"]pitch 1.2}minBack 10000 minFront 10000 maxBack 10000 maxFront 10000 spatialize FALSE intensity .5 priority 1}
-Sound{source DEF heartvfast AudioClip{url["heart.wav"]pitch 1.5}minBack 10000 minFront 10000 maxBack 10000 maxFront 10000 spatialize FALSE intensity .5 priority 1}
-DEF worldNav NavigationInfo{headlight FALSE type ["WALK","FLY","LOOKAT","EXPLORE"]}
-Fog{color	.06 .06 .06 fogType "EXPONENTIAL" visibilityRange 150}
-DEF worldfog Fog{color	.06 .06 .06 fogType "EXPONENTIAL" visibilityRange 1500}
-ROUTE Lightening1.state	TO worldfog.set_bind
-ROUTE Lightening2.state	TO worldfog.set_bind
-DEF moat2 Transform{translation -100 -.5 -100 center 100 0 100 children[
-Shape{geometry	ElevationGrid{xDimension	2 zDimension 2 xSpacing	200 zSpacing 200 height[0,0,0,0,]}
-appearance	Appearance{
-texture ImageTexture{url["pool.jpg"]}
-textureTransform TextureTransform{scale 10 10}
-material Material{
-diffuseColor 0 .1 .5
-specularColor 1 1 1
-ambientIntensity .9
-transparency .2
-shininess 1
-}}
-}
-]}
-DEF moat Transform{translation -100 -.51 -100 center 100 0 100 children[
-Shape{geometry	ElevationGrid{xDimension	2 zDimension 2 xSpacing	200 zSpacing 200 height[0,0,0,0,]}
-appearance Appearance{
-texture ImageTexture{url["pool.jpg"]}
-textureTransform TextureTransform{scale 20 20}
-material Material{
-diffuseColor 0 .1 .5
-ambientIntensity .9
-specularColor 1 1 1
-shininess 1
-}}
-}
+#VRML V2.0 utf8 Titania V4.6.9
+
+EXTERNPROTO surface [
+  field          SFInt32    xDimension
+  field          SFInt32    zDimension
+  field          SFFloat    xSpacing
+  field          SFFloat    zSpacing
+  field          SFFloat    creaseAngle
+  exposedField   SFBool     dynamic
+  exposedField   SFFloat    noiseAmount
+  exposedField   SFFloat    amplitude
+  exposedField   SFFloat    noiseSize
+  exposedField   SFFloat    radiansPerSecond
+  exposedField   SFFloat    pitch
+  exposedField   SFVec3f    location
+  exposedField   SFNode     surfaceAppearance
+  eventOut       SFVec3f    locationOnSurface
+  eventOut       SFRotation rotationOnSurface
+  exposedField   SFVec2f    waveCentre
+  exposedField   MFVec3f    circleData
+  exposedField   MFInt32    circleShiftIndex
+  exposedField   MFFloat    circleHeightShift
+  exposedField   MFInt32    circleIndex
+  exposedField   MFFloat    circleHeight
+  field          SFBool     solid
+  exposedField   SFVec2f    footPrint
+  field          SFInt32    border
 ]
+"surface2.wrl#surface"
+
+EXTERNPROTO spiralBird [
+  exposedField SFVec3f scale
+  exposedField SFTime  rotationDuration
+  exposedField SFTime  duration
+]
+"spiralbird.wrl#spiralBird"
+
+EXTERNPROTO lightening [
+  exposedField SFVec3f translation
+  exposedField SFTime  interval
+  exposedField SFTime  circleInterval
+  exposedField SFBool  state
+]
+"lightening proto.wrl#lightening"
+
+WorldInfo {
+  metadata DEF Titania MetadataSet {
+    name "Titania"
+    reference "http://titania.create3000.de"
+    value [
+      DEF Page MetadataSet {
+        name "Page"
+        reference "http://titania.create3000.de"
+        value [
+          DEF activeView MetadataInteger {
+            name "activeView"
+            reference "http://titania.create3000.de"
+            value 1
+          }
+          DEF multiView MetadataInteger {
+            name "multiView"
+            reference "http://titania.create3000.de"
+            value 0
+          }
+        ]
+      }
+      DEF Selection MetadataSet {
+        name "Selection"
+        reference "http://titania.create3000.de"
+        value DEF selectGeometry MetadataBoolean {
+          name "selectGeometry"
+          reference "http://titania.create3000.de"
+          value FALSE
+        }
+      }
+    ]
+  }
+  title "mountain world"
 }
-DEF watertimer TimeSensor{cycleInterval 800 loop TRUE}
-DEF	waterrot OrientationInterpolator{keyValue[0 1 0 0,0 1 0 2.1,0 1 0 4.2,0 1 0 0,0 1 0 2.1,0 1 0 4.2,0 1 0 0]key[0,.17,.33,.5,.66,.83,1]}
+
+Background {
+  skyAngle [
+    1.2,
+    1.4,
+    1.57,
+    1.57,
+    1.7,
+    3.15
+  ]
+  skyColor [
+    0 0 0,
+    0.1 0.1 0.2,
+    0.1 0.2 0.4,
+    0.8 0.6 0.6,
+    0.05 0.1 0.05,
+    0 0 0,
+    0 0 0
+  ]
+}
+
+DEF lightSky Background {
+  skyAngle [
+    1.2,
+    1.4,
+    1.57,
+    1.57,
+    1.7,
+    3.15
+  ]
+  skyColor [
+    0 0 0,
+    0.7 0.7 0.7,
+    0.1 0.2 0.4,
+    0.8 0.6 0.6,
+    0.05 0.1 0.05,
+    0 0 0,
+    0 0 0
+  ]
+}
+
+DEF Lightening1 lightening {
+  interval 27
+  circleInterval 100
+}
+
+DEF Lightening2 lightening {
+  interval 17
+  circleInterval 71
+}
+
+WorldInfo { }
+
+Shape {
+  geometry Box {
+    size 480 240 480
+  }
+}
+
+Viewpoint {
+  description "1"
+  position 71.454 1.6 97.056
+  orientation 0 1 0 0.8
+}
+
+Viewpoint {
+  description "2"
+  position 70.186 1.6 93.499
+  orientation 0 1 0 1.007
+}
+
+Viewpoint {
+  description "3"
+  position 35.653 1.6 81.768
+  orientation 0 1 0 1.354
+}
+
+Viewpoint {
+  description "4"
+  position 1.83 1.6 78.077
+  orientation 0 1 0 1.423
+}
+
+Viewpoint {
+  description "5"
+  position 1.779 1.6 78.07
+  orientation 0 1 0 0.852
+}
+
+Viewpoint {
+  description "6"
+  position -0.34 1.6 75.89
+  orientation 0 1 0 0.703
+}
+
+Viewpoint {
+  description "7"
+  position -14.54 3.6 53.984
+  orientation 0 1 0 0.496
+}
+
+Viewpoint {
+  description "8"
+  position -23.086 5.091 38.186
+  orientation 0 1 0 0.495
+}
+
+Viewpoint {
+  description "9"
+  position -33.806 7.619 14.954
+  orientation 0 1 0 0.247
+}
+
+Viewpoint {
+  description "10"
+  position -35.482 7.6 -6.018
+  orientation 0 1 0 0.058
+}
+
+Viewpoint {
+  description "11"
+  position -35.083 7.6 -6.989
+  orientation 0 -1 0 0.395
+}
+
+Viewpoint {
+  description "12"
+  position -31.887 7.737 -15.344
+  orientation 0 -1 0 0.359
+}
+
+Viewpoint {
+  description "13"
+  position -23.135 7.861 -31.212
+  orientation 0 -1 0 0.68
+}
+
+Viewpoint {
+  description "14"
+  position -4.328 7.6 -45.087
+  orientation 0 -1 0 1.205
+}
+
+Viewpoint {
+  description "15"
+  position 11.417 8.467 -40.317
+  orientation 0 -1 0 2.324
+}
+
+Viewpoint {
+  description "16"
+  position 14.524 5.981 -41.985
+  orientation 0 -1 0 0.872
+}
+
+Viewpoint {
+  description "17"
+  position 23.325 4.27 -54.812
+  orientation 0 1 0 0.34
+}
+
+Viewpoint {
+  description "18"
+  position 9.001 1.6 -80.024
+  orientation 0 1 0 1.118
+}
+
+Viewpoint {
+  description "19"
+  position -20.025 1.6 -84.774
+  orientation 0 1 0 1.589
+}
+
+Viewpoint {
+  description "20"
+  position -28.496 1.6 -76.097
+  orientation 0 1 0 2.902
+}
+
+Viewpoint {
+  description "21"
+  position -34.635 1.6 -74.189
+  orientation 0 1 0 1.1
+}
+
+Viewpoint {
+  description "22"
+  position -57.536 1.6 -86.155
+  orientation 0 1 0 1.013
+}
+
+Viewpoint {
+  description "23"
+  position -71.464 1.6 -100.89
+  orientation 0 1 0 0.749
+}
+
+Viewpoint {
+  description "24"
+  position -78.107 1.6 -128.365
+  orientation 0 1 0 0.009
+}
+
+Viewpoint {
+  description "25"
+  position -80.661 1.6 -186.277
+  orientation 0 1 0 0.057
+}
+
+Viewpoint {
+  description "home"
+  position 90 2 216
+  orientation 0 1 0 0.4
+}
+
+Viewpoint {
+  description "home"
+  position 90 2 114
+  orientation 0.3 0.9 -0.1 0.88
+}
+
+Viewpoint {
+  description "home4"
+  position 90 1 90
+  orientation 0.5 0.8 -0.2 0.78
+}
+
+Viewpoint {
+  description "home1"
+  position 66 2 -64
+  orientation 0.05 1 -0.2 2.65
+}
+
+Viewpoint {
+  description "home2"
+  position -90 1 -90
+  orientation 0 1 0 3.9
+}
+
+Viewpoint {
+  description "home3"
+  position -90 1 90
+  orientation 0 1 0 5.5
+}
+
+Viewpoint {
+  description "Top"
+  position 2.972 95.747 2.129
+  orientation -0.066 -0.951 -0.303 2.735
+}
+
+Sound {
+  intensity 0.5
+  minBack 1000
+  minFront 1000
+  maxBack 10000
+  maxFront 10000
+  source AudioClip {
+    url [
+      "wind.mp3",
+      "wind.wav"
+    ]
+    loop TRUE
+  }
+}
+
+Sound {
+  intensity 0.5
+  minBack 1000
+  minFront 1000
+  maxBack 10000
+  maxFront 10000
+  source AudioClip {
+    url [
+      "wind.mp3",
+      "wind.wav"
+    ]
+    pitch 2.222
+    loop TRUE
+  }
+}
+
+Sound {
+  intensity 0.5
+  spatialize FALSE
+  minBack 10000
+  minFront 10000
+  maxBack 10000
+  maxFront 10000
+  priority 1
+  source DEF heartslow AudioClip {
+    url "heart.wav"
+    loop TRUE
+  }
+}
+
+Sound {
+  intensity 0.5
+  spatialize FALSE
+  minBack 10000
+  minFront 10000
+  maxBack 10000
+  maxFront 10000
+  priority 1
+  source DEF heartfast AudioClip {
+    url "heart.wav"
+    pitch 1.2
+    startTime 1652366141.51305
+    stopTime 1652366138.65435
+  }
+}
+
+Sound {
+  intensity 0.5
+  spatialize FALSE
+  minBack 10000
+  minFront 10000
+  maxBack 10000
+  maxFront 10000
+  priority 1
+  source DEF heartvfast AudioClip {
+    url "heart.wav"
+    pitch 1.5
+  }
+}
+
+DEF worldNav NavigationInfo {
+  type [
+    "WALK",
+    "FLY",
+    "LOOKAT",
+    "EXPLORE"
+  ]
+  headlight FALSE
+}
+
+Fog {
+  fogType "EXPONENTIAL"
+  color 0.06 0.06 0.06
+  visibilityRange 150
+}
+
+DEF worldfog Fog {
+  fogType "EXPONENTIAL"
+  color 0.06 0.06 0.06
+  visibilityRange 1500
+}
+
+DEF moat2 Transform {
+  translation -100 -0.5 -100
+  rotation 0 1 0 4.71040595765969
+  center 100 0 100
+  children Shape {
+    appearance Appearance {
+      material Material {
+        ambientIntensity 0.9
+        diffuseColor 0 0.1 0.5
+        specularColor 1 1 1
+        shininess 1
+        transparency 0.2
+      }
+      texture ImageTexture {
+        url "pool.jpg"
+      }
+      textureTransform TextureTransform {
+        scale 10 10
+      }
+    }
+    geometry ElevationGrid {
+      xDimension 2
+      zDimension 2
+      xSpacing 200
+      zSpacing 200
+      height [
+        0,
+        0,
+        0,
+        0
+      ]
+    }
+  }
+}
+
+DEF moat Transform {
+  translation -100 -0.51 -100
+  rotation 0 1 0 3.12905171513557
+  center 100 0 100
+  children Shape {
+    appearance Appearance {
+      material Material {
+        ambientIntensity 0.9
+        diffuseColor 0 0.1 0.5
+        specularColor 1 1 1
+        shininess 1
+      }
+      texture ImageTexture {
+        url "pool.jpg"
+      }
+      textureTransform TextureTransform {
+        scale 20 20
+      }
+    }
+    geometry ElevationGrid {
+      xDimension 2
+      zDimension 2
+      xSpacing 200
+      zSpacing 200
+      height [
+        0,
+        0,
+        0,
+        0
+      ]
+    }
+  }
+}
+
+DEF watertimer TimeSensor {
+  cycleInterval 800
+  loop TRUE
+}
+
+DEF waterrot OrientationInterpolator {
+  key [
+    0,
+    0.17,
+    0.33,
+    0.5,
+    0.66,
+    0.83,
+    1
+  ]
+  keyValue [
+    0 1 0 0,
+    0 1 0 2.1,
+    0 1 0 4.2,
+    0 1 0 0,
+    0 1 0 2.1,
+    0 1 0 4.2,
+    0 1 0 0
+  ]
+}
+
+DEF waterrot2 OrientationInterpolator {
+  key [
+    0,
+    0.33,
+    0.66,
+    1
+  ]
+  keyValue [
+    0 1 0 0,
+    0 1 0 2.1,
+    0 1 0 4.2,
+    0 1 0 0
+  ]
+}
+
+spiralBird {
+  scale 5 5 5
+  rotationDuration 15
+}
+
+Transform {
+  translation 0 10 0
+  rotation 0 1 0 -1
+  children spiralBird {
+    scale 5 5 5
+    rotationDuration 15
+  }
+}
+
+Transform {
+  translation -80 0 -80
+  children DEF mainGrassSurface surface {
+    circleData [
+      80 80 74,
+      20 140 13,
+      80 80 64,
+      80 80 60,
+      90 90 40,
+      90 60 40,
+      60 60 40,
+      60 90 30,
+      90 90 20,
+      90 60 20,
+      60 60 10,
+      90 60 5
+    ]
+    circleShiftIndex [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10
+    ]
+    circleHeightShift [
+      -2,
+      -2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2
+    ]
+    border 1
+    xDimension 33
+    zDimension 33
+    xSpacing 5
+    zSpacing 5
+    noiseAmount 0.02
+    noiseSize 0.5
+    surfaceAppearance DEF _1 Appearance {
+      material DEF grassColour Material {
+        ambientIntensity 0.5
+        diffuseColor 0.4 0.7 0.6
+        specularColor 0.2 0.2 0.2
+      }
+      texture DEF grass ImageTexture {
+        url "grass2.jpg"
+      }
+      textureTransform TextureTransform {
+        scale 20 20
+      }
+    }
+  }
+}
+
+Transform {
+  translation -32 3 -32
+  rotation 0 1 0 0.5
+  center 32 0 32
+  children [
+    DEF mainRockSurface surface {
+      creaseAngle 0.5
+      circleData [
+        31 31 32,
+        45 45 20,
+        45 32 20,
+        32 32 20,
+        32 40 15,
+        40 40 10,
+        40 32 10,
+        32 32 5,
+        5 5 5
+      ]
+      circleShiftIndex [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ]
+      circleHeightShift [
+        8,
+        7,
+        8,
+        9,
+        10,
+        13,
+        15,
+        20
+      ]
+      circleIndex 8
+      circleHeight 4
+      border 1
+      xDimension 33
+      zDimension 33
+      xSpacing 2
+      zSpacing 2
+      noiseAmount 2
+      noiseSize 0.5
+      location 5 0 5
+      surfaceAppearance DEF _2 Appearance {
+        material Material {
+          ambientIntensity 0.5
+          specularColor 1 1 1
+          shininess 0.1
+        }
+        texture ImageTexture {
+          url "mountain.jpg"
+        }
+        textureTransform TextureTransform {
+          scale 10 10
+        }
+      }
+    }
+    DEF building1 Transform {
+      translation 5 4 5
+      scale 4 4 4
+      children [
+        Viewpoint {
+          description "turret"
+          position 0 1 1
+        }
+        DEF skullVisible2 ProximitySensor {
+          size 10 10 10
+        }
+        Inline {
+          url "turret.wrl"
+        }
+      ]
+    }
+  ]
+}
+
+Transform {
+  translation -80 0 -80
+  rotation 0 1 0 1.5708
+  children DEF surroundingSurface Transform {
+    children surface {
+      circleData [
+        80 180 280,
+        120 120 40,
+        90 100 60,
+        240 90 55,
+        110 90 30,
+        110 250 35
+      ]
+      circleShiftIndex [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+      circleHeightShift [
+        2,
+        10,
+        10,
+        25,
+        35,
+        35
+      ]
+      border 2
+      xDimension 17
+      zDimension 33
+      xSpacing 10
+      zSpacing 10
+      noiseAmount 4
+      noiseSize 2
+      surfaceAppearance DEF _3 Appearance {
+        material USE grassColour
+        texture USE grass
+        textureTransform TextureTransform {
+          scale 20 40
+        }
+      }
+    }
+  }
+}
+
+Transform {
+  translation 240 0 240
+  rotation 0 1 0 3.1416
+  children USE surroundingSurface
+}
+
+Transform {
+  translation 80 0 80
+  rotation 0 -1 0 1.5708
+  children USE surroundingSurface
+}
+
+Transform {
+  translation -240 0 -240
+  children USE surroundingSurface
+}
+
+DEF angledsunLight DirectionalLight {
+  intensity 0.5
+  ambientIntensity 0.5
+  direction 5 -17 -15
+}
+
+ROUTE Lightening1.state_changed TO lightSky.set_bind
+ROUTE Lightening2.state_changed TO lightSky.set_bind
+ROUTE Lightening1.state_changed TO worldfog.set_bind
+ROUTE Lightening2.state_changed TO worldfog.set_bind
 ROUTE watertimer.fraction_changed TO waterrot.set_fraction
-ROUTE waterrot.value_changed TO	moat.rotation
-DEF	waterrot2 OrientationInterpolator{keyValue[0 1 0 0,0 1 0 2.1,0 1 0 4.2,0 1 0 0]key[0,.33,.66,1]}
+ROUTE waterrot.value_changed TO moat.set_rotation
 ROUTE watertimer.fraction_changed TO waterrot2.set_fraction
-ROUTE waterrot2.value_changed TO	moat2.rotation
-spiralBird{duration 100 rotationDuration 15 scale 5 5 5}
-Transform{rotation 0 1 0 -1 translation 0 10 0 children[
-spiralBird{duration 100 rotationDuration 15 scale 5 5 5}
-]}
-Transform{translation -80 0 -80 children[
-DEF mainGrassSurface surface{
-xDimension 33
-xSpacing 5
-zDimension 33
-zSpacing 5
-noiseAmount	.02
-noiseSize .5
-border 1
-circleData[80 80 74,20 140 13,80 80 64,80 80 60,90 90 40,90 60 40,60 60 40,60 90 30,90 90 20,90 60 20,60 60 10,90 60 5]
-circleShiftIndex[0,1,2,3,4,5,6,7,8,9,10]
-circleHeightShift[-2,-2,2,2,2,2,2,2,2,2,2]
-surfaceAppearance Appearance{texture DEF grass ImageTexture{url["grass2.jpg"]}textureTransform TextureTransform{scale 20 20}
-material DEF grassColour Material{diffuseColor	.4 .7 .6 specularColor .2 .2 .2 ambientIntensity .5}
-}
-}
-]}
-Transform{translation -32 3 -32 rotation 0 1 0 .5 center 32 0 32 children[
-DEF mainRockSurface surface{
-location 5 0 5
-xDimension 33
-xSpacing 2
-zDimension 33
-zSpacing 2
-noiseAmount	2
-noiseSize .5
-border 1
-creaseAngle	.5
-circleData[31 31 32,45 45 20,45 32 20,32 32 20,32 40 15,40 40 10,40 32 10,32 32 5,5 5 5]
-circleHeightShift[8,7,8,9,10,13,15,20]
-circleShiftIndex[0,1,2,3,4,5,6,7]
-circleIndex[8]
-circleHeight[4]
-surfaceAppearance Appearance{texture ImageTexture{url["mountain.jpg"]}textureTransform TextureTransform{scale 10 10}material Material{shininess .1 specularColor 1 1 1 ambientIntensity	.5}}
-}
-DEF building1 Transform{scale 4 4 4
-children[Viewpoint{description "turret" position 0 1 1}
-DEF skullVisible2 ProximitySensor{size 10 10 10
-ROUTE skullVisible2.isActive	TO heartvfast.loop
-ROUTE skullVisible2.enterTime TO heartfast.stopTime
-ROUTE skullVisible2.exitTime TO heartfast.startTime
-}
-Inline{url["turret.wrl"]}
-]
-ROUTE mainRockSurface.locationOnSurface	TO building1.translation
-}
-]}
-Transform{translation -80 0 -80 rotation	0 1 0 1.5708 children[
-DEF	surroundingSurface Transform{children[
-surface{
-xSpacing 10
-zSpacing 10
-xDimension 17
-zDimension 33
-noiseAmount	4
-noiseSize 2
-circleData[80 180 280,120 120 40,90 100 60,240 90 55,110 90 30,110 250 35]
-circleShiftIndex[0,1,2,3,4,5]
-circleHeightShift[2,10,10,25,35,35]
-border 2
-surfaceAppearance Appearance{texture USE grass textureTransform TextureTransform{scale 20 40}material USE grassColour}
-}
-]}]}
-Transform{rotation 0 1 0 3.1416 translation 240 0 240 children USE surroundingSurface}
-Transform{rotation 0 -1 0 1.5708 translation 80 0 80 children USE surroundingSurface}
-Transform{rotation 0 1 0 0 translation -240 0 -240 children USE surroundingSurface}
-DEF angledsunLight DirectionalLight{direction 5 -17 -15 intensity .5 ambientIntensity .5}
+ROUTE waterrot2.value_changed TO moat2.set_rotation
+ROUTE skullVisible2.isActive TO heartvfast.set_loop
+ROUTE skullVisible2.enterTime TO heartfast.set_stopTime
+ROUTE skullVisible2.exitTime TO heartfast.set_startTime
+ROUTE mainRockSurface.locationOnSurface TO building1.set_translation
