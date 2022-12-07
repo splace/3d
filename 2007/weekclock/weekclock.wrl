@@ -77,8 +77,8 @@ DEF GROUND Group {
 				children DEF SculptedSurface1 Shape {
 					appearance Appearance {
 						material DEF fingers Material {
-							diffuseColor 0.20000000298023224 0.5 0.40000000596046448
-							ambientIntensity 0.80000001192092896
+							diffuseColor 0.3 0.6 0.4
+							ambientIntensity 0.8
 						}
 					}
 					geometry DEF GeoSculptedSurface1 IndexedFaceSet {
