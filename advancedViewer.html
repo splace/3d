@@ -2,10 +2,10 @@
 <head>
 <meta http-equiv="content-type" content="text/html" charset="UTF-8">
     <title>3D Model Viewer/Recorder</title>
-	<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/create3000/x_ite@8.1.0/dist/x_ite.css"/>
-	<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/create3000/x_ite@8.1.0/dist/x_ite.min.js"></script>
-	<!-- <link rel="stylesheet" type="text/css" href="https://create3000.github.io/code/x_ite/latest/dist/x_ite.css"/> -->
-	<!-- <script type="text/javascript" src="https://create3000.github.io/code/x_ite/latest/dist/x_ite.min.js"></script> -->
+	<!-- <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/create3000/x_ite@8.1.0/dist/x_ite.css"/>
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/create3000/x_ite@8.1.0/dist/x_ite.min.js"></script> -->
+	<link rel="stylesheet" type="text/css" href="https://create3000.github.io/code/x_ite/latest/dist/x_ite.css"/>
+	<script type="text/javascript" src="https://create3000.github.io/code/x_ite/latest/dist/x_ite.min.js"></script> 
     <script type="text/javascript">
 		// pull a parameter off url
 		function GetURLParameter(paramName){
@@ -115,7 +115,7 @@
 <input class="labelledBlinkingToggler" type="checkbox" 
 onload="this.nextElementSibling.nextElementSibling.textContent=insertX3DCanvasChild(this.parentElement.nextElementSibling,'model')"
 oninput="if (this.checked){
-this[record]=record(this.parentElement.nextElementSibling.firstElementChild.children[0].children[1].children[0].captureStream(25));
+this[record]=record(this.parentElement.nextElementSibling.firstElementChild.captureStream(25));
 this[record].start();
 }else{
 this[record].stop();
