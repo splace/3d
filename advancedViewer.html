@@ -90,39 +90,52 @@
 		cursor: pointer;
 		user-select: none;
 	}
+	.outlinedText {
+		text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;		
+	}	
+
+	.hoverRevealNext:not(:hover)+input {
+		position:relative;
+		z-index:2;
+	}
+
+	.hoverRevealNext:hover+input{
+		display:inline;
+		border:grey;
+	}	
 	
 	.labelledBlinkingToggler {
 		display:none;
 	}
 
-	.labelledBlinkingToggler:checked+span:first-child{
-		animation: blinker .5s infinite;
+	.labelledBlinkingToggler:checked+span{
+		animation: blinker 1s infinite;
 	}
 
-	.outlinedText {
-		text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;		
-	}	
-	
 	@keyframes blinker {
-		50% {
+		30% {
 		    opacity: 0;
+		}
+		40% {
+		    opacity: 1;
 		}
 	}
     </style>
 </head>
 <body onload="this.document.body.firstElementChild.firstElementChild.onload();">
-<label class="widget" title="Model Reference">
+<label class="widget outlinedText" title="Model Reference">
 <input class="labelledBlinkingToggler" type="checkbox" 
-onload="this.nextElementSibling.nextElementSibling.textContent=insertX3DCanvasChild(this.parentElement.nextElementSibling,'model')"
+onload="this.nextElementSibling.nextElementSibling.nextElementSibling.textContent=insertX3DCanvasChild(this.parentElement.nextElementSibling,'model')"
 oninput="if (this.checked){
-this[record]=record(this.parentElement.nextElementSibling.firstElementChild.captureStream(25));
+this[record]=record(this.parentElement.nextElementSibling.firstElementChild.captureStream(this.nextElementSibling.nextElementSibling.value));
 this[record].start();
 }else{
 this[record].stop();
 };">
 </input>
-<span title="Recording Status" style="color:red;font-size:larger;">●</span>
-<span class="outlinedText">No Model Set</span>
+<span title="Recording Status" class="hoverRevealNext" style="color:red;">●</span>
+<input type="range" style="display:block;" onchange="this.title=this.value+'fps'" id="fps" min="5" max="100" step="5" value="30">
+<span>No Model</span>
 </label>
 <span></span>
 <!--<input type="checkbox" oninput="alert(this.firstElementChild);if (this.checked){this.firstElementChild.textContent='🔇︎'}else{this.firstElementChild.textContent='🔊︎'}">-->
