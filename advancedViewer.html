@@ -38,6 +38,7 @@
     <script type="text/javascript">
 		function record(ms){
 			var mr=new MediaRecorder(ms)
+//			var mr=new MediaRecorder(ms,{mimeType:"video/mp4"})
 			mr.onwarning = function(e){
 				console.log(e)
 			}
@@ -125,16 +126,16 @@
 <body onload="this.document.body.firstElementChild.firstElementChild.onload();">
 <label class="widget outlinedText" title="Model Reference">
 <input class="labelledBlinkingToggler" type="checkbox" 
-onload="this.nextElementSibling.nextElementSibling.nextElementSibling.textContent=insertX3DCanvasChild(this.parentElement.nextElementSibling,'model')"
+onload="this.nextElementSibling.nextElementSibling.textContent=insertX3DCanvasChild(this.parentElement.nextElementSibling,'model')"
 oninput="if (this.checked){
-this[record]=record(this.parentElement.nextElementSibling.firstElementChild.captureStream(this.nextElementSibling.nextElementSibling.value));
+this[record]=record(this.parentElement.nextElementSibling.firstElementChild.captureStream());
 this[record].start();
 }else{
 this[record].stop();
 };">
 </input>
-<span title="Recording Status" class="hoverRevealNext" style="color:red;">●</span>
-<input type="range" style="display:block;" onchange="this.title=this.value+'fps'" id="fps" min="5" max="100" step="5" value="30">
+<span title="Recording Status" class="hoverRevealNext" style="color:red;">⏺</span>
+<!--<input type="range" style="display:block;" onchange="this.title=this.value+'fps'" id="fps" min="5" max="100" step="5" value="30">-->
 <span>No Model</span>
 </label>
 <span></span>
