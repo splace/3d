@@ -19,7 +19,7 @@
 		function insertX3DCanvasChild(elem,paramName){
 			var n = document.createElement("x3d-canvas")
 			var a = document.createAttribute("src")
-			a.value = GetURLParameter(paramName)
+			a.value =GetURLParameter(paramName);
 			n.setAttributeNode(a);  
 	        elem.appendChild(n)
 <!--	        elem.focus()-->
@@ -54,8 +54,6 @@
 			a.href = url;
 			a.style.display = 'none';
 <!--//			a.target="_blank" ;-->
-			a.download="downoad"
-			n.setAttributeNode(b);  
 			document.body.appendChild(a);
 			setTimeout(() => {
 				document.body.removeChild(a);
