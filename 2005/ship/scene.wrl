@@ -1,4 +1,4 @@
-#VRML V2.0 utf8 Titania V4.3.2
+#VRML V2.0 utf8
 
 EXTERNPROTO surface [
   field          SFInt32    xDimension
@@ -28,7 +28,7 @@ PROTO boat [ ]
   Transform {
     scale 0.05 0.05 0.05
     children Inline {
-      url "galleon.wrl"
+      url "galleon.wrz"
     }
   }
 }
@@ -40,7 +40,7 @@ NavigationInfo {
     0.2,
     0.05
   ]
-  speed 10
+  speed 1
   headlight FALSE
 }
 
@@ -208,7 +208,6 @@ Transform {
                 "shipbell.mp3",
                 "shipbell.wav"
               ]
-              startTime 1538600775.42798
             }
           }
           DEF bellLoopTimer TimeSensor {
