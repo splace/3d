@@ -21,9 +21,6 @@
 			var a = document.createAttribute("src")
 			a.value = GetURLParameter(paramName)
 			n.setAttributeNode(a);  
-			var b = document.createAttribute("download")
-			b.value = "download"
-			n.setAttributeNode(b);  
 	        elem.appendChild(n)
 <!--	        elem.focus()-->
  			return base(a.value)
@@ -57,6 +54,8 @@
 			a.href = url;
 			a.style.display = 'none';
 <!--//			a.target="_blank" ;-->
+			a.download="downoad"
+			n.setAttributeNode(b);  
 			document.body.appendChild(a);
 			setTimeout(() => {
 				document.body.removeChild(a);
