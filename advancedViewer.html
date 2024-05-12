@@ -125,7 +125,7 @@
 <input class="labelledBlinkingToggler" type="checkbox" 
 onload="this.nextElementSibling.nextElementSibling.textContent=insertX3DCanvasChild(this.parentElement.nextElementSibling,'model')"
 oninput="if (this.checked){
-this[record]=record(this.parentElement.nextElementSibling.firstElementChild.captureStream());
+this[record]=record(this.parentElement.nextElementSibling.firstElementChild.captureStream(12.5));
 this[record].start();
 }else{
 this[record].stop();
