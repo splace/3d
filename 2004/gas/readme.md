@@ -2,7 +2,7 @@ Gas simulation, spheres in an invisible box.
 
 * [![scene](gas.png)](../../advancedViewer.html?model=./2004/gas/gas.wrl "click to browse in 3d")
 
-using [X_ITE](http://create3000.de/x_ite).
+using [X_ITE](https://create3000.github.io/x_ite).
 
 # Features
 
