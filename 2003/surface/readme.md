@@ -2,7 +2,7 @@
 
 [![simple planet/moon surface](surface.jpg)](../../advancedViewer.html?model=./2003/surface/proto/surface.wrl  "click to browse in 3d")
 
-using [X_ITE](http://create3000.de/x_ite).
+using [X_ITE](https://create3000.github.io/x_ite).
 
 <!--
 Surface Prototype
